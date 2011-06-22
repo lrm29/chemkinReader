@@ -54,7 +54,7 @@ int main(int argc, char* argv[])
     const std::string transfile(argv[3]);
 
     //read mechanism, thermo and trasnport data
-    IO::ChemkinReader chemkinReader(chemfile,thermfile,transfile);
+    IO::ChemkinReader chemkinReader(chemfile, thermfile, transfile);
 
     chemkinReader.check();
 
