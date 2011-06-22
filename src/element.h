@@ -17,7 +17,6 @@ namespace IO
     class Element
     {
 
-
             std::string name_;
             double atomicWeight_;
 

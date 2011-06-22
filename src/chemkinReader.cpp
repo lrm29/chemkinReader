@@ -23,9 +23,6 @@ IO::ChemkinReader::ChemkinReader
 
 void IO::ChemkinReader::read()
 {
-    cout << "Chemistry file: " << chemfile_ << endl;
-    cout << "Thermo file: " << thermfile_ << endl;
-    cout << "Trans file: " << transfile_ << endl;
     // let's do the thermo file first. easiest.
     // 1. Find the starting line in term.dat
     // 2. Ignore comments
@@ -45,26 +42,36 @@ void IO::ChemkinReader::read()
 void IO::ChemkinReader::check()
 {
     cout << "Chemistry file: " << chemfile_ << endl;
-    cout << "Thermo file: "<< thermfile_ << endl;
+    cout << "Thermo file: " << thermfile_ << endl;
+    cout << "Trans file: " << transfile_ << endl;
+}
 
-    if (transfile_ == "") cout << "No trans file.\n";
-    else cout << "Trans file: "<< transfile_ << endl;
+std::string
+IO::ChemkinReader::fileToString(const std::string& fileName)
+{
+    string fileInString;
+    ifstream fin(fileName.c_str(), ios::in);
 
-    string seq = "foo@helloworld.com";
-    regex rgx("(.*)@(.*)");
-    smatch result;
-    regex_search(seq, result, rgx);
-    for (size_t i = 0; i < result.size(); ++i) {
-        cout << result[i] << endl;
+    while (fin.good())     // loop while extraction from file is possible
+    {
+      char c = fin.get();  // get character from file
+      if (fin.good())
+          fileInString.append(1,c);
     }
-    if (result.size() == 0) {
-        cout << "Regex library not working yet!" << endl;
-    }
 
+    return fileInString;
 }
 
 void IO::ChemkinReader::readElements()
 {
+
+    // Read in elements names
+    regex rgx("ELEMENTS[ \t\r\n](.*?)[ \t\r\n]END");
+    smatch result, trimmed;
+    regex_search(fileToString(chemfile_), result, rgx);
+    cout << "Element String:(" << result[1] << ")."<< endl;
+    // Now need to match series of 1 or 2 letters in sequence.
+
 
     elements_.push_back(Element("H",1.0));
     elements_.push_back(Element("O",16.0));

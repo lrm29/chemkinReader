@@ -13,6 +13,7 @@
 #include <map>
 #include <vector>
 #include <iostream>
+#include <fstream>
 
 #include "element.h"
 
@@ -30,18 +31,22 @@ namespace IO
 
             std::vector<Element> elements_;
 
+            //! Read a file into a std::string.
+            std::string fileToString(const std::string& fileName);
+
         public:
 
             ChemkinReader
             (
                 const std::string chemfile,
                 const std::string thermfile,
-                const std::string transfile = ""
+                const std::string transfile = "NOT READ"
             );
 
             ~ChemkinReader(){}
-            
+
             void read();
+
 
             void check();
 
@@ -49,6 +54,7 @@ namespace IO
 
     };
 
+    //! Output a vector.
     template <class T>
     std::ostream& operator<< (std::ostream& output, const std::vector<T>& v)
     {

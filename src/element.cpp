@@ -17,7 +17,8 @@ IO::Element::Element
     atomicWeight_(atomicWeight)
 {}
 
-namespace IO {
+namespace IO
+{
 
     std::ostream& operator<<(std::ostream& output, const Element& element)
     {
