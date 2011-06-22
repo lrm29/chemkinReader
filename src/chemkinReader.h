@@ -35,7 +35,7 @@ namespace IO
             (
                 const std::string chemfile,
                 const std::string thermfile,
-                const std::string transfile
+                const std::string transfile = ""
             );
 
             ~ChemkinReader(){}

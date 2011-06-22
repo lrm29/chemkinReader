@@ -6,18 +6,15 @@ project (CHEMKINREADER)
 
 find_package(Boost 1.46.0 REQUIRED COMPONENTS regex)
 
-
 enable_testing()
 
 # Turn off line breaks in error messages so that IDEs can parse the errors properly
 IF(CMAKE_COMPILER_IS_GNUCC)
-  SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fmessage-length=0 -Wall")
+  SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fmessage-length=0 -Wall -O3")
 ENDIF(CMAKE_COMPILER_IS_GNUCC)
 IF(CMAKE_COMPILER_IS_GNUCXX)
-  SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fmessage-length=0 -Wall")
+  SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fmessage-length=0 -Wall -O3")
 ENDIF(CMAKE_COMPILER_IS_GNUCXX)
-
-
 
 add_executable(chemkinReaderTest test/chemkinReaderTest.cpp)
 target_link_libraries(chemkinReaderTest chemkinReader ${Boost_REGEX_LIBRARY})
