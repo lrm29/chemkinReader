@@ -40,6 +40,8 @@ namespace IO
             );
 
             ~ChemkinReader(){}
+            
+            void read();
 
             void check();
 
