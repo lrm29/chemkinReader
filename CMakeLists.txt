@@ -4,6 +4,9 @@
 cmake_minimum_required (VERSION 2.6)
 project (CHEMKINREADER)
 
+find_package(Boost 1.46.0 REQUIRED COMPONENTS regex)
+
+
 enable_testing()
 
 # Turn off line breaks in error messages so that IDEs can parse the errors properly
@@ -17,7 +20,7 @@ ENDIF(CMAKE_COMPILER_IS_GNUCXX)
 
 
 add_executable(chemkinReaderTest test/chemkinReaderTest.cpp)
-target_link_libraries(chemkinReaderTest chemkinReader boost_regex)
+target_link_libraries(chemkinReaderTest chemkinReader ${Boost_REGEX_LIBRARY})
 
 # Subsidiary libraries for the solvers
 add_subdirectory(src)

@@ -1,3 +1,9 @@
+CHEMKIN READER USING BOOST::REGEX
+
+Boost Regex Doc:
+http://www.boost.org/doc/libs/1_46_1/libs/regex/doc/html/index.html
+
+Install:
 mkdir build
 cd build
 cmake ..
