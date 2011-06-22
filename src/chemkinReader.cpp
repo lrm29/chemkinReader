@@ -47,12 +47,9 @@ void IO::ChemkinReader::check()
 void IO::ChemkinReader::readElements()
 {
 
-    string elementName = "H2";
-    double elementAtomicWeight = 2.0;
+    elements_.push_back(Element("H",1.0));
+    elements_.push_back(Element("O",16.0));
 
-    Element el(elementName,elementAtomicWeight);
-    elements_.push_back(el);
-
-    cout << elements_[0] << endl;
+    cout << elements_ << endl;
 
 }

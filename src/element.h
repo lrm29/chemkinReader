@@ -31,7 +31,7 @@ namespace IO
 
             ~Element(){}
 
-            friend std::ostream& operator<<(std::ostream& stream, const Element& element);
+            friend std::ostream& operator<<(std::ostream& output, const Element& element);
 
     };
 

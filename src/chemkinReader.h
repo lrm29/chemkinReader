@@ -47,6 +47,19 @@ namespace IO
 
     };
 
+    template <class T>
+    std::ostream& operator<< (std::ostream& output, const std::vector<T>& v)
+    {
+        output << "[\n";
+        for (typename std::vector<T>::const_iterator ii = v.begin(); ii != v.end(); ++ii)
+        {
+            output << " " << *ii << std::endl;
+        }
+        output << "]";
+        return output;
+    }
+
+
 } // namespace IO
 
 #endif /* CHEMKINREADER_H_ */

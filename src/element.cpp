@@ -19,10 +19,10 @@ IO::Element::Element
 
 namespace IO {
 
-    std::ostream& operator<<(std::ostream& stream, const Element& element)
+    std::ostream& operator<<(std::ostream& output, const Element& element)
     {
-        stream << "(" << element.name_ << ", " << element.atomicWeight_ << ")";
-        return stream;
+        output << "(" << element.name_ << ", " << element.atomicWeight_ << ")";
+        return output;
     }
 
 }
