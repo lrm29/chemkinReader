@@ -5,6 +5,8 @@ cmake_minimum_required (VERSION 2.6)
 project (CHEMKINREADER)
 
 find_package(Boost 1.46.0 REQUIRED COMPONENTS regex)
+# for cygwin
+# find_package(Boost 1.43.0 REQUIRED COMPONENTS regex)
 
 
 enable_testing()
