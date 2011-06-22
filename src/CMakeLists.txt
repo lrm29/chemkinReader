@@ -5,4 +5,4 @@
 
 project (CHEMKINREADER)
 
-add_library(chemkinReader chemkinReader.cpp)
+add_library(chemkinReader chemkinReader.cpp element.cpp)

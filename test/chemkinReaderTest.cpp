@@ -57,6 +57,7 @@ int main(int argc, char* argv[])
     IO::ChemkinReader chemkinReader(chemfile,thermfile);
 
     chemkinReader.check();
+    chemkinReader.readElements();
 
     return 0;
 
