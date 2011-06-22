@@ -14,20 +14,21 @@
 #include <vector>
 #include <iostream>
 
+#include "element.h"
+
 using namespace boost;
 
 namespace IO
 {
 
-    typedef std::vector<std::string> stringVector;
-
     class ChemkinReader
     {
-            stringVector elements_;
 
             const std::string chemfile_;
             const std::string thermfile_;
             const std::string transfile_;
+
+            std::vector<Element> elements_;
 
         public:
 
@@ -35,7 +36,7 @@ namespace IO
             (
                 const std::string chemfile,
                 const std::string thermfile,
-                const std::string transfile
+                const std::string transfile = ""
             );
 
             ~ChemkinReader(){}
@@ -43,6 +44,8 @@ namespace IO
             void read();
 
             void check();
+
+            void readElements();
 
     };
 
