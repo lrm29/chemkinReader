@@ -1,0 +1,9 @@
+
+/CMakeCache.txt
+CMakeFiles
+nbproject
+build
+Makefile
+*.exe
+*.cmake
+*.a
