@@ -49,12 +49,12 @@ int main(int argc, char* argv[])
 
     // Using arguments like this is rather ugly, but it saves writing full argument
     // handling code in a test program.
-    const std::string thermfile(argv[1]);
+    const std::string therm_file(argv[1]);
 
     //read mechanism, thermo and trasnport data
-    IO::ThermoParser thermoParser();
+    IO::ThermoParser thermoParser;
 
-    thermoParser.parse();
+    thermoParser.parse(therm_file);
 
     return 0;
 

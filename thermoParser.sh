@@ -1,3 +1,3 @@
 #!/bin/bash
 
-./build/termoParserTest test/therm.dat
+./build/thermoParserTest test/therm.dat

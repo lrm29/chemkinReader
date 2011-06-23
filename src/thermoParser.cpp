@@ -14,7 +14,7 @@ using namespace std;
 IO::ThermoParser::ThermoParser() {
 }
 
-void IO::ThermoParser::parse() {
+void IO::ThermoParser::parse(std::string therm_file) {
     // let's do the thermo file first. easiest.
     // 1. Find the starting line in term.dat
     // 2. Ignore comments

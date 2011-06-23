@@ -19,6 +19,9 @@ ENDIF(CMAKE_COMPILER_IS_GNUCXX)
 add_executable(chemkinReaderTest test/chemkinReaderTest.cpp)
 target_link_libraries(chemkinReaderTest chemkinReader ${Boost_REGEX_LIBRARY})
 
+add_executable(thermoParserTest test/thermoParserTest.cpp)
+target_link_libraries(thermoParserTest thermoParser ${Boost_REGEX_LIBRARY})
+
 # Subsidiary libraries for the solvers
 add_subdirectory(src)
 
