@@ -16,11 +16,11 @@ IF(CMAKE_COMPILER_IS_GNUCXX)
   SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fmessage-length=0 -Wall -O3")
 ENDIF(CMAKE_COMPILER_IS_GNUCXX)
 
-add_executable(chemkinReaderTest test/chemkinReaderTest.cpp)
-target_link_libraries(chemkinReaderTest chemkinReader ${Boost_REGEX_LIBRARY})
+add_executable(build/chemkinReaderTest test/chemkinReaderTest.cpp)
+target_link_libraries(build/chemkinReaderTest chemkinReader ${Boost_REGEX_LIBRARY})
 
-add_executable(thermoParserTest test/thermoParserTest.cpp)
-target_link_libraries(thermoParserTest thermoParser ${Boost_REGEX_LIBRARY})
+add_executable(build/thermoParserTest test/thermoParserTest.cpp)
+target_link_libraries(build/thermoParserTest chemkinReader ${Boost_REGEX_LIBRARY})
 
 # Subsidiary libraries for the solvers
 add_subdirectory(src)
