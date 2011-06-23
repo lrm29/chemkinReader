@@ -65,7 +65,6 @@ IO::ChemkinReader::fileToString(const std::string& fileName)
       if (fin.good())
           fileInString.append(1,c);
     }
-
     return fileInString;
 }
 
@@ -73,7 +72,8 @@ void IO::ChemkinReader::readElements()
 {
 
     smatch result;
-    regex_search(fileToString(chemfile_), result, elementListRegex);
+    string chemfilestring = fileToString(chemfile_);
+    regex_search(chemfilestring, result, elementListRegex);
     string elementString = result[1];
 
     std::string::const_iterator start = elementString.begin();
@@ -94,8 +94,11 @@ void IO::ChemkinReader::readSpecies()
 {
 
     smatch result;
-    regex_search(fileToString(chemfile_), result, speciesListRegex);
+    string chemfilestring = fileToString(chemfile_);
+    regex_search(chemfilestring, result, speciesListRegex);
     string speciesString = result[1];
+
+    cout << speciesString<< endl;
 
     std::string::const_iterator start = speciesString.begin();
     std::string::const_iterator end = speciesString.end();
