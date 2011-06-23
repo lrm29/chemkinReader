@@ -5,4 +5,4 @@
 
 project (CHEMKINREADER)
 
-add_library(chemkinReader chemkinReader.cpp thermoParser.cpp element.cpp)
+add_library(chemkinReader chemkinReader.cpp thermoParser.cpp element.cpp species.cpp)

@@ -11,7 +11,10 @@ using namespace std;
 
 
 const regex IO::ChemkinReader::elementListRegex("ELEM(?:|ENT|ENTS)\\s+(.*?)\\s+END");
-const regex IO::ChemkinReader::elementSingleRegex("(?:(\\w+))");
+const regex IO::ChemkinReader::elementSingleRegex("(\\w+)");
+
+const regex IO::ChemkinReader::speciesListRegex("SPEC(?:|IE|IES)\\s+(.*?)\\s+END");
+const regex IO::ChemkinReader::speciesSingleRegex("\\s+");
 
 IO::ChemkinReader::ChemkinReader
 (
@@ -84,5 +87,26 @@ void IO::ChemkinReader::readElements()
     }
 
     cout << elements_ << endl;
+
+}
+
+void IO::ChemkinReader::readSpecies()
+{
+
+    smatch result;
+    regex_search(fileToString(chemfile_), result, speciesListRegex);
+    string speciesString = result[1];
+
+    std::string::const_iterator start = speciesString.begin();
+    std::string::const_iterator end = speciesString.end();
+
+    boost::sregex_token_iterator i(start, end, speciesSingleRegex, -1);
+    boost::sregex_token_iterator j;
+    while(i != j)
+    {
+        species_.push_back(Species(*i++));
+    }
+
+    cout << species_ << endl;
 
 }

@@ -16,6 +16,7 @@
 #include <fstream>
 
 #include "element.h"
+#include "species.h"
 
 using namespace boost;
 
@@ -27,12 +28,15 @@ namespace IO
 
             static const regex elementListRegex;
             static const regex elementSingleRegex;
+            static const regex speciesListRegex;
+            static const regex speciesSingleRegex;
 
             const std::string chemfile_;
             const std::string thermfile_;
             const std::string transfile_;
 
             std::vector<Element> elements_;
+            std::vector<Species> species_;
 
             //! Read a file into a std::string.
             std::string fileToString(const std::string& fileName);
@@ -54,6 +58,8 @@ namespace IO
             void check();
 
             void readElements();
+
+            void readSpecies();
 
     };
 
