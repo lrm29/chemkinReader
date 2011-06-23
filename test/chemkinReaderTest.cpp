@@ -59,7 +59,6 @@ int main(int argc, char* argv[])
     chemkinReader.check();
     chemkinReader.readElements();
     chemkinReader.readSpecies();
-    chemkinReader.read();
 
     return 0;
 
