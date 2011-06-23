@@ -9,6 +9,10 @@
 
 using namespace std;
 
+
+const regex IO::ChemkinReader::elementListRegex("ELEM(?:|ENT|ENTS)\\s+(.*?)\\s+END");
+const regex IO::ChemkinReader::elementSingleRegex("(?:(\\w+))");
+
 IO::ChemkinReader::ChemkinReader
 (
     const string chemfile,
@@ -65,16 +69,19 @@ IO::ChemkinReader::fileToString(const std::string& fileName)
 void IO::ChemkinReader::readElements()
 {
 
-    // Read in elements names
-    regex rgx("ELEMENTS[ \t\r\n](.*?)[ \t\r\n]END");
-    smatch result, trimmed;
-    regex_search(fileToString(chemfile_), result, rgx);
-    cout << "Element String:(" << result[1] << ")."<< endl;
-    // Now need to match series of 1 or 2 letters in sequence.
+    smatch result;
+    regex_search(fileToString(chemfile_), result, elementListRegex);
+    string elementString = result[1];
 
+    std::string::const_iterator start = elementString.begin();
+    std::string::const_iterator end = elementString.end();
+    boost::match_results<std::string::const_iterator> what;
 
-    elements_.push_back(Element("H",1.0));
-    elements_.push_back(Element("O",16.0));
+    while (regex_search(start, end, what, elementSingleRegex))
+    {
+        elements_.push_back(Element(what[1],0.0));
+        start = what[0].second;
+    }
 
     cout << elements_ << endl;
 

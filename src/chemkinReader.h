@@ -25,6 +25,9 @@ namespace IO
     class ChemkinReader
     {
 
+            static const regex elementListRegex;
+            static const regex elementSingleRegex;
+
             const std::string chemfile_;
             const std::string thermfile_;
             const std::string transfile_;
