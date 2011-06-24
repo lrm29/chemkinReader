@@ -41,6 +41,8 @@ namespace IO
 
     void replaceComments(std::string& stringToReplace);
 
+    std::string trim(const std::string &str);
+
     class ChemkinReader
     {
 

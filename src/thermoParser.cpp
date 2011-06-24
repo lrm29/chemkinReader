@@ -19,10 +19,6 @@ lines_(fileToStrings(thermo_file)) {
 }
 
 void IO::ThermoParser::parse() {
-    //H2                TPIS78H   2               G  200.0     3500.0    1000.0      1
-    //+3.3372792E+00 -4.9402473E-05 +4.9945678E-07 -1.7956639E-10 +2.0025538E-14     2
-    //-9.5015892E+02 -3.2050233E+00 +2.3443311E+00 +7.9805208E-03 -1.9478151E-05     3
-    //+2.0157209E-08 -7.3761176E-12 -9.1793517E+02 +6.8301024E-01                    4
 
     vector<string> thermo_lines = getThermoSection(lines_);
 
@@ -40,6 +36,7 @@ void IO::ThermoParser::parse() {
         }
     }
 
+    // this is where it print out info at the moment
     for (unsigned int i = 0; i < thermos_.size(); i++) {
         cout << thermos_[i] << endl;
     }
@@ -47,8 +44,34 @@ void IO::ThermoParser::parse() {
 }
 
 bool IO::ThermoParser::parseNASASection(string l1, string l2, string l3, string l4) {
-    string sp_name = l1.substr(0, 18);
-    Thermo thermo(sp_name);
+    // line 1
+    Thermo thermo(trim(l1.substr(0, 18)));
+    thermo.setNote(trim(l1.substr(18, 6)));
+    thermo.setElementsCounts(trim(l1.substr(24, 20)));
+    thermo.setPhase(l1.substr(44, 1));
+    thermo.setTLow(from_string<double>(trim(l1.substr(45, 10))));
+    thermo.setTHigh(from_string<double>(trim(l1.substr(55, 10))));
+    thermo.setTCommon(from_string<double>(trim(l1.substr(65, 10))));
+    thermo.setElementsCounts(thermo.getElementsCounts() + trim(l1.substr(75, 5)));
+    // line 2, 3 4
+    double al1, al2, al3, al4, al5, al6, al7;
+    double ah1, ah2, ah3, ah4, ah5, ah6, ah7;
+    ah1 = from_string<double>(trim(l1.substr(0, 15)));
+    ah2 = from_string<double>(trim(l1.substr(15, 15)));
+    ah3 = from_string<double>(trim(l1.substr(30, 15)));
+    ah4 = from_string<double>(trim(l1.substr(45, 15)));
+    ah5 = from_string<double>(trim(l1.substr(60, 15)));
+    ah6 = from_string<double>(trim(l1.substr(0, 15)));
+    ah7 = from_string<double>(trim(l1.substr(15, 15)));
+    al1 = from_string<double>(trim(l1.substr(30, 15)));
+    al2 = from_string<double>(trim(l1.substr(45, 15)));
+    al3 = from_string<double>(trim(l1.substr(60, 15)));
+    al4 = from_string<double>(trim(l1.substr(0, 15)));
+    al5 = from_string<double>(trim(l1.substr(15, 15)));
+    al6 = from_string<double>(trim(l1.substr(30, 15)));
+    al7 = from_string<double>(trim(l1.substr(45, 15)));
+    thermo.setUpperTemperatureCoefficients(ah1, ah2, ah3, ah4, ah5, ah6, ah7);
+    thermo.setLowerTemperatureCoefficients(al1, al2, al3, al4, al5, al6, al7);
     thermos_.push_back(thermo);
     return false;
 }
