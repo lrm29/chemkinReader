@@ -23,6 +23,9 @@ using namespace boost;
 namespace IO
 {
 
+    //! Read a file into a std::string.
+    std::string fileToString(const std::string& fileName);
+
     class ChemkinReader
     {
 
@@ -30,6 +33,8 @@ namespace IO
             static const regex elementSingleRegex;
             static const regex speciesListRegex;
             static const regex speciesSingleRegex;
+            static const regex reactionListRegex;
+            static const regex reactionSingleRegex;
 
             const std::string chemfile_;
             const std::string thermfile_;
@@ -38,8 +43,7 @@ namespace IO
             std::vector<Element> elements_;
             std::vector<Species> species_;
 
-            //! Read a file into a std::string.
-            std::string fileToString(const std::string& fileName);
+
 
         public:
 
@@ -60,6 +64,8 @@ namespace IO
             void readElements();
 
             void readSpecies();
+
+            void readReactions();
 
     };
 
