@@ -6,8 +6,8 @@
  *     License: GPL
  */
 
-#ifndef TRANSPORT_H_
-#define TRANSPORT_H_
+#ifndef TRANSPORTPARSER_H_
+#define TRANSPORTPARSER_H_
 
 #include "boost/regex.hpp"
 #include <string>
@@ -15,8 +15,6 @@
 #include <vector>
 #include <iostream>
 #include <fstream>
-
-
 
 namespace IO {
 

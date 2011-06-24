@@ -26,8 +26,8 @@ namespace IO
     std::ostream& operator<<(std::ostream& output, const Species& species)
     {
         output << "(\n"
-               << "    Species Name = " << species.name_ << "\n"
-               << species.transport_ << "\n"
+               << "    Species: \n    (\n        Name = " << species.name_ << "\n    )\n"
+               << "    " << species.transport_
                << "\n )";
         return output;
     }

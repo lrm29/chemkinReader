@@ -21,7 +21,7 @@ namespace IO
 
             std::string name_;
 
-            Transport transport_;
+            IO::Transport transport_;
 
         public:
 

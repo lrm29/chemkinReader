@@ -51,14 +51,14 @@ void IO::Transport::setRotRelaxationNumber(const double rotRelaxationNumber_)
 namespace IO {
 
     std::ostream& operator<<(std::ostream& output, const Transport& transport) {
-        output << "(\n"
-               << "    Mol. Index = " << transport.moleculeIndex_ << "\n"
-               << "    Potential Well Depth = " << transport.potentialWellDepth_ << "\n"
-               << "    Collision Diameter = " << transport.collisionDiameter_ << "\n"
-               << "    Dipole Moment = " << transport.dipoleMoment_ << "\n"
-               << "    Polarizability = " << transport.polarizability_ << "\n"
-               << "    Rotational Relaxation Number = " << transport.rotRelaxationNumber_
-               << "\n )";
+        output << "Transport Data:\n    (\n"
+               << "        Mol. Index = " << transport.moleculeIndex_ << "\n"
+               << "        Potential Well Depth = " << transport.potentialWellDepth_ << "\n"
+               << "        Collision Diameter = " << transport.collisionDiameter_ << "\n"
+               << "        Dipole Moment = " << transport.dipoleMoment_ << "\n"
+               << "        Polarizability = " << transport.polarizability_ << "\n"
+               << "        Rotational Relaxation Number = " << transport.rotRelaxationNumber_
+               << "\n    )";
         return output;
     }
 }

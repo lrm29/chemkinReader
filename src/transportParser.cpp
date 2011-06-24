@@ -26,14 +26,14 @@ const string IO::TransportParser::transportRegex
 // Empty default constructor, can be removed but leave it there just in case.
 IO::TransportParser::TransportParser
 (
-    const std::string tranfile
+    const string tranfile
 )
 :
     tranfile_(tranfile),
     transportfilestring_(fileToString(tranfile))
 {}
 
-void IO::TransportParser::parse(std::vector<Species>& species)
+void IO::TransportParser::parse(vector<Species>& species)
 {
     cout << "Transport file: " << tranfile_ << endl;
 
@@ -45,14 +45,14 @@ void IO::TransportParser::parse(std::vector<Species>& species)
 }
 
 
-const boost::smatch IO::TransportParser::findSpecies(const Species& specie)
+const smatch IO::TransportParser::findSpecies(const IO::Species& specie)
 {
 
     smatch what;
     regex reg("\\b"+IO::regex_escape(specie.name())+transportRegex);
 
-    std::string::const_iterator start = transportfilestring_.begin();
-    std::string::const_iterator end = transportfilestring_.end();
+    string::const_iterator start = transportfilestring_.begin();
+    string::const_iterator end = transportfilestring_.end();
 
     regex_search(start, end, what, reg);
 
@@ -62,8 +62,8 @@ const boost::smatch IO::TransportParser::findSpecies(const Species& specie)
 
 void IO::TransportParser::setSpecieData
 (
-    Species& specie,
-    const boost::smatch& specieTransportData
+    IO::Species& specie,
+    const smatch& specieTransportData
 )
 {
 

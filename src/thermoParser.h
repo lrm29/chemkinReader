@@ -16,7 +16,6 @@
 #include <iostream>
 #include <fstream>
 
-#include "chemkinReader.h"
 #include "thermo.h"
 
 namespace IO {
