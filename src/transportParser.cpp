@@ -65,12 +65,12 @@ void IO::TransportParser::setSpecieData
 )
 {
 
-    specie.setMoleculeIndex(from_string<int>(specieTransportData[1]));
-    specie.setPotentialWellDepth(from_string<double>(specieTransportData[2]));
-    specie.setCollisionDiameter(from_string<double>(specieTransportData[3]));
-    specie.setDipoleMoment(from_string<double>(specieTransportData[4]));
-    specie.setPolarizability(from_string<double>(specieTransportData[5]));
-    specie.setRotRelaxationNumber(from_string<double>(specieTransportData[6]));
+    specie.transport().setMoleculeIndex(from_string<int>(specieTransportData[1]));
+    specie.transport().setPotentialWellDepth(from_string<double>(specieTransportData[2]));
+    specie.transport().setCollisionDiameter(from_string<double>(specieTransportData[3]));
+    specie.transport().setDipoleMoment(from_string<double>(specieTransportData[4]));
+    specie.transport().setPolarizability(from_string<double>(specieTransportData[5]));
+    specie.transport().setRotRelaxationNumber(from_string<double>(specieTransportData[6]));
 
 }
 

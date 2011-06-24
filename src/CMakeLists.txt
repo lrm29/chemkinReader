@@ -6,9 +6,11 @@
 project (CHEMKINREADER)
 
 add_library(chemkinReader 
+            element.cpp 
+            transport.cpp
+            species.cpp
+            thermo.cpp
             chemkinReader.cpp 
             thermoParser.cpp 
-            transportParser.cpp 
-            element.cpp 
-            species.cpp
-            thermo.cpp)
+            transportParser.cpp)
+            

@@ -18,8 +18,6 @@
 
 #include "chemkinReader.h"
 
-using namespace boost;
-
 namespace IO {
 
     class TransportParser
