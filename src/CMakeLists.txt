@@ -10,4 +10,5 @@ add_library(chemkinReader
             thermoParser.cpp 
             transportParser.cpp 
             element.cpp 
-            species.cpp)
+            species.cpp
+            thermo.cpp)
