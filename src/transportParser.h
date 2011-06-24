@@ -28,7 +28,7 @@ namespace IO {
             static const regex transportRegex;
 
             const std::string tranfile_;
-            std::vector<std::string> transportfilestring_;
+            const std::string transportfilestring_;
 
             void findSpecies(const Species& specie);
 
