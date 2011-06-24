@@ -14,10 +14,13 @@ using namespace std;
 
 // Empty default constructor, can be removed but leave it there just in case.
 
-IO::ThermoParser::ThermoParser() {
-}
+IO::ThermoParser::ThermoParser(const string thermo_file)
+:
+    thermo_file_(thermo_file),
+    lines_(fileToStrings(thermo_file))
+{}
 
-void IO::ThermoParser::parse(std::string thermo_file) {
+void IO::ThermoParser::parse() {
     // let's do the thermo file first. easiest.
     // 1. Find the starting line in term.dat
     // 2. Ignore comments
@@ -31,10 +34,7 @@ void IO::ThermoParser::parse(std::string thermo_file) {
     // 5. if the 4 regex(es) match the 4 lines in a row then we extract the capture groups
     // 6 if not, we move forward by 1 line and redo the matching in step 5.
 
-
-    std::vector<std::string> lines = fileToStrings(thermo_file);
-
-    std::vector<string> thermo_lines = getThermoSection(lines);
+    std::vector<string> thermo_lines = getThermoSection(lines_);
 
     for (unsigned int i = 0; i < thermo_lines.size(); i++) {
         if (isSectionMatchedNASA(thermo_lines, i)) {
@@ -93,14 +93,4 @@ std::vector<std::string> IO::ThermoParser::getThermoSection(std::vector<std::str
     }
 
     return thermo_lines;
-}
-
-std::vector<std::string> IO::ThermoParser::fileToStrings(std::string file) {
-    std::vector<std::string> lines;
-    ifstream fin(file.c_str(), ios::in);
-    std::string line;
-    while (std::getline(fin, line)) {
-        lines.push_back(line);
-    }
-    return lines;
 }

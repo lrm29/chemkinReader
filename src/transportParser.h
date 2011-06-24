@@ -27,15 +27,18 @@ namespace IO {
 
             static const regex transportRegex;
 
-            std::string tran_file;
+            const std::string tranfile_;
+            std::vector<std::string> transportfilestring_;
+
+            void findSpecies(const Species& specie);
 
         public:
 
-            TransportParser();
+            TransportParser(const std::string tranfile);
 
             ~TransportParser(){}
 
-            void parse(std::string tran_file);
+            void parse(const std::vector<Species>& species);
 
     };
 

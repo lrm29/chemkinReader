@@ -13,20 +13,32 @@ using namespace std;
 const regex IO::TransportParser::transportRegex("\\s+");
 
 // Empty default constructor, can be removed but leave it there just in case.
-IO::TransportParser::TransportParser(){}
+IO::TransportParser::TransportParser
+(
+    const std::string tranfile
+)
+:
+    tranfile_(tranfile),
+    transportfilestring_(fileToStrings(tranfile))
+{}
 
-void IO::TransportParser::parse(std::string therm_file)
+void IO::TransportParser::parse(const std::vector<Species>& species)
 {
 
-    cout << "Transport file: " << therm_file << endl;
+    cout << "Transport file: " << tranfile_ << endl;
 
-    smatch result;
-    string transportfilestring = fileToString(therm_file);
+//    cout << transportfilestring_ << endl;
 
-    cout << transportfilestring << endl;
+    for(size_t i = 0; i != species.size(); ++i) {
+        findSpecies(species[i]);
+    }
 
-    std::string::const_iterator start = transportfilestring.begin();
-    std::string::const_iterator end = transportfilestring.end();
+
+
+
+
+    /*std::string::const_iterator start = transportfilestring_.begin();
+    std::string::const_iterator end = transportfilestring_.end();
 
     boost::sregex_token_iterator i(start, end, transportRegex, -1);
     boost::sregex_token_iterator j;
@@ -39,7 +51,7 @@ void IO::TransportParser::parse(std::string therm_file)
        cout << "Dipole Moment = " << *i++ << " | ";
        cout << "Polarizability = " << *i++ << " | ";
        cout << "Rot. relax. number = " << *i++ << endl;
-    }
+    }*/
 
     //cout << species_ << endl;
 
@@ -56,5 +68,18 @@ void IO::TransportParser::parse(std::string therm_file)
 //
 //          C2O                1   232.400     3.828     0.000     0.000     1.000 ! *
 
+
+}
+
+
+void IO::TransportParser::findSpecies(const Species& specie)
+{
+  /*  boost::regex re(specie.name());
+    boost::sregex_token_iterator i(transportfilestring_.begin(), transportfilestring_.end(), re, -1);
+    boost::sregex_token_iterator j;
+    while(i != j)
+    {
+           cout << "Specie " << specie.name() << " " << *i << endl;
+    }*/
 
 }

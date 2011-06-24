@@ -14,6 +14,7 @@
 #include <vector>
 #include <iostream>
 #include <fstream>
+#include <streambuf>
 
 #include "element.h"
 #include "species.h"
@@ -24,7 +25,15 @@ namespace IO
 {
 
     //! Read a file into a std::string.
-    std::string fileToString(const std::string& fileName);
+    const std::string fileToString(const std::string& fileName);
+
+    /**
+     * Private self-contained function. It does exactly what is named.
+     *
+     * @param file
+     * @return
+     */
+    const std::vector<std::string> fileToStrings(const std::string file);
 
     class ChemkinReader
     {
@@ -39,6 +48,8 @@ namespace IO
             const std::string chemfile_;
             const std::string thermfile_;
             const std::string transfile_;
+
+            std::string chemfilestring_;
 
             std::vector<Element> elements_;
             std::vector<Species> species_;
@@ -63,6 +74,11 @@ namespace IO
             void readSpecies();
 
             void readReactions();
+
+            const std::vector<Species> species() const
+            {
+                return species_;
+            }
 
     };
 

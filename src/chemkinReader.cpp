@@ -28,7 +28,8 @@ IO::ChemkinReader::ChemkinReader
 :
   chemfile_(chemfile),
   thermfile_(thermfile),
-  transfile_(transfile)
+  transfile_(transfile),
+  chemfilestring_(fileToString(chemfile_))
 {}
 
 void IO::ChemkinReader::check()
@@ -42,8 +43,7 @@ void IO::ChemkinReader::readElements()
 {
 
     smatch result;
-    string chemfilestring = fileToString(chemfile_);
-    regex_search(chemfilestring, result, elementListRegex);
+    regex_search(chemfilestring_, result, elementListRegex);
     string elementString = result[1];
 
     std::string::const_iterator start = elementString.begin();
@@ -64,8 +64,7 @@ void IO::ChemkinReader::readSpecies()
 {
 
     smatch result;
-    string chemfilestring = fileToString(chemfile_);
-    regex_search(chemfilestring, result, speciesListRegex);
+    regex_search(chemfilestring_, result, speciesListRegex);
     string speciesString = result[1];
 
     std::string::const_iterator start = speciesString.begin();
@@ -86,8 +85,7 @@ void IO::ChemkinReader::readReactions()
 {
 
     smatch result;
-    string chemfilestring = fileToString(chemfile_);
-    regex_search(chemfilestring, result, reactionListRegex);
+    regex_search(chemfilestring_, result, reactionListRegex);
     string reactionString = result[1];
 
     cout << reactionString << endl;
@@ -105,17 +103,25 @@ void IO::ChemkinReader::readReactions()
 
 }
 
-std::string
+const std::string
 IO::fileToString(const std::string& fileName)
 {
-    string fileInString;
     ifstream fin(fileName.c_str(), ios::in);
 
-    while (fin.good())     // loop while extraction from file is possible
-    {
-      char c = fin.get();  // get character from file
-      if (fin.good())
-          fileInString.append(1,c);
-    }
+    string fileInString((std::istreambuf_iterator<char>(fin)),
+                         std::istreambuf_iterator<char>());
+
     return fileInString;
+}
+
+const std::vector<std::string>
+IO::fileToStrings(const std::string fileName)
+{
+    std::vector<std::string> lines;
+    ifstream fin(fileName.c_str(), ios::in);
+    std::string line;
+    while (std::getline(fin, line)) {
+        lines.push_back(line);
+    }
+    return lines;
 }
