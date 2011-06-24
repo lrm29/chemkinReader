@@ -19,8 +19,6 @@
 #include "element.h"
 #include "species.h"
 
-using namespace boost;
-
 namespace IO
 {
 
@@ -38,12 +36,12 @@ namespace IO
     class ChemkinReader
     {
 
-            static const regex elementListRegex;
-            static const regex elementSingleRegex;
-            static const regex speciesListRegex;
-            static const regex speciesSingleRegex;
-            static const regex reactionListRegex;
-            static const regex reactionSingleRegex;
+            static const boost::regex elementListRegex;
+            static const boost::regex elementSingleRegex;
+            static const boost::regex speciesListRegex;
+            static const boost::regex speciesSingleRegex;
+            static const boost::regex reactionListRegex;
+            static const boost::regex reactionSingleRegex;
 
             const std::string chemfile_;
             const std::string thermfile_;

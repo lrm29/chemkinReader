@@ -10,7 +10,8 @@
 
 using namespace std;
 
-const regex IO::TransportParser::transportRegex("\\s+");
+const regex IO::TransportParser::transportRegex
+("\\w+\\s+([0-2]+?)\\s+([0-9]+\\.[0-9]+)\\s+([0-9]+\\.[0-9]+)\\s+([0-9]+\\.[0-9]+)\\s+([0-9]+\\.[0-9]+)\\s+([0-9]+\\.[0-9]+)");
 
 // Empty default constructor, can be removed but leave it there just in case.
 IO::TransportParser::TransportParser
@@ -19,13 +20,13 @@ IO::TransportParser::TransportParser
 )
 :
     tranfile_(tranfile),
-    transportfilestring_(fileToStrings(tranfile))
+    transportfilestring_(fileToString(tranfile))
 {}
 
 void IO::TransportParser::parse(const std::vector<Species>& species)
 {
 
-    cout << "Transport file: " << tranfile_ << endl;
+    //cout << "Transport file: " << tranfile_ << endl;
 
 //    cout << transportfilestring_ << endl;
 
@@ -74,12 +75,18 @@ void IO::TransportParser::parse(const std::vector<Species>& species)
 
 void IO::TransportParser::findSpecies(const Species& specie)
 {
-  /*  boost::regex re(specie.name());
-    boost::sregex_token_iterator i(transportfilestring_.begin(), transportfilestring_.end(), re, -1);
-    boost::sregex_token_iterator j;
+    smatch what;
+    boost::regex re("\\b"+specie.name()+"\\b");
+    boost::sregex_iterator i(transportfilestring_.begin(), transportfilestring_.end(), re);
+    boost::sregex_iterator j;
     while(i != j)
     {
-           cout << "Specie " << specie.name() << " " << *i << endl;
-    }*/
+        cout << "Specie " << specie.name() << " " << *i << endl;
+        /*if(regex_search(i,j,what, transportRegex))
+        {
 
+        }*/
+        *i++;
+    }
+    // H2                 1    38.000     2.920     0.000     0.790   280.000 ! *
 }

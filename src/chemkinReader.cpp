@@ -8,7 +8,7 @@
 #include "chemkinReader.h"
 
 using namespace std;
-
+using namespace boost;
 
 const regex IO::ChemkinReader::elementListRegex("ELEM(?:|ENT|ENTS)\\s+(.*?)\\s*END");
 const regex IO::ChemkinReader::elementSingleRegex("(\\w+)");
