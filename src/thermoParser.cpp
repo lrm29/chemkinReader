@@ -35,6 +35,8 @@ void IO::ThermoParser::parse() {
     // 6 if not, we move forward by 1 line and redo the matching in step 5.
 
     std::vector<string> thermo_lines = getThermoSection(lines_);
+    
+    cout << "Parsing NASA" << endl;
 
     for (unsigned int i = 0; i < thermo_lines.size(); i++) {
         if (isSectionMatchedNASA(thermo_lines, i)) {
