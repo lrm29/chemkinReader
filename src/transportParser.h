@@ -30,7 +30,13 @@ namespace IO {
             const std::string tranfile_;
             const std::string transportfilestring_;
 
-            void findSpecies(const Species& specie);
+            const boost::smatch findSpecies(const Species& specie);
+
+            void setSpecieData
+            (
+                Species& specie,
+                const boost::smatch& specieTransportData
+            );
 
         public:
 
@@ -38,7 +44,7 @@ namespace IO {
 
             ~TransportParser(){}
 
-            void parse(const std::vector<Species>& species);
+            void parse(std::vector<Species>& species);
 
     };
 
