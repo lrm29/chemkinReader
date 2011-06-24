@@ -48,6 +48,8 @@ void IO::ChemkinReader::readElements()
     regex_search(chemfilestring_, result, elementListRegex);
     string elementString = result[1];
 
+    replaceComments(elementString);
+
     std::string::const_iterator start = elementString.begin();
     std::string::const_iterator end = elementString.end();
     boost::match_results<std::string::const_iterator> what;
