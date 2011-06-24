@@ -17,6 +17,7 @@
 #include <fstream>
 
 #include "chemkinReader.h"
+#include "thermo.h"
 
 namespace IO {
 
@@ -34,6 +35,7 @@ namespace IO {
 
         const std::string thermo_file_;
         const std::vector<std::string> lines_;
+        std::vector<IO::Thermo> thermos_;
 
         /**
          * Private self-contained function. Get subset of given vector which contains
@@ -53,7 +55,7 @@ namespace IO {
          */
         bool isSectionMatchedNASA(std::vector<std::string> lines, unsigned int offset);
 
-        void parseNASASection(std::string l1, std::string l2, std::string l3, std::string l4);
+        bool parseNASASection(std::string l1, std::string l2, std::string l3, std::string l4);
 
     };
 

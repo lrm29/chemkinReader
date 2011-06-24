@@ -1,11 +1,11 @@
 /*
- * species.cpp
+ * thermo.cpp
  *
- *  Created on: Jun 22, 2011
- *      Author: lrm29
+ *  Created on: Jun 24, 2011
+ *      Author: gigadot
  */
 
-#include "species.h"
+#include "thermo.h"
 
 IO::Thermo::Thermo(const std::string species_name)
 :
@@ -18,5 +18,4 @@ namespace IO {
         output << "(" << thermo.species_name_ << ")";
         return output;
     }
-
 }

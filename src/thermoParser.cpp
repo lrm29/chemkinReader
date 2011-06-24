@@ -9,7 +9,6 @@
 #include "thermoParser.h"
 #include <istream>
 
-
 using namespace std;
 using namespace boost;
 
@@ -28,7 +27,7 @@ void IO::ThermoParser::parse() {
     vector<string> thermo_lines = getThermoSection(lines_);
 
     cout << "Parsing NASA" << endl;
-    
+
     const regex empty("\\s*");
 
     for (unsigned int i = 0; i < thermo_lines.size(); i++) {
@@ -41,10 +40,15 @@ void IO::ThermoParser::parse() {
         }
     }
 
+    //cout << thermos_ << endl;
+
 }
 
-void IO::ThermoParser::parseNASASection(string l1, string l2, string l3, string l4) {
-
+bool IO::ThermoParser::parseNASASection(string l1, string l2, string l3, string l4) {
+    string sp_name = l1.substr(0, 30);
+    Thermo thermo(sp_name);
+    thermos_.push_back(thermo);
+    return false;
 }
 
 bool IO::ThermoParser::isSectionMatchedNASA(std::vector<std::string> lines, unsigned int offset) {
