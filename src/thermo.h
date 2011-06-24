@@ -21,9 +21,7 @@ namespace IO {
         ~Thermo() {
         }
 
-        const std::string getSpeciesName() const {
-            return species_name_;
-        }
+        const std::string getSpeciesName() const;
 
         friend std::ostream& operator<<(std::ostream& output, const Thermo& thermo);
 
