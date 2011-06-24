@@ -10,17 +10,14 @@ enable_testing()
 
 # Turn off line breaks in error messages so that IDEs can parse the errors properly
 IF(CMAKE_COMPILER_IS_GNUCC)
-  SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fmessage-length=0 -Wall -O3")
+  SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fmessage-length=0 -Wall -Wextra -pedantic")
 ENDIF(CMAKE_COMPILER_IS_GNUCC)
 IF(CMAKE_COMPILER_IS_GNUCXX)
-  SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fmessage-length=0 -Wall -O3")
+  SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fmessage-length=0 -Wall -Wextra -pedantic")
 ENDIF(CMAKE_COMPILER_IS_GNUCXX)
 
 add_executable(chemkinReaderTest test/chemkinReaderTest.cpp)
 target_link_libraries(chemkinReaderTest chemkinReader ${Boost_REGEX_LIBRARY})
-
-add_executable(thermoParserTest test/thermoParserTest.cpp)
-target_link_libraries(thermoParserTest chemkinReader ${Boost_REGEX_LIBRARY})
 
 # Subsidiary libraries for the solvers
 add_subdirectory(src)
