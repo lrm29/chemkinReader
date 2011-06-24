@@ -15,6 +15,7 @@
 #include <iostream>
 #include <fstream>
 #include <streambuf>
+#include <sstream>
 
 #include "element.h"
 #include "species.h"
@@ -73,7 +74,7 @@ namespace IO
 
             void readReactions();
 
-            const std::vector<Species> species() const
+            std::vector<Species>& species()
             {
                 return species_;
             }
@@ -93,6 +94,19 @@ namespace IO
         return output;
     }
 
+
+    template <class T>
+    T from_string
+    (
+        const std::string& s,
+        std::ios_base& (*f)(std::ios_base&) = std::dec
+    )
+    {
+      std::istringstream iss(s);
+      T t;
+      iss >> f >> t;
+      return t;
+    }
 
 } // namespace IO
 
