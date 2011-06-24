@@ -95,16 +95,17 @@ void IO::Thermo::setLowerTemperatureCoefficients(
 namespace IO {
 
     std::ostream& operator<<(std::ostream& output, const Thermo& thermo) {
-        output << "(" << thermo.species_name_ << ")"
-                << " Elements: {" << thermo.elements_counts_ << "}"
-                << ", Note: " << thermo.note_
-                << ", Phase: " << thermo.phase_
-                << ", T_low: " << thermo.T_low_
-                << ", T_common: " << thermo.T_common_
-                << ", T_high: " << thermo.T_high_
-                << ", AHs: {" << thermo.ah_[0] << ", " << thermo.ah_[1] << ", " << thermo.ah_[2] << ", " << thermo.ah_[3] << ", " << thermo.ah_[4] << ", " << thermo.ah_[5] << ", " << thermo.ah_[6] << "}"
-                << ", ALs: {" << thermo.al_[0] << ", " << thermo.al_[1] << ", " << thermo.al_[2] << ", " << thermo.al_[3] << ", " << thermo.al_[4] << ", " << thermo.al_[5] << ", " << thermo.al_[6] << "}"
-                ;
+        output << "(\n"
+                << "    Species  : " << thermo.species_name_ << "\n"
+                << "    Elements : {" << thermo.elements_counts_ << "}" << "\n"
+                << "    Note     : " << thermo.note_ << "\n"
+                << "    Phase    : " << thermo.phase_ << "\n"
+                << "    T_low    : " << thermo.T_low_ << "\n"
+                << "    T_common : " << thermo.T_common_ << "\n"
+                << "    T_high   : " << thermo.T_high_ << "\n"
+                << "    AHs      : {" << thermo.ah_[0] << ", " << thermo.ah_[1] << ", " << thermo.ah_[2] << ", " << thermo.ah_[3] << ", " << thermo.ah_[4] << ", " << thermo.ah_[5] << ", " << thermo.ah_[6] << "}" << "\n"
+                << "    ALs      : {" << thermo.al_[0] << ", " << thermo.al_[1] << ", " << thermo.al_[2] << ", " << thermo.al_[3] << ", " << thermo.al_[4] << ", " << thermo.al_[5] << ", " << thermo.al_[6] << "}" << "\n"
+                << ")";
         return output;
     }
 }
