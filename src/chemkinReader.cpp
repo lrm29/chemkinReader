@@ -140,8 +140,8 @@ IO::regex_escape
 
 void IO::replaceComments(std::string& stringToReplace)
 {
-    regex commentRegex("!.*\n");
-    string format_string = "\n";
+    regex commentRegex("(!.*?)\\n|(!.*?)$");
+    string format_string = " ";
     stringToReplace = regex_replace(stringToReplace, commentRegex, format_string, match_default | format_sed);
     //stringToReplace = format_string;
 }
