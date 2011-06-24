@@ -3,6 +3,14 @@
  *
  *  Created on: Jun 22, 2011
  *      Author: lrm29
+ *
+ *  \todo The element and species parsers currently cannot handle:
+ *  SPEC H2
+ *  spec O2
+ *
+ *  ELEM H
+ *  elem H
+ *
  */
 
 #ifndef CHEMKINREADER_H_
@@ -39,7 +47,9 @@ namespace IO
         const std::string& string_to_escape
     );
 
-    void replaceComments(std::string& stringToReplace);
+    std::string replaceComments(std::string stringToReplace);
+
+    std::string convertToCaps(const std::string &str);
 
     class ChemkinReader
     {

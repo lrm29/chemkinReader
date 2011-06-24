@@ -10,7 +10,7 @@
 using namespace std;
 using namespace boost;
 
-const regex IO::ChemkinReader::elementListRegex("ELEM(?:|ENT|ENTS)\\s+(.*?)\\s*END");
+const regex IO::ChemkinReader::elementListRegex("ELEM(?:|ENT|ENTS)\\s+(.*?)\\s+END");
 const regex IO::ChemkinReader::elementSingleRegex("(\\w+)");
 
 const regex IO::ChemkinReader::speciesListRegex("SPEC(?:|IE|IES)\\s+(.*?)\\s+END");
@@ -29,7 +29,7 @@ IO::ChemkinReader::ChemkinReader
   chemfile_(chemfile),
   thermfile_(thermfile),
   transfile_(transfile),
-  chemfilestring_(fileToString(chemfile_))
+  chemfilestring_(convertToCaps(replaceComments(fileToString(chemfile_))))
 {}
 
 void IO::ChemkinReader::check()
@@ -48,7 +48,7 @@ void IO::ChemkinReader::readElements()
     regex_search(chemfilestring_, result, elementListRegex);
     string elementString = result[1];
 
-    replaceComments(elementString);
+    //replaceComments(elementString);
 
     std::string::const_iterator start = elementString.begin();
     std::string::const_iterator end = elementString.end();
@@ -68,8 +68,6 @@ void IO::ChemkinReader::readSpecies()
     smatch result;
     regex_search(chemfilestring_, result, speciesListRegex);
     string speciesString = result[1];
-
-    replaceComments(speciesString);
 
     std::string::const_iterator start = speciesString.begin();
     std::string::const_iterator end = speciesString.end();
@@ -140,10 +138,50 @@ IO::regex_escape
     return result;
 }
 
-void IO::replaceComments(std::string& stringToReplace)
+std::string IO::replaceComments(std::string stringToReplace)
 {
     regex commentRegex("(!.*?)\\n|(!.*?)$");
     string format_string = " ";
     stringToReplace = regex_replace(stringToReplace, commentRegex, format_string, match_default | format_sed);
-    //stringToReplace = format_string;
+    return stringToReplace;
+}
+
+std::string IO::convertToCaps(const std::string &str)
+{
+    std::string::const_iterator i;
+    std::string caps;
+
+    for (i=str.begin(); i!=str.end(); i++) {
+        switch (*i) {
+            case 'a': caps.append("A"); break;
+            case 'b': caps.append("B"); break;
+            case 'c': caps.append("C"); break;
+            case 'd': caps.append("D"); break;
+            case 'e': caps.append("E"); break;
+            case 'f': caps.append("F"); break;
+            case 'g': caps.append("G"); break;
+            case 'h': caps.append("H"); break;
+            case 'i': caps.append("I"); break;
+            case 'j': caps.append("J"); break;
+            case 'k': caps.append("K"); break;
+            case 'l': caps.append("L"); break;
+            case 'm': caps.append("M"); break;
+            case 'n': caps.append("N"); break;
+            case 'o': caps.append("O"); break;
+            case 'p': caps.append("P"); break;
+            case 'q': caps.append("Q"); break;
+            case 'r': caps.append("R"); break;
+            case 's': caps.append("S"); break;
+            case 't': caps.append("T"); break;
+            case 'u': caps.append("U"); break;
+            case 'v': caps.append("V"); break;
+            case 'w': caps.append("W"); break;
+            case 'x': caps.append("X"); break;
+            case 'y': caps.append("Y"); break;
+            case 'z': caps.append("Z"); break;
+            default: caps.append(i,i+1); break;
+        }
+    }
+    return caps;
+
 }
