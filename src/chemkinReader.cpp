@@ -67,6 +67,8 @@ void IO::ChemkinReader::readSpecies()
     regex_search(chemfilestring_, result, speciesListRegex);
     string speciesString = result[1];
 
+    replaceComments(speciesString);
+
     std::string::const_iterator start = speciesString.begin();
     std::string::const_iterator end = speciesString.end();
 
@@ -136,3 +138,10 @@ IO::regex_escape
     return result;
 }
 
+void IO::replaceComments(std::string& stringToReplace)
+{
+    regex commentRegex("!.*\n");
+    string format_string = "\n";
+    stringToReplace = regex_replace(stringToReplace, commentRegex, format_string, match_default | format_sed);
+    //stringToReplace = format_string;
+}

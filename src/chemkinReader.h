@@ -39,6 +39,8 @@ namespace IO
         const std::string& string_to_escape
     );
 
+    void replaceComments(std::string& stringToReplace);
+
     class ChemkinReader
     {
 
