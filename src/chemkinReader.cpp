@@ -29,7 +29,7 @@ IO::ChemkinReader::ChemkinReader
     chemfile_(chemfile),
     thermfile_(thermfile),
     transfile_(transfile),
-    chemfilestring_(fileToString(chemfile_))
+    chemfilestring_(convertToCaps(replaceComments(fileToString(chemfile_))))
 {}
 
 void IO::ChemkinReader::check() {
