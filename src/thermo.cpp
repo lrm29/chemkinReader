@@ -102,8 +102,8 @@ namespace IO {
                 << ", T_low: " << thermo.T_low_
                 << ", T_common: " << thermo.T_common_
                 << ", T_high: " << thermo.T_high_
-                << ", AHs: {" << thermo.ah_[0] << thermo.ah_[1] << thermo.ah_[2] << thermo.ah_[3] << thermo.ah_[4] << thermo.ah_[5] << thermo.ah_[6] << "}"
-                << ", ALs: {" << thermo.al_[0] << thermo.al_[1] << thermo.al_[2] << thermo.al_[3] << thermo.al_[4] << thermo.al_[5] << thermo.al_[6] << "}"
+                << ", AHs: {" << thermo.ah_[0] << ", " << thermo.ah_[1] << ", " << thermo.ah_[2] << ", " << thermo.ah_[3] << ", " << thermo.ah_[4] << ", " << thermo.ah_[5] << ", " << thermo.ah_[6] << "}"
+                << ", ALs: {" << thermo.al_[0] << ", " << thermo.al_[1] << ", " << thermo.al_[2] << ", " << thermo.al_[3] << ", " << thermo.al_[4] << ", " << thermo.al_[5] << ", " << thermo.al_[6] << "}"
                 ;
         return output;
     }

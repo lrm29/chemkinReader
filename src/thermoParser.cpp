@@ -51,8 +51,8 @@ bool IO::ThermoParser::parseNASASection(string l1, string l2, string l3, string 
     thermo.setPhase(l1.substr(44, 1));
     thermo.setTLow(from_string<double>(trim(l1.substr(45, 10))));
     thermo.setTHigh(from_string<double>(trim(l1.substr(55, 10))));
-    thermo.setTCommon(from_string<double>(trim(l1.substr(65, 10))));
-    thermo.setElementsCounts(thermo.getElementsCounts() + trim(l1.substr(75, 5)));
+    thermo.setTCommon(from_string<double>(trim(l1.substr(65, 8))));
+    thermo.setElementsCounts(thermo.getElementsCounts() + trim(l1.substr(73, 5)));
     // line 2, 3 4
     double al1, al2, al3, al4, al5, al6, al7;
     double ah1, ah2, ah3, ah4, ah5, ah6, ah7;
