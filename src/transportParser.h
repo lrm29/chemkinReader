@@ -25,7 +25,7 @@ namespace IO {
     class TransportParser
     {
 
-            static const regex transportRegex;
+            static const std::string transportRegex;
 
             const std::string tranfile_;
             const std::string transportfilestring_;
