@@ -48,6 +48,8 @@ void IO::ChemkinReader::readElements()
     regex_search(chemfilestring_, result, elementListRegex);
     string elementString = result[1];
 
+    replaceComments(elementString);
+
     std::string::const_iterator start = elementString.begin();
     std::string::const_iterator end = elementString.end();
     boost::match_results<std::string::const_iterator> what;
@@ -66,6 +68,8 @@ void IO::ChemkinReader::readSpecies()
     smatch result;
     regex_search(chemfilestring_, result, speciesListRegex);
     string speciesString = result[1];
+
+    replaceComments(speciesString);
 
     std::string::const_iterator start = speciesString.begin();
     std::string::const_iterator end = speciesString.end();
@@ -136,3 +140,10 @@ IO::regex_escape
     return result;
 }
 
+void IO::replaceComments(std::string& stringToReplace)
+{
+    regex commentRegex("(!.*?)\\n|(!.*?)$");
+    string format_string = " ";
+    stringToReplace = regex_replace(stringToReplace, commentRegex, format_string, match_default | format_sed);
+    //stringToReplace = format_string;
+}
