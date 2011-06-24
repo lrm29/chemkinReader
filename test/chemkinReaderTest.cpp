@@ -41,6 +41,8 @@
  */
 
 #include "chemkinReader.h"
+#include "thermoParser.h"
+#include "transportParser.h"
 
 int main(int argc, char* argv[])
 {
@@ -53,15 +55,17 @@ int main(int argc, char* argv[])
     const std::string thermfile(argv[2]);
     const std::string transfile(argv[3]);
 
-    //read mechanism, thermo and trasnport data
     IO::ChemkinReader chemkinReader(chemfile,thermfile);
-
     chemkinReader.check();
     chemkinReader.readElements();
     chemkinReader.readSpecies();
     chemkinReader.readReactions();
-    chemkinReader.read();
 
+    IO::ThermoParser thermoParser(thermfile);
+    thermoParser.parse();
+
+    IO::TransportParser transportParser(transfile);
+    transportParser.parse(chemkinReader.species());
 
     return 0;
 

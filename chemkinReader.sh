@@ -1,3 +1,7 @@
 #!/bin/bash
 
-./build/chemkinReaderTest test/chem.inp test/therm.dat test/tran.dat
+EXECUTABLE=`find . -name chemkinReaderTest`
+
+echo $EXECUTABLE
+
+$EXECUTABLE test/easychem.inp test/therm.dat test/tran.dat
