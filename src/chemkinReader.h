@@ -34,6 +34,11 @@ namespace IO
      */
     const std::vector<std::string> fileToStrings(const std::string file);
 
+    std::string regex_escape
+    (
+        const std::string& string_to_escape
+    );
+
     class ChemkinReader
     {
 

@@ -9,6 +9,7 @@
 #include "transportParser.h"
 
 using namespace std;
+using namespace boost;
 
 const string IO::TransportParser::transportRegex("\\s+([0-2]+?)\\s+([0-9]+\\.[0-9]+)\\s+([0-9]+\\.[0-9]+)\\s+([0-9]+\\.[0-9]+)\\s+([0-9]+\\.[0-9]+)\\s+([0-9]+\\.[0-9]+)");
 
@@ -38,7 +39,7 @@ const boost::smatch IO::TransportParser::findSpecies(const Species& specie)
 {
 
     smatch what;
-    boost::regex reg("\\b"+specie.name()+transportRegex);
+    regex reg("\\b"+IO::regex_escape(specie.name())+transportRegex);
 
     std::string::const_iterator start = transportfilestring_.begin();
     std::string::const_iterator end = transportfilestring_.end();

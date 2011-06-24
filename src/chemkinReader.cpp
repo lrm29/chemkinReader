@@ -123,3 +123,16 @@ IO::fileToStrings(const std::string fileName)
     }
     return lines;
 }
+
+string
+IO::regex_escape
+(
+    const string& string_to_escape
+)
+{
+    static const regex re_boostRegexEscape( "[\\^\\.\\$\\|\\(\\)\\[\\]\\*\\+\\?\\/\\\\]" );
+    const string rep( "\\\\\\1&" );
+    string result = regex_replace(string_to_escape, re_boostRegexEscape, rep, match_default | format_sed);
+    return result;
+}
+

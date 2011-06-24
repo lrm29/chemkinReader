@@ -46,7 +46,7 @@ namespace IO
 
             ~Species(){}
 
-            const std::string name() const
+            std::string name() const
             {return name_;}
 
             friend std::ostream& operator<<(std::ostream& output, const Species& element);
