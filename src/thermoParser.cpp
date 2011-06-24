@@ -40,12 +40,14 @@ void IO::ThermoParser::parse() {
         }
     }
 
-    //cout << thermos_ << endl;
+    for (unsigned int i = 0; i < thermos_.size(); i++) {
+        cout << thermos_[i] << endl;
+    }
 
 }
 
 bool IO::ThermoParser::parseNASASection(string l1, string l2, string l3, string l4) {
-    string sp_name = l1.substr(0, 30);
+    string sp_name = l1.substr(0, 18);
     Thermo thermo(sp_name);
     thermos_.push_back(thermo);
     return false;
