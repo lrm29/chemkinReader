@@ -7,6 +7,8 @@
 
 #include "transport.h"
 
+using namespace std;
+
 IO::Transport::Transport()
 :
     moleculeIndex_(-1),
@@ -50,7 +52,7 @@ void IO::Transport::setRotRelaxationNumber(const double rotRelaxationNumber_)
 
 namespace IO {
 
-    std::ostream& operator<<(std::ostream& output, const Transport& transport) {
+    ostream& operator<<(ostream& output, const Transport& transport) {
         output << "Transport Data:\n    (\n"
                << "        Mol. Index = " << transport.moleculeIndex_ << "\n"
                << "        Potential Well Depth = " << transport.potentialWellDepth_ << "\n"

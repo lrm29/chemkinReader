@@ -7,9 +7,11 @@
 
 #include "element.h"
 
+using namespace std;
+
 IO::Element::Element
 (
-    const std::string name,
+    const string name,
     const double atomicWeight
 )
 :
@@ -20,7 +22,7 @@ IO::Element::Element
 namespace IO
 {
 
-    std::ostream& operator<<(std::ostream& output, const Element& element)
+    ostream& operator<<(ostream& output, const Element& element)
     {
         output << "(" << element.name_ << ", " << element.atomicWeight_ << ")";
         return output;

@@ -8,9 +8,7 @@
 #ifndef TRANSPORT_H_
 #define TRANSPORT_H_
 
-#include <string>
 #include <iostream>
-#include <vector>
 
 namespace IO
 {

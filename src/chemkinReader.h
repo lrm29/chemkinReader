@@ -18,12 +18,8 @@
 
 #include "boost/regex.hpp"
 #include <string>
-#include <map>
 #include <vector>
 #include <iostream>
-#include <fstream>
-#include <streambuf>
-#include <sstream>
 
 #include "element.h"
 #include "species.h"

@@ -7,9 +7,11 @@
 
 #include "species.h"
 
+using namespace std;
+
 IO::Species::Species
 (
-    const std::string name
+    const string name
 )
 :
     name_(name)
@@ -23,7 +25,7 @@ IO::Transport& IO::Species::transport()
 namespace IO
 {
 
-    std::ostream& operator<<(std::ostream& output, const Species& species)
+    ostream& operator<<(ostream& output, const Species& species)
     {
         output << "(\n"
                << "    Species: \n    (\n        Name = " << species.name_ << "\n    )\n"

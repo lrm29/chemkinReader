@@ -49,9 +49,9 @@ void IO::ChemkinReader::readElements() {
 
     //replaceComments(elementString);
 
-    std::string::const_iterator start = elementString.begin();
-    std::string::const_iterator end = elementString.end();
-    boost::match_results<std::string::const_iterator> what;
+    string::const_iterator start = elementString.begin();
+    string::const_iterator end = elementString.end();
+    match_results<string::const_iterator> what;
 
     while (regex_search(start, end, what, elementSingleRegex)) {
         elements_.push_back(Element(what[1], 0.0));
@@ -66,11 +66,11 @@ void IO::ChemkinReader::readSpecies() {
     regex_search(chemfilestring_, result, speciesListRegex);
     string speciesString = result[1];
 
-    std::string::const_iterator start = speciesString.begin();
-    std::string::const_iterator end = speciesString.end();
+    string::const_iterator start = speciesString.begin();
+    string::const_iterator end = speciesString.end();
 
-    boost::sregex_token_iterator i(start, end, speciesSingleRegex, -1);
-    boost::sregex_token_iterator j;
+    sregex_token_iterator i(start, end, speciesSingleRegex, -1);
+    sregex_token_iterator j;
     while (i != j) {
         species_.push_back(Species(*i++));
     }
@@ -85,11 +85,11 @@ void IO::ChemkinReader::readReactions() {
 
     cout << reactionString << endl;
 
-    std::string::const_iterator start = reactionString.begin();
-    std::string::const_iterator end = reactionString.end();
+    string::const_iterator start = reactionString.begin();
+    string::const_iterator end = reactionString.end();
 
-    boost::sregex_token_iterator i(start, end, reactionSingleRegex, -1);
-    boost::sregex_token_iterator j;
+    sregex_token_iterator i(start, end, reactionSingleRegex, -1);
+    sregex_token_iterator j;
     // while(i != j)
     // {
 
