@@ -6,11 +6,12 @@
 project (CHEMKINREADER)
 
 add_library(chemkinReader 
+            stringFunctions.cpp
             element.cpp 
             transport.cpp
             species.cpp
-            thermo.cpp
-            chemkinReader.cpp 
+            thermo.cpp 
             thermoParser.cpp 
-            transportParser.cpp)
+            transportParser.cpp
+            chemkinReader.cpp)
             

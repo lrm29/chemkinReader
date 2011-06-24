@@ -7,6 +7,7 @@
  */
 
 #include "thermoParser.h"
+#include "stringFunctions.h"
 #include <istream>
 
 using namespace std;

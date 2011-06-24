@@ -7,6 +7,8 @@
  */
 
 #include "transportParser.h"
+#include "stringFunctions.h"
+#include "species.h"
 
 using namespace std;
 using namespace boost;

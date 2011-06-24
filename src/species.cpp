@@ -15,6 +15,11 @@ IO::Species::Species
     name_(name)
 {}
 
+IO::Transport& IO::Species::transport()
+{
+    return transport_;
+}
+
 namespace IO
 {
 

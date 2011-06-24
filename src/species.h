@@ -25,7 +25,7 @@ namespace IO
 
         public:
 
-            Species
+            explicit Species
             (
                 const std::string name
             );
@@ -35,8 +35,7 @@ namespace IO
             std::string name() const
             {return name_;}
 
-            Transport& transport()
-            {return transport_;}
+            Transport& transport();
 
             friend std::ostream& operator<<(std::ostream& output, const Species& element);
 

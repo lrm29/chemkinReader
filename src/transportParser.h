@@ -16,9 +16,11 @@
 #include <iostream>
 #include <fstream>
 
-#include "chemkinReader.h"
+
 
 namespace IO {
+
+    class Species;
 
     class TransportParser
     {
