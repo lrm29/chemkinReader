@@ -32,7 +32,7 @@ namespace IO {
 
             void parse(std::vector<IO::Reaction>& reactions);
 
-            std::map<std::string, double> parseReactionSpecies(std::string reactants);
+            std::multimap<std::string, double> parseReactionSpecies(std::string reactants);
 
     };
 

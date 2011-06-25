@@ -55,11 +55,11 @@ void IO::ReactionParser::parse(std::vector<IO::Reaction>& reactions)
 
 }
 
-std::map<std::string, double>
+std::multimap<std::string, double>
 IO::ReactionParser::parseReactionSpecies(string reactionSpecies)
 {
 
-    std::map<std::string, double> reactionSpeciesMap;
+    std::multimap<std::string, double> reactionSpeciesMap;
 
     regex splitSpecies("\\+");
     regex splitStoichiometry("([0-9]*)(\\w+)");

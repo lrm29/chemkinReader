@@ -22,7 +22,7 @@ namespace IO
             bool reversible_;
 
             //! reactant & product stoichiometry.
-            std::map<std::string, double> reactants_, products_;
+            std::multimap<std::string, double> reactants_, products_;
 
             //! Total stoichiometry changes.
             double dstoich_, dreac_, dprod_;
@@ -36,7 +36,7 @@ namespace IO
             //! Set to true if this reaction requires third bodies.
             bool flagThirdBody_;
             //! Reaction third bodies and their coefficients.
-            std::map<std::string, double> thirdbodies_;
+            std::multimap<std::string, double> thirdbodies_;
 
         public:
 
@@ -48,9 +48,9 @@ namespace IO
 
             void setArrhenius(double A, double n, double E);
 
-            void setReactants(std::map<std::string, double> reactants);
+            void setReactants(std::multimap<std::string, double> reactants);
 
-            void setProducts(std::map<std::string, double> products);
+            void setProducts(std::multimap<std::string, double> products);
 
             friend std::ostream& operator<<(std::ostream& output, const Reaction& reaction);
 

@@ -29,12 +29,12 @@ void IO::Reaction::setArrhenius
     E_ = E;
 }
 
-void IO::Reaction::setReactants(map<string, double> reactants)
+void IO::Reaction::setReactants(multimap<string, double> reactants)
 {
     reactants_ = reactants;
 }
 
-void IO::Reaction::setProducts(map<string, double> products)
+void IO::Reaction::setProducts(multimap<string, double> products)
 {
     products_ = products;
 }
@@ -44,7 +44,7 @@ namespace IO
 
     ostream& operator<<(ostream& output, const Reaction& reaction)
     {
-        map<string,double>::const_iterator iter;
+        multimap<string,double>::const_iterator iter;
 
         output << "    Reaction Data:\n"
                << "    (\n";
