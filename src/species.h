@@ -12,6 +12,7 @@
 #include <iostream>
 
 #include "transport.h"
+#include "thermo.h"
 
 namespace IO
 {
@@ -20,8 +21,10 @@ namespace IO
     {
 
             std::string name_;
+            double molecularWeight_;
 
-            IO::Transport transport_;
+            Transport transport_;
+            Thermo thermo_;
 
         public:
 
@@ -36,6 +39,10 @@ namespace IO
             {return name_;}
 
             Transport& transport();
+            const Transport& transport() const;
+
+            Thermo& thermo();
+            const Thermo& thermo() const;
 
             friend std::ostream& operator<<(std::ostream& output, const Species& element);
 

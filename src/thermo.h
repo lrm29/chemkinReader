@@ -15,12 +15,12 @@
 namespace IO {
 
     class Thermo {
+
     public:
 
-        Thermo(const std::string species_name);
+        explicit Thermo(const std::string species_name);
 
-        ~Thermo() {
-        }
+        ~Thermo(){}
 
         const std::string getSpeciesName() const;
 

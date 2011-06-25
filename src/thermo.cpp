@@ -9,8 +9,16 @@
 
 IO::Thermo::Thermo(const std::string species_name)
 :
-species_name_(species_name) {
-}
+species_name_(species_name),
+note_("EMPTY"),
+phase_("EMPTY"),
+T_low_(-1),
+T_common_(-1),
+T_high_(-1),
+elements_counts_("EMPTY"),
+al_(7,-1),
+ah_(7,-1)
+{}
 
 const std::string IO::Thermo::getSpeciesName() const {
     return species_name_;
@@ -95,17 +103,18 @@ void IO::Thermo::setLowerTemperatureCoefficients(
 namespace IO {
 
     std::ostream& operator<<(std::ostream& output, const Thermo& thermo) {
-        output << "(\n"
-                << "    Species  : " << thermo.species_name_ << "\n"
-                << "    Elements : {" << thermo.elements_counts_ << "}" << "\n"
-                << "    Note     : " << thermo.note_ << "\n"
-                << "    Phase    : " << thermo.phase_ << "\n"
-                << "    T_low    : " << thermo.T_low_ << "\n"
-                << "    T_common : " << thermo.T_common_ << "\n"
-                << "    T_high   : " << thermo.T_high_ << "\n"
-                << "    AHs      : {" << thermo.ah_[0] << ", " << thermo.ah_[1] << ", " << thermo.ah_[2] << ", " << thermo.ah_[3] << ", " << thermo.ah_[4] << ", " << thermo.ah_[5] << ", " << thermo.ah_[6] << "}" << "\n"
-                << "    ALs      : {" << thermo.al_[0] << ", " << thermo.al_[1] << ", " << thermo.al_[2] << ", " << thermo.al_[3] << ", " << thermo.al_[4] << ", " << thermo.al_[5] << ", " << thermo.al_[6] << "}" << "\n"
-                << ")";
+        output <<  "    Thermo Data:\n"
+                << "    (\n"
+                << "        Species  : " << thermo.species_name_ << "\n"
+                << "        Elements : {" << thermo.elements_counts_ << "}" << "\n"
+                << "        Note     : " << thermo.note_ << "\n"
+                << "        Phase    : " << thermo.phase_ << "\n"
+                << "        T_low    : " << thermo.T_low_ << "\n"
+                << "        T_common : " << thermo.T_common_ << "\n"
+                << "        T_high   : " << thermo.T_high_ << "\n"
+                << "        AHs      : {" << thermo.ah_[0] << ", " << thermo.ah_[1] << ", " << thermo.ah_[2] << ", " << thermo.ah_[3] << ", " << thermo.ah_[4] << ", " << thermo.ah_[5] << ", " << thermo.ah_[6] << "}" << "\n"
+                << "        ALs      : {" << thermo.al_[0] << ", " << thermo.al_[1] << ", " << thermo.al_[2] << ", " << thermo.al_[3] << ", " << thermo.al_[4] << ", " << thermo.al_[5] << ", " << thermo.al_[6] << "}" << "\n"
+                << "    )";
         return output;
     }
 }

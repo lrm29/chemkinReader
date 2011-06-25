@@ -24,7 +24,7 @@ namespace IO
         output << "[\n";
         for (typename std::vector<T>::const_iterator ii = v.begin(); ii != v.end(); ++ii)
         {
-            output << " " << *ii << std::endl;
+            output << *ii << std::endl;
         }
         output << "]";
         return output;
