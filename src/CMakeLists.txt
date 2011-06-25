@@ -11,6 +11,7 @@ add_library(chemkinReader
             transport.cpp
             species.cpp
             thermo.cpp 
+            reaction.cpp
             thermoParser.cpp 
             transportParser.cpp
             reactionParser.cpp

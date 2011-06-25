@@ -9,23 +9,27 @@
 #ifndef REACTIONPARSER_H_
 #define REACTIONPARSER_H_
 
+#include "boost/regex.hpp"
 #include <string>
 
 namespace IO {
 
+    class Reaction;
+
     class ReactionParser
     {
 
-            const std::string reactionfile_;
-            const std::string reactionfilestring_;
+            static const boost::regex reactionSingleRegex;
+
+            const std::string reactionString_;
 
         public:
 
-            ReactionParser(const std::string reactionfile);
+            ReactionParser(const std::string reactionString);
 
             ~ReactionParser(){}
 
-            void parse();
+            void parse(std::vector<IO::Reaction>& reactions);
 
     };
 
