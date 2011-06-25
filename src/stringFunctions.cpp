@@ -50,7 +50,7 @@ string
 IO::replaceComments(string stringToReplace)
 {
     regex commentRegex("(!.*?)\\n|(!.*?)$");
-    string format_string = " ";
+    string format_string = " \\n";
     stringToReplace = regex_replace(stringToReplace, commentRegex, format_string, match_default | format_sed);
     return stringToReplace;
 }

@@ -55,12 +55,12 @@ namespace IO {
     ostream& operator<<(ostream& output, const Transport& transport) {
         output << "    Transport Data:\n"
                << "    (\n"
-               << "        Mol. Index = " << transport.moleculeIndex_ << "\n"
-               << "        Potential Well Depth = " << transport.potentialWellDepth_ << "\n"
-               << "        Collision Diameter = " << transport.collisionDiameter_ << "\n"
-               << "        Dipole Moment = " << transport.dipoleMoment_ << "\n"
-               << "        Polarizability = " << transport.polarizability_ << "\n"
-               << "        Rotational Relaxation Number = " << transport.rotRelaxationNumber_ << "\n"
+               << "        Mol. Index      : " << transport.moleculeIndex_ << "\n"
+               << "        Pot. Well Depth : " << transport.potentialWellDepth_ << "\n"
+               << "        Collision Diam. : " << transport.collisionDiameter_ << "\n"
+               << "        Dipole Moment   : " << transport.dipoleMoment_ << "\n"
+               << "        Polarizability  : " << transport.polarizability_ << "\n"
+               << "        Rot. Relax. No. : " << transport.rotRelaxationNumber_ << "\n"
                << "    )";
         return output;
     }

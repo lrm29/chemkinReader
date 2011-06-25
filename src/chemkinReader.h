@@ -23,6 +23,7 @@
 
 #include "element.h"
 #include "species.h"
+#include "reaction.h"
 
 namespace IO
 {
@@ -35,18 +36,16 @@ namespace IO
             static const boost::regex speciesListRegex;
             static const boost::regex speciesSingleRegex;
             static const boost::regex reactionListRegex;
-            static const boost::regex reactionSingleRegex;
 
             const std::string chemfile_;
             const std::string thermfile_;
             const std::string transfile_;
 
-            std::string chemfilestring_;
+            const std::string chemfilestring_;
 
             std::vector<Element> elements_;
             std::vector<Species> species_;
-
-
+            std::vector<Reaction> reactions_;
 
         public:
 
