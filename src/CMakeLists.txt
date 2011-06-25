@@ -13,5 +13,5 @@ add_library(chemkinReader
             thermo.cpp 
             thermoParser.cpp 
             transportParser.cpp
+            reactionParser.cpp
             chemkinReader.cpp)
-            
