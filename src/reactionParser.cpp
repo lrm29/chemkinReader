@@ -32,21 +32,14 @@ void IO::ReactionParser::parse(std::vector<IO::Reaction>& reactions)
 
     string::const_iterator start = reactionString_.begin();
     string::const_iterator end = reactionString_.end();
-    match_results<string::const_iterator> what;
+    smatch what;
 
     while (regex_search(start, end, what, reactionSingleRegex))
     {
 
         Reaction reaction;
-
-        for (size_t i=0; i<what.size(); ++i)
-        {
-            cout << what[i] << "|";
-        }
-        cout << endl;
-
-        //parseReactants(what[1]);
-        //parseProducts(what[2]);
+        reaction.setReactants(parseReactionSpecies(what[1]));
+        reaction.setProducts(parseReactionSpecies(what[2]));
 
         reaction.setArrhenius
         (
@@ -59,5 +52,56 @@ void IO::ReactionParser::parse(std::vector<IO::Reaction>& reactions)
 
         start = what[0].second;
     }
+
+}
+
+std::map<std::string, double>
+IO::ReactionParser::parseReactionSpecies(string reactionSpecies)
+{
+
+    std::map<std::string, double> reactionSpeciesMap;
+
+    regex splitSpecies("\\+");
+    regex splitStoichiometry("([0-9]*)(\\w+)");
+
+    sregex_token_iterator i(reactionSpecies.begin(), reactionSpecies.end(), splitSpecies,-1);
+    sregex_token_iterator j;
+    while (i != j)
+    {
+        // *i Gives a reactant species. Now get its stoichiometry.
+        smatch splitStoic;
+        // ++ iterates to the next reactant!
+        string reactionSpecie = *i++;
+
+        string::const_iterator start = reactionSpecie.begin();
+        string::const_iterator end = reactionSpecie.end();
+
+        regex_search(start, end, splitStoic, splitStoichiometry);
+
+        if (splitStoic[1] == "")
+        {
+            reactionSpeciesMap.insert
+            (
+                pair<string,double>
+                (
+                    splitStoic[2],
+                    1.0
+                )
+            );
+        }
+        else
+        {
+             reactionSpeciesMap.insert
+             (
+                 pair<string,double>
+                 (
+                     splitStoic[2],
+                     from_string<double>(splitStoic[1])
+                 )
+             );
+         }
+    }
+
+    return reactionSpeciesMap;
 
 }

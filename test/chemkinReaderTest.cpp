@@ -58,7 +58,7 @@ int main(int argc, char* argv[])
     IO::ChemkinReader chemkinReader(chemfile,thermfile);
     chemkinReader.readElements();
     chemkinReader.readSpecies();
-    chemkinReader.readReactions();
+
 
     IO::ThermoParser thermoParser(thermfile);
     thermoParser.parse();
@@ -66,8 +66,8 @@ int main(int argc, char* argv[])
     IO::TransportParser transportParser(transfile);
     transportParser.parse(chemkinReader.species());
 
+    chemkinReader.readReactions();
     chemkinReader.check();
-
     return 0;
 
 }

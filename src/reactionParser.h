@@ -11,6 +11,7 @@
 
 #include "boost/regex.hpp"
 #include <string>
+#include <map>
 
 namespace IO {
 
@@ -30,6 +31,8 @@ namespace IO {
             ~ReactionParser(){}
 
             void parse(std::vector<IO::Reaction>& reactions);
+
+            std::map<std::string, double> parseReactionSpecies(std::string reactants);
 
     };
 

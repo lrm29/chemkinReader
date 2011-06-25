@@ -48,6 +48,10 @@ namespace IO
 
             void setArrhenius(double A, double n, double E);
 
+            void setReactants(std::map<std::string, double> reactants);
+
+            void setProducts(std::map<std::string, double> products);
+
             friend std::ostream& operator<<(std::ostream& output, const Reaction& reaction);
 
     };
