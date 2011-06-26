@@ -25,6 +25,16 @@ const regex IO::ReactionParser::blankLine
     "\\s?\\n?$"
 );
 
+const regex IO::ReactionParser::LOW
+(
+    "(LOW)\\s*\\/\\s*(.*?)\\s+(.*?)\\s+(.*?)\\s*\\/"
+);
+
+const regex IO::ReactionParser::TROE
+(
+    "(TROE)\\s*\\/\\s*(.*?)\\s+(.*?)\\s+(.*?)\\s+(.*?)\\s*\\/"
+);
+
 // Empty default constructor, can be removed but leave it there just in case.
 IO::ReactionParser::ReactionParser
 (
@@ -72,16 +82,26 @@ void IO::ReactionParser::parse(vector<IO::Reaction>& reactions)
             // Parse the next line. If it is a reaction then continue,
             // otherwise look at the next lines. (Currently just look for third
             // bodies. Will need to check for extra things).
-            smatch what2;
-            start = reactionStringLines_[i+1].begin();
-            end = reactionStringLines_[i+1].end();
-            cout << reactionStringLines_[i] << endl;
-            cout << reactionStringLines_[i+1] << endl;
-            if (!regex_search(start, end, what2, reactionSingleRegex))
+            while(i<reactionStringLines_.size()-1)
             {
-                reaction.setThirdBodies(parseThirdBodySpecies(reactionStringLines_[i+1]));
-                // Skip one line when looking for the next reaction.
-                ++i;
+                smatch what2;
+                start = reactionStringLines_[i+1].begin();
+                end = reactionStringLines_[i+1].end();
+                if (!regex_search(start, end, what2, reactionSingleRegex))
+                {
+                    string lineType = findLineType(reactionStringLines_[i+1]);
+                    cout << reactionStringLines_[i+1] << " " <<lineType<<endl;
+                    if (lineType == "thirdBody")
+                        reaction.setThirdBodies(parseThirdBodySpecies(reactionStringLines_[i+1]));
+                    if (lineType == "LOW")
+                        reaction.setLOW(parseLOW(reactionStringLines_[i+1]));
+                    if (lineType == "TROE")
+                        reaction.setTROE(parseTROE(reactionStringLines_[i+1]));
+                    // Skip one line when looking for the next reaction.
+                    ++i;
+                }
+                else
+                {break;}
             }
         }
 
@@ -186,5 +206,61 @@ IO::ReactionParser::isBlankLine(const string& line)
     string::const_iterator end = line.end();
 
     return regex_match(start, end, blankLine);
+
+}
+
+string
+IO::ReactionParser::findLineType(const string& line)
+{
+
+    string::const_iterator start = line.begin();
+    string::const_iterator end = line.end();
+
+    if (regex_search(start, end, LOW))
+        return "LOW";
+    if (regex_search(start, end, TROE))
+        return "TROE";
+
+    return "thirdBody";
+
+}
+
+vector<double>
+IO::ReactionParser::parseLOW(const string& LOWLine)
+{
+
+    vector<double> LOWvec;
+    smatch result;
+    string::const_iterator start = LOWLine.begin();
+    string::const_iterator end = LOWLine.end();
+
+    regex_search(start, end, result, LOW);
+
+    for (size_t i=2; i<result.size(); ++i)
+    {
+        LOWvec.push_back(from_string<double>(result[i]));
+    }
+
+    return LOWvec;
+
+}
+
+vector<double>
+IO::ReactionParser::parseTROE(const string& TROELine)
+{
+
+    vector<double> TROEvec;
+    smatch result;
+    string::const_iterator start = TROELine.begin();
+    string::const_iterator end = TROELine.end();
+
+    regex_search(start, end, result, TROE);
+
+    for (size_t i=2; i<result.size(); ++i)
+    {
+        TROEvec.push_back(from_string<double>(result[i]));
+    }
+
+    return TROEvec;
 
 }

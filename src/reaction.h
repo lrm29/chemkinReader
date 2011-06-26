@@ -11,6 +11,7 @@
 #include <string>
 #include <iostream>
 #include <map>
+#include <vector>
 
 namespace IO
 {
@@ -38,6 +39,8 @@ namespace IO
             //! Reaction third bodies and their coefficients.
             std::multimap<std::string, double> thirdBodies_;
 
+            std::vector<double> LOW_, TROE_;
+
         public:
 
             Reaction
@@ -59,6 +62,10 @@ namespace IO
             void checkForThirdBody(const std::multimap<std::string, double>& species);
 
             bool hasThirdBody() const {return flagThirdBody_;}
+
+            void setLOW(const std::vector<double>& LOW);
+
+            void setTROE(const std::vector<double>& TROE);
 
             friend std::ostream& operator<<(std::ostream& output, const Reaction& reaction);
 

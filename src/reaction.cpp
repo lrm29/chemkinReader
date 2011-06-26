@@ -68,12 +68,23 @@ void IO::Reaction::setThirdBodies(const multimap<string, double>& thirdBodies)
     thirdBodies_ = thirdBodies;
 }
 
+void IO::Reaction::setLOW(const vector<double>& LOW)
+{
+    LOW_ = LOW;
+}
+
+void IO::Reaction::setTROE(const vector<double>& TROE)
+{
+    TROE_ = TROE;
+}
+
 namespace IO
 {
 
     ostream& operator<<(ostream& output, const Reaction& reaction)
     {
         multimap<string,double>::const_iterator iter;
+        vector<double>::const_iterator iterVec;
 
         output << "    Reaction Data\n"
                << "    (\n"
@@ -104,6 +115,14 @@ namespace IO
        for (iter = reaction.thirdBodies_.begin(); iter != reaction.thirdBodies_.end(); ++iter)
        {
         output << "            Name : " << setw(10) <<iter->first << " | Efficiency Factor : " << iter->second << "\n";
+       }
+       for (iterVec = reaction.LOW_.begin(); iterVec != reaction.LOW_.end(); ++iterVec)
+       {
+        output << "            LOW : " << *iterVec << "\n";
+       }
+       for (iterVec = reaction.TROE_.begin(); iterVec != reaction.TROE_.end(); ++iterVec)
+       {
+        output << "            TROE : " << *iterVec << "\n";
        }
         output << "        )\n"
                << "    )";
