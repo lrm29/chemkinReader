@@ -15,7 +15,7 @@ using namespace boost;
 
 const regex IO::ReactionParser::reactionSingleRegex
 (
-    "(.*?)=(.*?)\\s+(.*?)\\s+(.*?)\\s+(.*?)\\s+"
+    "(.*?)\\s*(<=>|=>|=)\\s*(.*?)([0-9]+\\.[0-9]*E(?:|\\+|\\-)[0-9]+)\\s+(.*?)\\s+(.*?)$|\n"
 );
 
 // Empty default constructor, can be removed but leave it there just in case.
@@ -39,13 +39,15 @@ void IO::ReactionParser::parse(std::vector<IO::Reaction>& reactions)
 
         Reaction reaction;
         reaction.setReactants(parseReactionSpecies(what[1]));
-        reaction.setProducts(parseReactionSpecies(what[2]));
+        reaction.setProducts(parseReactionSpecies(what[3]));
+
+        if (what[2] == "=>") reaction.setIrreversible();
 
         reaction.setArrhenius
         (
-            from_string<double>(what[3]),
             from_string<double>(what[4]),
-            from_string<double>(what[5])
+            from_string<double>(what[5]),
+            from_string<double>(what[6])
         );
 
         reactions.push_back(reaction);

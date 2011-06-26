@@ -36,7 +36,7 @@ namespace IO
             //! Set to true if this reaction requires third bodies.
             bool flagThirdBody_;
             //! Reaction third bodies and their coefficients.
-            std::multimap<std::string, double> thirdbodies_;
+            std::multimap<std::string, double> thirdBodies_;
 
         public:
 
@@ -45,6 +45,8 @@ namespace IO
             );
 
             ~Reaction(){}
+
+            void setIrreversible();
 
             void setArrhenius(double A, double n, double E);
 

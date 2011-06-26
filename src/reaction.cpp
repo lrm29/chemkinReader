@@ -12,10 +12,20 @@ using namespace std;
 
 IO::Reaction::Reaction()
 :
-   reversible_(-1),
+   reversible_(true),
    reactants_(),
-   products_()
+   products_(),
+   A_(-1),
+   n_(-1),
+   E_(-1),
+   flagThirdBody_(false),
+   thirdBodies_()
 {}
+
+void IO::Reaction::setIrreversible()
+{
+    reversible_ = false;
+}
 
 void IO::Reaction::setArrhenius
 (
@@ -46,16 +56,17 @@ namespace IO
     {
         multimap<string,double>::const_iterator iter;
 
-        output << "    Reaction Data:\n"
-               << "    (\n";
-        output << "        Reactants:\n"
+        output << "    Reaction Data\n"
+               << "    (\n"
+               << "        Reversible : " << reaction.reversible_ << "\n"
+               << "        Reactants\n"
                << "        (\n";
        for (iter = reaction.reactants_.begin(); iter != reaction.reactants_.end(); ++iter)
        {
         output << "            Name : " << setw(10) <<iter->first << " | Stoich : " << iter->second << "\n";
        }
         output << "        )\n"
-               << "        Products:\n"
+               << "        Products\n"
                << "        (\n";
        for (iter = reaction.products_.begin(); iter != reaction.products_.end(); ++iter)
        {
