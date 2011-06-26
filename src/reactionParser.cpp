@@ -94,9 +94,9 @@ void IO::ReactionParser::parse(vector<IO::Reaction>& reactions)
                     if (lineType == "thirdBody")
                         reaction.setThirdBodies(parseThirdBodySpecies(reactionStringLines_[i+1]));
                     if (lineType == "LOW")
-                        reaction.setLOW(parseLOW(reactionStringLines_[i+1]));
+                        reaction.setLOW(parseLOWTROE(reactionStringLines_[i+1],LOW));
                     if (lineType == "TROE")
-                        reaction.setTROE(parseTROE(reactionStringLines_[i+1]));
+                        reaction.setTROE(parseLOWTROE(reactionStringLines_[i+1],TROE));
                     // Skip one line when looking for the next reaction.
                     ++i;
                 }
@@ -226,41 +226,21 @@ IO::ReactionParser::findLineType(const string& line)
 }
 
 vector<double>
-IO::ReactionParser::parseLOW(const string& LOWLine)
+IO::ReactionParser::parseLOWTROE(const string& line, const regex& reg)
 {
 
-    vector<double> LOWvec;
+    vector<double> vec;
     smatch result;
-    string::const_iterator start = LOWLine.begin();
-    string::const_iterator end = LOWLine.end();
+    string::const_iterator start = line.begin();
+    string::const_iterator end = line.end();
 
-    regex_search(start, end, result, LOW);
+    regex_search(start, end, result, reg);
 
     for (size_t i=2; i<result.size(); ++i)
     {
-        LOWvec.push_back(from_string<double>(result[i]));
+        vec.push_back(from_string<double>(result[i]));
     }
 
-    return LOWvec;
-
-}
-
-vector<double>
-IO::ReactionParser::parseTROE(const string& TROELine)
-{
-
-    vector<double> TROEvec;
-    smatch result;
-    string::const_iterator start = TROELine.begin();
-    string::const_iterator end = TROELine.end();
-
-    regex_search(start, end, result, TROE);
-
-    for (size_t i=2; i<result.size(); ++i)
-    {
-        TROEvec.push_back(from_string<double>(result[i]));
-    }
-
-    return TROEvec;
+    return vec;
 
 }

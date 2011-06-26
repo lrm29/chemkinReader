@@ -44,9 +44,7 @@ namespace IO {
 
             std::string findLineType(const std::string& line);
 
-            std::vector<double> parseLOW(const std::string& LOWLine);
-
-            std::vector<double> parseTROE(const std::string& TROELine);
+            std::vector<double> parseLOWTROE(const std::string& line, const boost::regex& reg);
 
     };
 
