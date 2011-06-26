@@ -25,7 +25,7 @@ namespace IO
             std::multimap<std::string, double> reactants_, products_;
 
             //! Total stoichiometry changes.
-            double dstoich_, dreac_, dprod_;
+            //double dstoich_, dreac_, dprod_;
 
             //! Forward and reverse Arrhenius parameters.
             double A_; // Pre-exponential factor.

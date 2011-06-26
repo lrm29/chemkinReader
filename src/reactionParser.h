@@ -21,6 +21,7 @@ namespace IO {
     {
 
             static const boost::regex reactionSingleRegex;
+            static const boost::regex blankLine;
 
             const std::string reactionString_;
             std::vector<std::string> reactionStringLines_;
@@ -34,7 +35,11 @@ namespace IO {
             void parse(std::vector<IO::Reaction>& reactions);
 
             std::multimap<std::string, double> parseReactionSpecies(std::string reactants);
+
             std::multimap<std::string, double> parseThirdBodySpecies(const std::string& thirdBodies);
+
+            bool isBlankLine(const std::string& line);
+
     };
 
 }
