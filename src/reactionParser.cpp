@@ -6,6 +6,8 @@
  *     License: Apache 2.0
  */
 
+#include <boost/algorithm/string.hpp>
+
 #include "reactionParser.h"
 #include "stringFunctions.h"
 #include "reaction.h"
@@ -25,23 +27,40 @@ IO::ReactionParser::ReactionParser
 )
 :
     reactionString_(reactionString)
-{}
+{
+    split(reactionStringLines_, reactionString, boost::is_any_of("\n"));
+}
 
-void IO::ReactionParser::parse(std::vector<IO::Reaction>& reactions)
+void IO::ReactionParser::parse(vector<IO::Reaction>& reactions)
 {
 
-    string::const_iterator start = reactionString_.begin();
-    string::const_iterator end = reactionString_.end();
-    smatch what;
-
-    while (regex_search(start, end, what, reactionSingleRegex))
+    for (size_t i=0; i<reactionStringLines_.size(); ++i)
     {
+        smatch what;
+        string::const_iterator start = reactionStringLines_[i].begin();
+        string::const_iterator end = reactionStringLines_[i].end();
+
+        regex_search(start, end, what, reactionSingleRegex);
 
         Reaction reaction;
+
         reaction.setReactants(parseReactionSpecies(what[1]));
         reaction.setProducts(parseReactionSpecies(what[3]));
 
         if (what[2] == "=>") reaction.setIrreversible();
+
+        if (reaction.hasThirdBody())
+        {
+            smatch what2;
+            start = reactionStringLines_[i+1].begin();
+            end = reactionStringLines_[i+1].end();
+            if (!regex_search(start, end, what2, reactionSingleRegex))
+            {
+                reaction.setThirdBodies(parseThirdBodySpecies(reactionStringLines_[i+1]));
+                // Skip one line when looking for the next reaction.
+                ++i;
+            }
+        }
 
         reaction.setArrhenius
         (
@@ -52,12 +71,11 @@ void IO::ReactionParser::parse(std::vector<IO::Reaction>& reactions)
 
         reactions.push_back(reaction);
 
-        start = what[0].second;
     }
 
 }
 
-std::multimap<std::string, double>
+multimap<string, double>
 IO::ReactionParser::parseReactionSpecies(string reactionSpecies)
 {
 
@@ -68,6 +86,7 @@ IO::ReactionParser::parseReactionSpecies(string reactionSpecies)
 
     sregex_token_iterator i(reactionSpecies.begin(), reactionSpecies.end(), splitSpecies,-1);
     sregex_token_iterator j;
+
     while (i != j)
     {
         // *i Gives a reactant species. Now get its stoichiometry.
@@ -105,5 +124,33 @@ IO::ReactionParser::parseReactionSpecies(string reactionSpecies)
     }
 
     return reactionSpeciesMap;
+
+}
+
+multimap<string, double>
+IO::ReactionParser::parseThirdBodySpecies(const string& thirdBodies)
+{
+
+    multimap<string, double> thirdBodyMap;
+    // Split the next line using / as delimiter.
+    regex splitThirdBodies("\\/");
+
+    sregex_token_iterator j
+    (
+        thirdBodies.begin(),
+        thirdBodies.end(),
+        splitThirdBodies,
+        -1
+    );
+    sregex_token_iterator k;
+
+    while (j != k)
+    {
+        string name = *j++;
+        double efficiencyFactor = from_string<double>(*j++);
+        thirdBodyMap.insert(pair<string,double>(trim(name),efficiencyFactor));
+    }
+
+    return thirdBodyMap;
 
 }

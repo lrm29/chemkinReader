@@ -54,6 +54,12 @@ namespace IO
 
             void setProducts(std::multimap<std::string, double> products);
 
+            void setThirdBodies(const std::multimap<std::string, double>& thirdBodies);
+
+            void checkForThirdBody(const std::multimap<std::string, double>& species);
+
+            bool hasThirdBody() const {return flagThirdBody_;}
+
             friend std::ostream& operator<<(std::ostream& output, const Reaction& reaction);
 
     };

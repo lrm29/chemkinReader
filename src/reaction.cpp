@@ -42,11 +42,30 @@ void IO::Reaction::setArrhenius
 void IO::Reaction::setReactants(multimap<string, double> reactants)
 {
     reactants_ = reactants;
+    checkForThirdBody(reactants);
 }
 
 void IO::Reaction::setProducts(multimap<string, double> products)
 {
     products_ = products;
+    checkForThirdBody(products);
+}
+
+void IO::Reaction::checkForThirdBody(const multimap<string, double>& species)
+{
+    multimap<string,double>::const_iterator iter;
+    for (iter = species.begin(); iter != species.end(); ++iter)
+    {
+        if(iter->first == "M")
+        {
+            flagThirdBody_ = true;
+        }
+    }
+}
+
+void IO::Reaction::setThirdBodies(const multimap<string, double>& thirdBodies)
+{
+    thirdBodies_ = thirdBodies;
 }
 
 namespace IO
@@ -79,6 +98,14 @@ namespace IO
                << "            n = " << reaction.n_ << "\n"
                << "            E = " << reaction.E_ << "\n"
                << "        )\n"
+               << "        Third Bodies\n"
+               << "        (\n"
+               << "            Third Body : " << reaction.flagThirdBody_ << "\n";
+       for (iter = reaction.thirdBodies_.begin(); iter != reaction.thirdBodies_.end(); ++iter)
+       {
+        output << "            Name : " << setw(10) <<iter->first << " | Efficiency Factor : " << iter->second << "\n";
+       }
+        output << "        )\n"
                << "    )";
         return output;
     }
