@@ -21,7 +21,7 @@ namespace IO
     template <class T>
     std::ostream& operator<< (std::ostream& output, const std::vector<T>& v)
     {
-        output << "[\n";
+        output << "[ Size = " << v.size() << "\n";
         for (typename std::vector<T>::const_iterator ii = v.begin(); ii != v.end(); ++ii)
         {
             output << *ii << std::endl;
