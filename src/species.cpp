@@ -20,6 +20,11 @@ IO::Species::Species
     thermo_(name)
 {}
 
+IO::Species::~Species()
+{
+    //if (transport_ != NULL) delete transport_;
+}
+
 IO::Transport& IO::Species::transport()
 {
     return transport_;

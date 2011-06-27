@@ -22,7 +22,7 @@ const regex IO::ReactionParser::reactionSingleRegex
 
 const regex IO::ReactionParser::blankLine
 (
-    "\\s?\\n?$"
+    "\\s*\\n*$"
 );
 
 const regex IO::ReactionParser::LOW
@@ -68,6 +68,7 @@ void IO::ReactionParser::parse(vector<IO::Reaction>& reactions)
 
     for (size_t i=0; i<reactionStringLines_.size(); ++i)
     {
+        cout << reactionStringLines_[i] << endl;
 
         Reaction reaction;
 
@@ -190,14 +191,15 @@ multimap<string, double>
 IO::ReactionParser::parseThirdBodySpecies(const string& thirdBodies)
 {
 
+    string trimmed = trim(thirdBodies);
     multimap<string, double> thirdBodyMap;
     // Split the next line using / as delimiter.
     regex splitThirdBodies("\\/");
 
     sregex_token_iterator j
     (
-        thirdBodies.begin(),
-        thirdBodies.end(),
+        trimmed.begin(),
+        trimmed.end(),
         splitThirdBodies,
         -1
     );
@@ -206,8 +208,9 @@ IO::ReactionParser::parseThirdBodySpecies(const string& thirdBodies)
     while (j != k)
     {
         string name = *j++;
+        string trimName = trim(name);
         double efficiencyFactor = from_string<double>(*j++);
-        thirdBodyMap.insert(pair<string,double>(trim(name),efficiencyFactor));
+        thirdBodyMap.insert(pair<string,double>(trimName,efficiencyFactor));
     }
 
     return thirdBodyMap;

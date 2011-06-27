@@ -33,7 +33,7 @@ namespace IO
                 const std::string name
             );
 
-            ~Species(){}
+            ~Species();
 
             std::string name() const
             {return name_;}
