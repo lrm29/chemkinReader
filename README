@@ -5,3 +5,19 @@ http://www.boost.org/doc/libs/1_46_1/libs/regex/doc/html/index.html
 
 cmake -G"Eclipse CDT4 - Unix Makefiles" -D CMAKE_BUILD_TYPE=Debug .
 ./chemkinReader.sh
+
+===================================
+INSTALL
+===================================
+
+mkdir build
+cd build
+cmake ..
+make
+
+===================================
+RUN
+===================================
+
+./chemkinReader.sh
+Outputs go into the test/ folder.
