@@ -21,8 +21,13 @@ namespace IO {
     {
 
             static const boost::regex reactionSingleRegex;
+            static const boost::regex blankLine;
+            static const boost::regex LOW;
+            static const boost::regex TROE;
+            static const boost::regex pressureDependent;
 
             const std::string reactionString_;
+            std::vector<std::string> reactionStringLines_;
 
         public:
 
@@ -34,6 +39,15 @@ namespace IO {
 
             std::multimap<std::string, double> parseReactionSpecies(std::string reactants);
 
+            std::multimap<std::string, double> parseThirdBodySpecies(const std::string& thirdBodies);
+
+            bool isBlankLine(const std::string& line);
+
+            std::string findLineType(const std::string& line);
+
+            std::vector<double> parseLOWTROE(const std::string& line, const boost::regex& reg);
+
+            bool checkForPressureDependentReaction(const std::string& line);
     };
 
 }

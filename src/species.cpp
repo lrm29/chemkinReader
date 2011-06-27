@@ -20,6 +20,11 @@ IO::Species::Species
     thermo_(name)
 {}
 
+IO::Species::~Species()
+{
+    //if (transport_ != NULL) delete transport_;
+}
+
 IO::Transport& IO::Species::transport()
 {
     return transport_;
@@ -48,7 +53,7 @@ namespace IO
         output << "(\n"
                << "    Species: \n"
                << "    (\n"
-               << "        Name      : " << species.name_ << "\n"
+               << "        Name      : \"" << species.name_ << "\"\n"
                << "        Mol. Mass : " << species.molecularWeight_ << "\n"
                << "    )\n"
                << species.transport_ << "\n"
