@@ -13,6 +13,7 @@ using namespace std;
 IO::Reaction::Reaction()
 :
    flagReversible_(true),
+   flagDuplicate_(false),
    reactants_(),
    products_(),
    A_(-1),
@@ -84,6 +85,11 @@ void IO::Reaction::setPressureDependent()
     flagPressureDependent_ = true;
 }
 
+void IO::Reaction::setDuplicate()
+{
+    flagDuplicate_ = true;
+}
+
 namespace IO
 {
 
@@ -96,6 +102,7 @@ namespace IO
                << "    (\n"
                << "        Reversible  : " << reaction.flagReversible_ << "\n"
                << "        P Dependent : " << reaction.flagPressureDependent_ << "\n"
+               << "        Duplicate : " << reaction.flagDuplicate_ << "\n"
                << "        Reactants\n"
                << "        (\n";
        for (iter = reaction.reactants_.begin(); iter != reaction.reactants_.end(); ++iter)
