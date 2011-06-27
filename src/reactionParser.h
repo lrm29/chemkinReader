@@ -22,6 +22,7 @@ namespace IO {
 
             static const boost::regex reactionSingleRegex;
             static const boost::regex blankLine;
+            static const boost::regex DUPLICATE;
             static const boost::regex LOW;
             static const boost::regex TROE;
             static const boost::regex pressureDependent;

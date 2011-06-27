@@ -25,6 +25,11 @@ const regex IO::ReactionParser::blankLine
     "\\s*\\n*$"
 );
 
+const regex IO::ReactionParser::DUPLICATE
+(
+    "DUPLICATE|DUP"
+);
+
 const regex IO::ReactionParser::LOW
 (
     "(LOW)\\s*\\/\\s*(.*?)\\s+(.*?)\\s+(.*?)\\s*\\/"
@@ -68,7 +73,7 @@ void IO::ReactionParser::parse(vector<IO::Reaction>& reactions)
 
     for (size_t i=0; i<reactionStringLines_.size(); ++i)
     {
-        cout << reactionStringLines_[i] << endl;
+      //  cout << reactionStringLines_[i] << endl;
 
         Reaction reaction;
 
@@ -93,20 +98,29 @@ void IO::ReactionParser::parse(vector<IO::Reaction>& reactions)
         // Set the reaction as irreversible.
         if (what[2] == "=>") reaction.setIrreversible();
 
-        if (reaction.hasThirdBody())
+        while(i<reactionStringLines_.size()-1)
         {
-            // Parse the next line. If it is a reaction then continue,
-            // otherwise look at the next lines. (Currently just look for third
-            // bodies. Will need to check for extra things).
-            while(i<reactionStringLines_.size()-1)
+
+            start = reactionStringLines_[i+1].begin();
+            end = reactionStringLines_[i+1].end();
+            if (regex_search(start, end, DUPLICATE))
             {
+                reaction.setDuplicate();
+                ++i;
+            }
+
+            if (reaction.hasThirdBody())
+            {
+                // Parse the next line. If it is a reaction then continue,
+                // otherwise look at the next lines. (Currently just look for third
+                // bodies. Will need to check for extra things).
+
                 smatch what2;
                 start = reactionStringLines_[i+1].begin();
                 end = reactionStringLines_[i+1].end();
                 if (!regex_search(start, end, what2, reactionSingleRegex))
                 {
                     string lineType = findLineType(reactionStringLines_[i+1]);
-                    cout << reactionStringLines_[i+1] << " " <<lineType<<endl;
                     if (lineType == "thirdBody")
                         reaction.setThirdBodies(parseThirdBodySpecies(reactionStringLines_[i+1]));
                     if (lineType == "LOW")
@@ -120,6 +134,9 @@ void IO::ReactionParser::parse(vector<IO::Reaction>& reactions)
                 else
                 {break;}
             }
+
+            break;
+
         }
 
         reaction.setArrhenius

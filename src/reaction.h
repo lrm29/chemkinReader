@@ -22,6 +22,9 @@ namespace IO
             //! Is the reaction reversible or not?
             bool flagReversible_;
 
+            //! Is this reaction a duplicate?
+            bool flagDuplicate_;
+
             //! reactant & product stoichiometry.
             std::multimap<std::string, double> reactants_, products_;
 
@@ -70,6 +73,8 @@ namespace IO
             void setTROE(const std::vector<double>& TROE);
 
             void setPressureDependent();
+
+            void setDuplicate();
 
             friend std::ostream& operator<<(std::ostream& output, const Reaction& reaction);
 
