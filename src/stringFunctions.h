@@ -48,7 +48,7 @@ namespace IO
     const std::string fileToString(const std::string& fileName);
 
     /**
-     * Private self-contained function. It does exactly what is named.
+     * Private self-contained function. It does exactly as it is named.
      *
      * @param file
      * @return
