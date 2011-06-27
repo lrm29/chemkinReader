@@ -107,6 +107,7 @@ void IO::ReactionParser::parse(vector<IO::Reaction>& reactions)
             {
                 reaction.setDuplicate();
                 ++i;
+                break;
             }
 
             if (reaction.hasThirdBody())
@@ -114,27 +115,35 @@ void IO::ReactionParser::parse(vector<IO::Reaction>& reactions)
                 // Parse the next line. If it is a reaction then continue,
                 // otherwise look at the next lines. (Currently just look for third
                 // bodies. Will need to check for extra things).
-
-                smatch what2;
-                start = reactionStringLines_[i+1].begin();
-                end = reactionStringLines_[i+1].end();
-                if (!regex_search(start, end, what2, reactionSingleRegex))
+                while(i<reactionStringLines_.size()-1)
                 {
-                    string lineType = findLineType(reactionStringLines_[i+1]);
-                    if (lineType == "thirdBody")
-                        reaction.setThirdBodies(parseThirdBodySpecies(reactionStringLines_[i+1]));
-                    if (lineType == "LOW")
-                        reaction.setLOW(parseLOWTROE(reactionStringLines_[i+1], LOW));
-                    if (lineType == "TROE")
-                        reaction.setTROE(parseLOWTROE(reactionStringLines_[i+1], TROE));
 
-                    // Skip one line when looking for the next reaction.
-                    ++i;
+                    smatch what2;
+                    start = reactionStringLines_[i+1].begin();
+                    end = reactionStringLines_[i+1].end();
+                    if (!regex_search(start, end, what2, reactionSingleRegex))
+                    {
+                        string lineType = findLineType(reactionStringLines_[i+1]);
+                        if (lineType == "thirdBody")
+                        {
+                            reaction.setThirdBodies(parseThirdBodySpecies(reactionStringLines_[i+1]));
+                        }
+                        if (lineType == "LOW")
+                        {
+                            reaction.setLOW(parseLOWTROE(reactionStringLines_[i+1], LOW));
+                        }
+                        if (lineType == "TROE")
+                        {
+                            reaction.setTROE(parseLOWTROE(reactionStringLines_[i+1], TROE));
+                        }
+
+                        // Skip one line when looking for the next reaction.
+                        ++i;
+                    }
+                    else
+                    {break;}
                 }
-                else
-                {break;}
             }
-
             break;
 
         }
