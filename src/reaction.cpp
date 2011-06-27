@@ -12,19 +12,20 @@ using namespace std;
 
 IO::Reaction::Reaction()
 :
-   reversible_(true),
+   flagReversible_(true),
    reactants_(),
    products_(),
    A_(-1),
    n_(-1),
    E_(-1),
    flagThirdBody_(false),
+   flagPressureDependent_(false),
    thirdBodies_()
 {}
 
 void IO::Reaction::setIrreversible()
 {
-    reversible_ = false;
+    flagReversible_ = false;
 }
 
 void IO::Reaction::setArrhenius
@@ -78,6 +79,11 @@ void IO::Reaction::setTROE(const vector<double>& TROE)
     TROE_ = TROE;
 }
 
+void IO::Reaction::setPressureDependent()
+{
+    flagPressureDependent_ = true;
+}
+
 namespace IO
 {
 
@@ -88,7 +94,8 @@ namespace IO
 
         output << "    Reaction Data\n"
                << "    (\n"
-               << "        Reversible : " << reaction.reversible_ << "\n"
+               << "        Reversible  : " << reaction.flagReversible_ << "\n"
+               << "        P Dependent : " << reaction.flagPressureDependent_ << "\n"
                << "        Reactants\n"
                << "        (\n";
        for (iter = reaction.reactants_.begin(); iter != reaction.reactants_.end(); ++iter)

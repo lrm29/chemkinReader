@@ -20,7 +20,7 @@ namespace IO
     {
 
             //! Is the reaction reversible or not?
-            bool reversible_;
+            bool flagReversible_;
 
             //! reactant & product stoichiometry.
             std::multimap<std::string, double> reactants_, products_;
@@ -36,6 +36,8 @@ namespace IO
             // Third bodies.
             //! Set to true if this reaction requires third bodies.
             bool flagThirdBody_;
+            //! Set if (+M) or e.g. (+H2O) is found.
+            bool flagPressureDependent_;
             //! Reaction third bodies and their coefficients.
             std::multimap<std::string, double> thirdBodies_;
 
@@ -66,6 +68,8 @@ namespace IO
             void setLOW(const std::vector<double>& LOW);
 
             void setTROE(const std::vector<double>& TROE);
+
+            void setPressureDependent();
 
             friend std::ostream& operator<<(std::ostream& output, const Reaction& reaction);
 

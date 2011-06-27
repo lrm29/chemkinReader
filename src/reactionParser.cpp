@@ -35,6 +35,11 @@ const regex IO::ReactionParser::TROE
     "(TROE)\\s*\\/\\s*(.*?)\\s+(.*?)\\s+(.*?)\\s+(.*?)\\s*\\/"
 );
 
+const regex IO::ReactionParser::pressureDependent
+(
+    "\\(\\+(.*?)\\)"
+);
+
 // Empty default constructor, can be removed but leave it there just in case.
 IO::ReactionParser::ReactionParser
 (
@@ -64,17 +69,27 @@ void IO::ReactionParser::parse(vector<IO::Reaction>& reactions)
     for (size_t i=0; i<reactionStringLines_.size(); ++i)
     {
 
+        Reaction reaction;
+
+        // Check for pressure dependency.
+        if (checkForPressureDependentReaction(reactionStringLines_[i]))
+        {
+            reactionStringLines_[i] = regex_replace(reactionStringLines_[i], pressureDependent, "+M");
+            reaction.setPressureDependent();
+        }
+
         smatch what;
         string::const_iterator start = reactionStringLines_[i].begin();
         string::const_iterator end = reactionStringLines_[i].end();
 
         regex_search(start, end, what, reactionSingleRegex);
 
-        Reaction reaction;
-
+        // Set the reactants.
         reaction.setReactants(parseReactionSpecies(what[1]));
+        // Set the products.
         reaction.setProducts(parseReactionSpecies(what[3]));
 
+        // Set the reaction as irreversible.
         if (what[2] == "=>") reaction.setIrreversible();
 
         if (reaction.hasThirdBody())
@@ -94,9 +109,10 @@ void IO::ReactionParser::parse(vector<IO::Reaction>& reactions)
                     if (lineType == "thirdBody")
                         reaction.setThirdBodies(parseThirdBodySpecies(reactionStringLines_[i+1]));
                     if (lineType == "LOW")
-                        reaction.setLOW(parseLOWTROE(reactionStringLines_[i+1],LOW));
+                        reaction.setLOW(parseLOWTROE(reactionStringLines_[i+1], LOW));
                     if (lineType == "TROE")
-                        reaction.setTROE(parseLOWTROE(reactionStringLines_[i+1],TROE));
+                        reaction.setTROE(parseLOWTROE(reactionStringLines_[i+1], TROE));
+
                     // Skip one line when looking for the next reaction.
                     ++i;
                 }
@@ -231,10 +247,8 @@ IO::ReactionParser::parseLOWTROE(const string& line, const regex& reg)
 
     vector<double> vec;
     smatch result;
-    string::const_iterator start = line.begin();
-    string::const_iterator end = line.end();
 
-    regex_search(start, end, result, reg);
+    regex_search(line.begin(), line.end(), result, reg);
 
     for (size_t i=2; i<result.size(); ++i)
     {
@@ -243,4 +257,14 @@ IO::ReactionParser::parseLOWTROE(const string& line, const regex& reg)
 
     return vec;
 
+}
+
+bool
+IO::ReactionParser::checkForPressureDependentReaction(const string& line)
+{
+    if (!regex_search(line.begin(), line.end(), pressureDependent))
+    {
+        return false;
+    }
+    return true;
 }

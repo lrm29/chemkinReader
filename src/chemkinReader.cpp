@@ -37,9 +37,12 @@ void IO::ChemkinReader::check() {
     cout << "Chemistry file: " << chemfile_ << endl;
     cout << "Thermo file: " << thermfile_ << endl;
     cout << "Trans file: " << transfile_ << endl;
-    cout << elements_ << endl;
-    cout << species_ << endl;
-    cout << reactions_ << endl;
+
+    ofstream outputSpecies("speciesParsed");
+    ofstream outputReactions("reactionsParsed");
+    outputSpecies << elements_ << endl;
+    outputSpecies << species_ << endl;
+    outputReactions << reactions_ << endl;
 }
 
 void IO::ChemkinReader::readElements() {
