@@ -31,7 +31,40 @@ IO::ChemkinReader::ChemkinReader
     thermfile_(thermfile),
     transfile_(transfile),
     chemfilestring_(convertToCaps(replaceComments(fileToString(chemfile_))))
-{}
+{
+    checkChemFile();
+}
+
+bool IO::ChemkinReader::checkChemFile()
+{
+    cout << "Checking the format of the chem.inp file." << endl;
+
+    const regex fileStructure
+    (
+        "ELEM(?:|ENT|ENTS)\\s+.*?\\s+END.*?"
+        "SPEC(?:|IE|IES)\\s+.*?\\s+END.*?"
+        "REAC(?:|TION|TIONS)\\s+.*?\\s+END"
+    );
+    
+    const regex unsupported("(SRI)|(HI)");
+    
+    if(!regex_search(chemfilestring_, fileStructure))
+    {
+        throw regex_error("chem.inp needs the structure:\n ELEMENTS END\n SPECIES END\n REACTIONS END.");
+    }
+    
+    smatch result;
+    if(regex_search(chemfilestring_, result, unsupported))
+    {
+        if (result[1] == "SRI")
+            throw regex_error("SRI not supported yet.");
+        if (result[2] == "HI")
+            throw regex_error("HI not supported yet.");       
+    }
+       
+    return true;
+    
+}
 
 void IO::ChemkinReader::check() {
     cout << "Chemistry file: " << chemfile_ << endl;
