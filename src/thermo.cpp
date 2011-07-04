@@ -114,7 +114,7 @@ namespace IO {
         --final_iter;
         for (iter = thermo.elements_map_.begin(); iter != thermo.elements_map_.end(); ++iter) {
             output << iter->first << ":" << iter->second ;
-            if (iter != thermo.elements_map_.end()) {
+            if (iter != final_iter) {
                 output << ", ";
             }
         }
