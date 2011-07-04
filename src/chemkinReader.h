@@ -49,6 +49,10 @@ namespace IO
 
             bool checkChemFile();
 
+            void readElements();
+            void readSpecies();
+            void readReactions();
+
         public:
 
             ChemkinReader
@@ -62,15 +66,21 @@ namespace IO
 
             void check();
 
-            void readElements();
+            void read();
 
-            void readSpecies();
+            const std::vector<Element>& elements() const
+            {
+                return elements_;
+            }
 
-            void readReactions();
-
-            std::vector<Species>& species()
+            const std::vector<Species>& species() const
             {
                 return species_;
+            }
+
+            const std::vector<Reaction>& reactions() const
+            {
+                return reactions_;
             }
 
     };

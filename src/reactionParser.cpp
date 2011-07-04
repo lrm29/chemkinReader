@@ -53,7 +53,7 @@ IO::ReactionParser::ReactionParser
 :
     reactionString_(reactionString)
 {
-    split(reactionStringLines_, reactionString, boost::is_any_of("\n"));
+    split(reactionStringLines_, reactionString, boost::is_any_of("\n|\r\n"));
 
     // Check for a blank line and erase.
     for (size_t i=0; i<reactionStringLines_.size(); ++i)
@@ -69,11 +69,8 @@ IO::ReactionParser::ReactionParser
 void IO::ReactionParser::parse(vector<IO::Reaction>& reactions)
 {
 
-    cout << reactionStringLines_ << endl;
-
     for (size_t i=0; i<reactionStringLines_.size(); ++i)
     {
-      //  cout << reactionStringLines_[i] << endl;
 
         Reaction reaction;
 
