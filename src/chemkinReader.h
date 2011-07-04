@@ -78,6 +78,11 @@ namespace IO
                 return species_;
             }
 
+            std::vector<Species>& setSpecies()
+            {
+                return species_;
+            }
+
             const std::vector<Reaction>& reactions() const
             {
                 return reactions_;

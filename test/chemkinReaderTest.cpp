@@ -41,7 +41,6 @@
  */
 
 #include "chemkinReader.h"
-#include "stringFunctions.h"
 
 int main(int argc, char* argv[])
 {
@@ -57,6 +56,16 @@ int main(int argc, char* argv[])
     IO::ChemkinReader chemkinReader(chemfile,thermfile,transfile);
     chemkinReader.read();
     chemkinReader.check();
+
+    std::cout << chemkinReader.elements()[0].getName() << std::endl;
+
+    std::cout << chemkinReader.species()[0].name() << std::endl;
+    std::cout << chemkinReader.species()[0].thermo().getPhase() << std::endl;
+    std::cout << chemkinReader.species()[0].transport().getCollisionDiameter() << std::endl;
+
+    chemkinReader.setSpecies()[0].transport().setCollisionDiameter(1.0);
+
+    std::cout << chemkinReader.species()[0].transport().getCollisionDiameter() << std::endl;
 
     return 0;
 
