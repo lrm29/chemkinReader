@@ -35,9 +35,11 @@ IO::TransportParser::TransportParser
 
 void IO::TransportParser::parse(vector<Species>& species)
 {
+
     cout << "Transport file: " << tranfile_ << endl;
 
-    for(size_t i = 0; i != species.size(); ++i) {
+    for (size_t i = 0; i != species.size(); ++i)
+    {
         smatch specieTransportData = findSpecies(species[i]);
         setSpecieData(species[i], specieTransportData);
     }
@@ -54,7 +56,10 @@ const smatch IO::TransportParser::findSpecies(const IO::Species& specie)
     string::const_iterator start = transportfilestring_.begin();
     string::const_iterator end = transportfilestring_.end();
 
-    regex_search(start, end, what, reg);
+    if(!regex_search(start, end, what, reg))
+    {
+        throw regex_error("Species " + specie.name() + " not found in tran.dat.");
+    }
 
     return what;
 
