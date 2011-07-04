@@ -25,6 +25,7 @@ namespace IO {
             static const boost::regex DUPLICATE;
             static const boost::regex LOW;
             static const boost::regex TROE;
+            static const boost::regex REV;
             static const boost::regex pressureDependent;
 
             const std::string reactionString_;
@@ -46,7 +47,7 @@ namespace IO {
 
             std::string findLineType(const std::string& line);
 
-            std::vector<double> parseLOWTROE(const std::string& line, const boost::regex& reg);
+            std::vector<double> parseLOWTROEREV(const std::string& line, const boost::regex& reg);
 
             bool checkForPressureDependentReaction(const std::string& line);
     };
