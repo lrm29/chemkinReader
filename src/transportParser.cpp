@@ -41,7 +41,7 @@ void IO::TransportParser::parse(vector<Species>& species)
         smatch specieTransportData = findSpecies(species[i]);
         setSpecieData(species[i], specieTransportData);
     }
-
+    cout << "End of Transport file: " << tranfile_ << endl;
 }
 
 
