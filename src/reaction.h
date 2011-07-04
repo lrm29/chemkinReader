@@ -16,16 +16,16 @@
 namespace IO
 {
 
+    struct Arrhenius
+    {
+        //! Forward and reverse Arrhenius parameters.
+        double A_; // Pre-exponential factor.
+        double n_; // Temperature exponent.
+        double E_; // Activation energy.
+    };
+
     class Reaction
     {
-
-            struct Arrhenius
-            {
-                //! Forward and reverse Arrhenius parameters.
-                double A_; // Pre-exponential factor.
-                double n_; // Temperature exponent.
-                double E_; // Activation energy.
-            };
 
             //! Is the reaction reversible or not?
             bool flagReversible_;
@@ -53,15 +53,13 @@ namespace IO
 
         public:
 
-            Reaction
-            (
-            );
+            Reaction();
 
             ~Reaction(){}
 
-            void setIrreversible();
+            void setReversible(const bool flag);
 
-            void setArrhenius(double A, double n, double E, bool reversible=false);
+            void setArrhenius(double A, double n, double E, bool reverse=false);
 
             void setReactants(std::multimap<std::string, double> reactants);
 

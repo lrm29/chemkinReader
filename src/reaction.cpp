@@ -23,9 +23,9 @@ IO::Reaction::Reaction()
    thirdBodies_()
 {}
 
-void IO::Reaction::setIrreversible()
+void IO::Reaction::setReversible(const bool flag)
 {
-    flagReversible_ = false;
+    flagReversible_ = flag;
 }
 
 void IO::Reaction::setArrhenius
@@ -33,10 +33,10 @@ void IO::Reaction::setArrhenius
     double A,
     double n,
     double E,
-    bool reversible
+    bool reverse
 )
 {
-    if (reversible)
+    if (reverse)
     {
         reverseArrhenius_.A_ = A;
         reverseArrhenius_.n_ = n;

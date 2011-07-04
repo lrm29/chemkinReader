@@ -92,13 +92,18 @@ void IO::ReactionParser::parse(vector<IO::Reaction>& reactions)
 
         regex_search(start, end, what, reactionSingleRegex);
 
-        // Set the reactants.
         reaction.setReactants(parseReactionSpecies(what[1]));
-        // Set the products.
+
+        if (what[2] == "=>") reaction.setReversible(false);
+
         reaction.setProducts(parseReactionSpecies(what[3]));
 
-        // Set the reaction as irreversible.
-        if (what[2] == "=>") reaction.setIrreversible();
+        reaction.setArrhenius
+        (
+            from_string<double>(what[4]),
+            from_string<double>(what[5]),
+            from_string<double>(what[6])
+        );
 
         while(i<reactionStringLines_.size()-1)
         {
@@ -161,13 +166,6 @@ void IO::ReactionParser::parse(vector<IO::Reaction>& reactions)
             //break;
 
         }
-
-        reaction.setArrhenius
-        (
-            from_string<double>(what[4]),
-            from_string<double>(what[5]),
-            from_string<double>(what[6])
-        );
 
         reactions.push_back(reaction);
 
