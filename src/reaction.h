@@ -19,6 +19,14 @@ namespace IO
     class Reaction
     {
 
+            struct Arrhenius
+            {
+                //! Forward and reverse Arrhenius parameters.
+                double A_; // Pre-exponential factor.
+                double n_; // Temperature exponent.
+                double E_; // Activation energy.
+            };
+
             //! Is the reaction reversible or not?
             bool flagReversible_;
 
@@ -31,10 +39,7 @@ namespace IO
             //! Total stoichiometry changes.
             //double dstoich_, dreac_, dprod_;
 
-            //! Forward and reverse Arrhenius parameters.
-            double A_; // Pre-exponential factor.
-            double n_; // Temperature exponent.
-            double E_; // Activation energy.
+            Arrhenius forwardArrhenius_, reverseArrhenius_;
 
             // Third bodies.
             //! Set to true if this reaction requires third bodies.
@@ -56,7 +61,7 @@ namespace IO
 
             void setIrreversible();
 
-            void setArrhenius(double A, double n, double E);
+            void setArrhenius(double A, double n, double E, bool reversible=false);
 
             void setReactants(std::multimap<std::string, double> reactants);
 
@@ -71,6 +76,8 @@ namespace IO
             void setLOW(const std::vector<double>& LOW);
 
             void setTROE(const std::vector<double>& TROE);
+
+            void setRevArrhenius(const std::vector<double>& REV);
 
             void setPressureDependent();
 

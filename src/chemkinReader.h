@@ -73,6 +73,11 @@ namespace IO
                 return elements_;
             }
 
+            std::vector<Element>& setElements()
+            {
+                return elements_;
+            }
+
             const std::vector<Species>& species() const
             {
                 return species_;
@@ -84,6 +89,11 @@ namespace IO
             }
 
             const std::vector<Reaction>& reactions() const
+            {
+                return reactions_;
+            }
+
+            std::vector<Reaction>& setReactions()
             {
                 return reactions_;
             }

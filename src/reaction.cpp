@@ -16,9 +16,8 @@ IO::Reaction::Reaction()
    flagDuplicate_(false),
    reactants_(),
    products_(),
-   A_(-1),
-   n_(-1),
-   E_(-1),
+   forwardArrhenius_(),
+   reverseArrhenius_(),
    flagThirdBody_(false),
    flagPressureDependent_(false),
    thirdBodies_()
@@ -33,12 +32,22 @@ void IO::Reaction::setArrhenius
 (
     double A,
     double n,
-    double E
+    double E,
+    bool reversible
 )
 {
-    A_ = A;
-    n_ = n;
-    E_ = E;
+    if (reversible)
+    {
+        reverseArrhenius_.A_ = A;
+        reverseArrhenius_.n_ = n;
+        reverseArrhenius_.E_ = E;
+    }
+    else
+    {
+        forwardArrhenius_.A_ = A;
+        forwardArrhenius_.n_ = n;
+        forwardArrhenius_.E_ = E;
+    }
 }
 
 void IO::Reaction::setReactants(multimap<string, double> reactants)
@@ -119,9 +128,12 @@ namespace IO
         output << "        )\n"
                << "        Arrhenius\n"
                << "        (\n"
-               << "            A = " << reaction.A_ << "\n"
-               << "            n = " << reaction.n_ << "\n"
-               << "            E = " << reaction.E_ << "\n"
+               << "            Forward A = " << reaction.forwardArrhenius_.A_ << "\n"
+               << "                    n = " << reaction.forwardArrhenius_.n_ << "\n"
+               << "                    E = " << reaction.forwardArrhenius_.E_ << "\n"
+               << "            Reverse A = " << reaction.reverseArrhenius_.A_ << "\n"
+               << "                    n = " << reaction.reverseArrhenius_.n_ << "\n"
+               << "                    E = " << reaction.reverseArrhenius_.E_ << "\n"
                << "        )\n"
                << "        Third Bodies\n"
                << "        (\n"
