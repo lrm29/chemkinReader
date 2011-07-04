@@ -15,10 +15,10 @@ phase_("EMPTY"),
 T_low_(-1),
 T_common_(-1),
 T_high_(-1),
-elements_counts_("EMPTY"),
-al_(7,-1),
-ah_(7,-1)
-{}
+al_(7, -1),
+ah_(7, -1),
+elements_map_() {
+}
 
 const std::string& IO::Thermo::getSpeciesName() const {
     return species_name_;
@@ -64,12 +64,12 @@ const double& IO::Thermo::getTHigh() const {
     return T_high_;
 }
 
-void IO::Thermo::setElementsCounts(std::string elements_counts) {
-    elements_counts_ = elements_counts;
+void IO::Thermo::setElements(std::multimap<std::string, int> elements_map) {
+    elements_map_ = elements_map;
 }
 
-const std::string& IO::Thermo::getElementsCounts() const {
-    return elements_counts_;
+const std::multimap<std::string, int>& IO::Thermo::getElements() const {
+    return elements_map_;
 }
 
 void IO::Thermo::setUpperTemperatureCoefficients(
@@ -103,10 +103,15 @@ void IO::Thermo::setLowerTemperatureCoefficients(
 namespace IO {
 
     std::ostream& operator<<(std::ostream& output, const Thermo& thermo) {
-        output <<  "    Thermo Data:\n"
+        std::multimap<std::string, int>::const_iterator iter;
+        output << "    Thermo Data:\n"
                 << "    (\n"
                 << "        Species  : " << thermo.species_name_ << "\n"
-                << "        Elements : {" << thermo.elements_counts_ << "}" << "\n"
+                << "        Elements : {";
+        for (iter = thermo.elements_map_.begin(); iter != thermo.elements_map_.end(); ++iter) {
+            output << iter->first << ":" << iter->second << ", ";
+        }
+        output << "}" << "\n"
                 << "        Note     : " << thermo.note_ << "\n"
                 << "        Phase    : " << thermo.phase_ << "\n"
                 << "        T_low    : " << thermo.T_low_ << "\n"

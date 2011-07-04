@@ -70,12 +70,12 @@ bool IO::ThermoParser::parseNASASection(string l1, string l2, string l3, string 
     // line 1
     Thermo thermo(trim(l1.substr(0, 18)));
     thermo.setNote(trim(l1.substr(18, 6)));
-    thermo.setElementsCounts(trim(l1.substr(24, 20)));
     thermo.setPhase(l1.substr(44, 1));
     thermo.setTLow(from_string<double>(trim(l1.substr(45, 10))));
     thermo.setTHigh(from_string<double>(trim(l1.substr(55, 10))));
     thermo.setTCommon(from_string<double>(trim(l1.substr(65, 8))));
-    thermo.setElementsCounts(thermo.getElementsCounts() + trim(l1.substr(73, 5)));
+    string elements_string = trim(l1.substr(24, 20)) + trim(l1.substr(73, 5));
+    thermo.setElements(parseElements(elements_string));
     // line 2, 3 4
     double al1, al2, al3, al4, al5, al6, al7;
     double ah1, ah2, ah3, ah4, ah5, ah6, ah7;
@@ -97,6 +97,21 @@ bool IO::ThermoParser::parseNASASection(string l1, string l2, string l3, string 
     thermo.setLowerTemperatureCoefficients(al1, al2, al3, al4, al5, al6, al7);
     thermos_.push_back(thermo);
     return false;
+}
+
+multimap<string, int> IO::ThermoParser::parseElements(string elements_string) {
+
+    std::multimap<std::string, int> elem_count_map;
+    string elements_str = trim(elements_string);
+    if (elements_str.length() % 5 == 0) {
+        for (unsigned int i = 0; i < elements_str.length() / 5; i++) {
+            elem_count_map.insert(pair<string, int> (trim(elements_str.substr(i * 5, 3)), from_string<int>(elements_str.substr(3 + i * 5, 2))));
+        }
+    } else {
+        throw runtime_error("Invalid element string found for value: " + elements_str);
+    }
+    return elem_count_map;
+
 }
 
 bool IO::ThermoParser::isSectionMatchedNASA(std::vector<std::string> lines, unsigned int offset) {

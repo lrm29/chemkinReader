@@ -11,6 +11,7 @@
 #include <string>
 #include <iostream>
 #include <vector>
+#include <map>
 
 namespace IO {
 
@@ -39,8 +40,8 @@ namespace IO {
         void setTHigh(double T_high);
         const double& getTHigh() const;
 
-        void setElementsCounts(std::string elements_counts);
-        const std::string& getElementsCounts() const;
+        void setElements(std::multimap<std::string, int> elements_map);
+        const std::multimap<std::string, int>& getElements() const;
 
         void setUpperTemperatureCoefficients(
                 double ah1, double ah2, double ah3,
@@ -60,9 +61,9 @@ namespace IO {
         double T_low_;
         double T_common_;
         double T_high_;
-        std::string elements_counts_;
         std::vector<double> al_;
         std::vector<double> ah_;
+        std::multimap<std::string, int> elements_map_;
 
     };
 

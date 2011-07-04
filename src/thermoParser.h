@@ -40,6 +40,7 @@ namespace IO {
          * Actual parsing method.
          */
         void parseAllThermoData();
+        std::multimap<std::string, int> parseElements(std::string elements_string);
         bool setThermoDataFor(IO::Species& species);
         /**
          * Private self-contained function. Get subset of given vector which contains
