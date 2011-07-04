@@ -103,13 +103,20 @@ void IO::Thermo::setLowerTemperatureCoefficients(
 namespace IO {
 
     std::ostream& operator<<(std::ostream& output, const Thermo& thermo) {
-        std::multimap<std::string, int>::const_iterator iter;
         output << "    Thermo Data:\n"
                 << "    (\n"
                 << "        Species  : " << thermo.species_name_ << "\n"
                 << "        Elements : {";
+
+
+        std::multimap<std::string, int>::const_iterator iter, final_iter;
+        final_iter = thermo.elements_map_.end();
+        --final_iter;
         for (iter = thermo.elements_map_.begin(); iter != thermo.elements_map_.end(); ++iter) {
-            output << iter->first << ":" << iter->second << ", ";
+            output << iter->first << ":" << iter->second ;
+            if (iter != thermo.elements_map_.end()) {
+                output << ", ";
+            }
         }
         output << "}" << "\n"
                 << "        Note     : " << thermo.note_ << "\n"
