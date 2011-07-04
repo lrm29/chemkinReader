@@ -30,6 +30,10 @@ namespace IO
 
             ~Element(){}
 
+            const std::string& getName() const;
+
+            const double& getAtomicWeight() const;
+
             friend std::ostream& operator<<(std::ostream& output, const Element& element);
 
     };

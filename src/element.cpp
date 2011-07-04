@@ -19,6 +19,16 @@ IO::Element::Element
     atomicWeight_(atomicWeight)
 {}
 
+const string& IO::Element::getName() const
+{
+    return this->name_;
+}
+
+const double& IO::Element::getAtomicWeight() const
+{
+    return this->atomicWeight_;
+}
+
 namespace IO
 {
 
