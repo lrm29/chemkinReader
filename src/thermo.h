@@ -22,25 +22,25 @@ namespace IO {
 
         ~Thermo(){}
 
-        const std::string getSpeciesName() const;
+        const std::string& getSpeciesName() const;
 
         void setNote(std::string note);
-        std::string getNote();
+        const std::string& getNote() const;
 
         void setPhase(std::string phase);
-        std::string getPhase();
+        const std::string& getPhase() const;
 
         void setTLow(double T_low);
-        double getTLow();
+        const double& getTLow() const;
 
         void setTCommon(double T_common);
-        double getTCommon();
+        const double& getTCommon() const;
 
         void setTHigh(double T_high);
-        double getTHigh();
+        const double& getTHigh() const;
 
         void setElementsCounts(std::string elements_counts);
-        std::string getElementsCounts();
+        const std::string& getElementsCounts() const;
 
         void setUpperTemperatureCoefficients(
                 double ah1, double ah2, double ah3,

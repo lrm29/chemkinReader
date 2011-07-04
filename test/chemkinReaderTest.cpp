@@ -58,7 +58,7 @@ int main(int argc, char* argv[])
     chemkinReader.read();
     chemkinReader.check();
 
-    std::cout << chemkinReader.species()[1].thermo().getSpeciesName() << std::endl;
+    std::cout << chemkinReader.species()[1].thermo().getTHigh() << std::endl;
 
     return 0;
 

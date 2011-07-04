@@ -111,8 +111,11 @@ void IO::ChemkinReader::read()
     ThermoParser thermoParser(thermfile_);
     thermoParser.parse(species_);
 
-    TransportParser transportParser(transfile_);
-    transportParser.parse(species_);
+    if (transfile_ != "NOT READ")
+    {
+        TransportParser transportParser(transfile_);
+        transportParser.parse(species_);
+    }
 
     readReactions();
 

@@ -20,7 +20,7 @@ al_(7,-1),
 ah_(7,-1)
 {}
 
-const std::string IO::Thermo::getSpeciesName() const {
+const std::string& IO::Thermo::getSpeciesName() const {
     return species_name_;
 }
 
@@ -28,7 +28,7 @@ void IO::Thermo::setNote(std::string note) {
     note_ = note;
 }
 
-std::string IO::Thermo::getNote() {
+const std::string& IO::Thermo::getNote() const {
     return note_;
 }
 
@@ -36,7 +36,7 @@ void IO::Thermo::setPhase(std::string phase) {
     phase_ = phase;
 }
 
-std::string IO::Thermo::getPhase() {
+const std::string& IO::Thermo::getPhase() const {
     return phase_;
 }
 
@@ -44,7 +44,7 @@ void IO::Thermo::setTLow(double T_low) {
     T_low_ = T_low;
 }
 
-double IO::Thermo::getTLow() {
+const double& IO::Thermo::getTLow() const {
     return T_low_;
 }
 
@@ -52,7 +52,7 @@ void IO::Thermo::setTCommon(double T_common) {
     T_common_ = T_common;
 }
 
-double IO::Thermo::getTCommon() {
+const double& IO::Thermo::getTCommon() const {
     return T_common_;
 }
 
@@ -60,7 +60,7 @@ void IO::Thermo::setTHigh(double T_high) {
     T_high_ = T_high;
 }
 
-double IO::Thermo::getTHigh() {
+const double& IO::Thermo::getTHigh() const {
     return T_high_;
 }
 
@@ -68,7 +68,7 @@ void IO::Thermo::setElementsCounts(std::string elements_counts) {
     elements_counts_ = elements_counts;
 }
 
-std::string IO::Thermo::getElementsCounts() {
+const std::string& IO::Thermo::getElementsCounts() const {
     return elements_counts_;
 }
 
