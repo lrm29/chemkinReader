@@ -7,6 +7,8 @@
 
 #include "chemkinReader.h"
 #include "stringFunctions.h"
+#include "thermoParser.h"
+#include "transportParser.h"
 #include "reactionParser.h"
 
 using namespace std;
@@ -46,10 +48,12 @@ bool IO::ChemkinReader::checkChemFile()
         "REAC(?:|TION|TIONS)\\s+.*?\\s+END"
     );
 
+    //! \todo NEED TO ADD REGEXES FOR (SRI)|(REV)|(LT)|(RLT) IN REACTIONPARSER ASAP
     const regex unsupported
     (
-        "(SRI)|(TDEP)|(EXCI)|(JAN)|(FIT1)|"
-        "(HV)|(MOME)|(FORD)|(RORD)|(UNITS)"
+        "(TDEP)|(EXCI)|(JAN)|(FIT1)|"
+        "(HV)|(MOME)|(FORD)|(RORD)|(UNITS)|(HIGH)|(USER)"
+        "(SRI)|(REV)|(LT)|(RLT)"
     );
 
     if(!regex_search(chemfilestring_, fileStructure))
@@ -60,23 +64,31 @@ bool IO::ChemkinReader::checkChemFile()
     smatch result;
     if(regex_search(chemfilestring_, result, unsupported))
     {
-        if (result[1] == "SRI") throw regex_error("SRI not supported yet.");
-        if (result[2] == "TDEP") throw regex_error("TDEP not supported yet.");
-        if (result[3] == "EXCI") throw regex_error("EXCI not supported yet.");
-        if (result[4] == "JAN") throw regex_error("JAN not supported yet.");
-        if (result[5] == "FIT1") throw regex_error("FIT1 not supported yet.");
-        if (result[6] == "HV") throw regex_error("HV not supported yet.");
-        if (result[7] == "MOME") throw regex_error("MOME not supported yet.");
-        if (result[8] == "FORD") throw regex_error("FORD not supported yet.");
-        if (result[9] == "RORD") throw regex_error("RORD not supported yet.");
-        if (result[10] == "UNITS") throw regex_error("UNITS not supported yet.");
+        if (result[1] == "TDEP") throw regex_error("TDEP not supported yet.");
+        if (result[2] == "EXCI") throw regex_error("EXCI not supported yet.");
+        if (result[3] == "JAN") throw regex_error("JAN not supported yet.");
+        if (result[4] == "FIT1") throw regex_error("FIT1 not supported yet.");
+        if (result[5] == "HV") throw regex_error("HV not supported yet.");
+        if (result[6] == "MOME") throw regex_error("MOME not supported yet.");
+        if (result[7] == "FORD") throw regex_error("FORD not supported yet.");
+        if (result[8] == "RORD") throw regex_error("RORD not supported yet.");
+        if (result[9] == "UNITS") throw regex_error("UNITS not supported yet.");
+        if (result[10] == "HIGH") throw regex_error("HIGH not supported yet.");
+        if (result[11] == "USER") throw regex_error("USER not supported yet.");
+        if (result[12] == "SRI") throw regex_error("SRI not supported yet.");
+        if (result[13] == "REV") throw regex_error("REV not supported yet.");
+        if (result[14] == "LT") throw regex_error("LT not supported yet.");
+        if (result[15] == "RLT") throw regex_error("RLT not supported yet.");
     }
+
+    cout << "chem.inp file format check PASSED." << endl;
 
     return true;
 
 }
 
-void IO::ChemkinReader::check() {
+void IO::ChemkinReader::check()
+{
     cout << "Chemistry file: " << chemfile_ << endl;
     cout << "Thermo file: " << thermfile_ << endl;
     cout << "Trans file: " << transfile_ << endl;
@@ -86,6 +98,24 @@ void IO::ChemkinReader::check() {
     outputSpecies << elements_ << endl;
     outputSpecies << species_ << endl;
     outputReactions << reactions_ << endl;
+
+    cout << "Data output to speciesParsed and reactionsParsed." << endl;
+}
+
+void IO::ChemkinReader::read()
+{
+
+    readElements();
+    readSpecies();
+
+    ThermoParser thermoParser(thermfile_);
+    thermoParser.parse(species_);
+
+    TransportParser transportParser(transfile_);
+    transportParser.parse(species_);
+
+    readReactions();
+
 }
 
 void IO::ChemkinReader::readElements() {

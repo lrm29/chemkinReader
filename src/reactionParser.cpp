@@ -69,11 +69,8 @@ IO::ReactionParser::ReactionParser
 void IO::ReactionParser::parse(vector<IO::Reaction>& reactions)
 {
 
-    cout << reactionStringLines_ << endl;
-
     for (size_t i=0; i<reactionStringLines_.size(); ++i)
     {
-      //  cout << reactionStringLines_[i] << endl;
 
         Reaction reaction;
 
