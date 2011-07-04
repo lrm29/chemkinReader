@@ -24,9 +24,19 @@ void IO::Transport::setMoleculeIndex(const int moleculeIndex)
    this->moleculeIndex_ = moleculeIndex;
 }
 
+const int& IO::Transport::getMoleculeIndex() const
+{
+    return this->moleculeIndex_;
+}
+
 void IO::Transport::setCollisionDiameter(const double collisionDiameter_)
 {
    this->collisionDiameter_ = collisionDiameter_;
+}
+
+const double& IO::Transport::getCollisionDiameter() const
+{
+    return this->collisionDiameter_;
 }
 
 void IO::Transport::setDipoleMoment(const double dipoleMoment_)
@@ -34,9 +44,19 @@ void IO::Transport::setDipoleMoment(const double dipoleMoment_)
    this->dipoleMoment_ = dipoleMoment_;
 }
 
+const double& IO::Transport::getDipoleMoment() const
+{
+    return this->dipoleMoment_;
+}
+
 void IO::Transport::setPolarizability(const double polarizability_)
 {
    this->polarizability_ = polarizability_;
+}
+
+const double& IO::Transport::getPolarizability() const
+{
+    return this->polarizability_;
 }
 
 void IO::Transport::setPotentialWellDepth(const double potentialWellDepth_)
@@ -44,11 +64,20 @@ void IO::Transport::setPotentialWellDepth(const double potentialWellDepth_)
    this->potentialWellDepth_ = potentialWellDepth_;
 }
 
+const double& IO::Transport::getPotentialWellDepth() const
+{
+    return this->potentialWellDepth_;
+}
+
 void IO::Transport::setRotRelaxationNumber(const double rotRelaxationNumber_)
 {
    this->rotRelaxationNumber_ = rotRelaxationNumber_;
 }
 
+const double& IO::Transport::getRotRelaxationNumber() const
+{
+    return this->rotRelaxationNumber_;
+}
 
 namespace IO {
 
