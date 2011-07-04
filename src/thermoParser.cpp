@@ -19,11 +19,33 @@ thermo_file_(thermo_file),
 lines_(fileToStrings(thermo_file)) {
 }
 
-void IO::ThermoParser::parse() {
+void IO::ThermoParser::parse(vector<Species>& species) {
+
+    cout << "Parsing NASA thermo file: " << thermo_file_ << endl;
+    parseAllThermoData();
+
+    for (size_t i = 0; i != species.size(); ++i) {
+        if (!setThermoDataFor(species[i])) {
+            cout << "Cannot find thermo data for " << species[i].name() << endl;
+        }
+    }
+    cout << "End of Parsing NASA thermo file: " << thermo_file_ << endl;
+
+}
+
+bool IO::ThermoParser::setThermoDataFor(IO::Species& species) {
+    for (size_t i = 0; i < thermos_.size(); ++i) {
+        if (convertToCaps(thermos_[i].getSpeciesName()).compare(species.name()) == 0) {
+            species.thermo() = thermos_[i];
+            return true;
+        }
+    }
+    return false;
+}
+
+void IO::ThermoParser::parseAllThermoData() {
 
     vector<string> thermo_lines = getThermoSection(lines_);
-
-    cout << "Parsing NASA" << endl;
 
     const regex empty("\\s*");
 
@@ -37,10 +59,10 @@ void IO::ThermoParser::parse() {
         }
     }
 
-    // this is where it print out info at the moment
-    for (unsigned int i = 0; i < thermos_.size(); i++) {
-        cout << thermos_[i] << endl;
-    }
+//    // this is where it print out info at the moment
+//    for (unsigned int i = 0; i < thermos_.size(); i++) {
+//        cout << thermos_[i] << endl;
+//    }
 
 }
 

@@ -17,6 +17,7 @@
 #include <fstream>
 
 #include "thermo.h"
+#include "species.h"
 
 namespace IO {
 
@@ -28,14 +29,18 @@ namespace IO {
         ~ThermoParser() {
         }
 
-        void parse();
+        void parse(std::vector<IO::Species>& species);
 
     private:
 
         const std::string thermo_file_;
         const std::vector<std::string> lines_;
         std::vector<IO::Thermo> thermos_;
-
+        /**
+         * Actual parsing method.
+         */
+        void parseAllThermoData();
+        bool setThermoDataFor(IO::Species& species);
         /**
          * Private self-contained function. Get subset of given vector which contains
          * only the NASA polynomials, i.e. lines within the THERMO and END tags.

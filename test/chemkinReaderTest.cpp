@@ -61,7 +61,7 @@ int main(int argc, char* argv[])
 
 
     IO::ThermoParser thermoParser(thermfile);
-    thermoParser.parse();
+    thermoParser.parse(chemkinReader.species());
 
     IO::TransportParser transportParser(transfile);
     transportParser.parse(chemkinReader.species());
