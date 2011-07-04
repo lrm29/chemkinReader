@@ -26,7 +26,7 @@ void IO::ThermoParser::parse(vector<Species>& species) {
 
     for (size_t i = 0; i != species.size(); ++i) {
         if (!setThermoDataFor(species[i])) {
-            cout << "Cannot find thermo data for " << species[i].name() << endl;
+            throw runtime_error("Thermo data for Species " + species[i].name() + " not found in " + thermo_file_);
         }
     }
     cout << "End of Parsing NASA thermo file: " << thermo_file_ << endl;
@@ -59,10 +59,10 @@ void IO::ThermoParser::parseAllThermoData() {
         }
     }
 
-//    // this is where it print out info at the moment
-//    for (unsigned int i = 0; i < thermos_.size(); i++) {
-//        cout << thermos_[i] << endl;
-//    }
+    //    // this is where it print out info at the moment
+    //    for (unsigned int i = 0; i < thermos_.size(); i++) {
+    //        cout << thermos_[i] << endl;
+    //    }
 
 }
 
