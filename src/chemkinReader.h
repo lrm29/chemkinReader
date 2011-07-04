@@ -47,6 +47,8 @@ namespace IO
             std::vector<Species> species_;
             std::vector<Reaction> reactions_;
 
+            bool checkChemFile();
+
         public:
 
             ChemkinReader

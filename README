@@ -3,5 +3,22 @@ CHEMKIN READER USING BOOST::REGEX
 Boost Regex Doc:
 http://www.boost.org/doc/libs/1_46_1/libs/regex/doc/html/index.html
 
+===================================
+INSTALL
+===================================
+
+mkdir build
+cd build
+cmake ..
+make
+
+OR (if you use eclipse)
+
 cmake -G"Eclipse CDT4 - Unix Makefiles" -D CMAKE_BUILD_TYPE=Debug .
+
+===================================
+RUN
+===================================
+
 ./chemkinReader.sh
+Outputs go into the test/ folder.

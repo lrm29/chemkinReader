@@ -31,7 +31,50 @@ IO::ChemkinReader::ChemkinReader
     thermfile_(thermfile),
     transfile_(transfile),
     chemfilestring_(convertToCaps(replaceComments(fileToString(chemfile_))))
-{}
+{
+    checkChemFile();
+}
+
+bool IO::ChemkinReader::checkChemFile()
+{
+    cout << "Checking the format of the chem.inp file." << endl;
+
+    const regex fileStructure
+    (
+        "ELEM(?:|ENT|ENTS)\\s+.*?\\s+END.*?"
+        "SPEC(?:|IE|IES)\\s+.*?\\s+END.*?"
+        "REAC(?:|TION|TIONS)\\s+.*?\\s+END"
+    );
+
+    const regex unsupported
+    (
+        "(SRI)|(TDEP)|(EXCI)|(JAN)|(FIT1)|"
+        "(HV)|(MOME)|(FORD)|(RORD)|(UNITS)"
+    );
+
+    if(!regex_search(chemfilestring_, fileStructure))
+    {
+        throw regex_error("chem.inp needs the structure:\n ELEMENTS END\n SPECIES END\n REACTIONS END.");
+    }
+
+    smatch result;
+    if(regex_search(chemfilestring_, result, unsupported))
+    {
+        if (result[1] == "SRI") throw regex_error("SRI not supported yet.");
+        if (result[2] == "TDEP") throw regex_error("TDEP not supported yet.");
+        if (result[3] == "EXCI") throw regex_error("EXCI not supported yet.");
+        if (result[4] == "JAN") throw regex_error("JAN not supported yet.");
+        if (result[5] == "FIT1") throw regex_error("FIT1 not supported yet.");
+        if (result[6] == "HV") throw regex_error("HV not supported yet.");
+        if (result[7] == "MOME") throw regex_error("MOME not supported yet.");
+        if (result[8] == "FORD") throw regex_error("FORD not supported yet.");
+        if (result[9] == "RORD") throw regex_error("RORD not supported yet.");
+        if (result[10] == "UNITS") throw regex_error("UNITS not supported yet.");
+    }
+
+    return true;
+
+}
 
 void IO::ChemkinReader::check() {
     cout << "Chemistry file: " << chemfile_ << endl;
