@@ -48,12 +48,12 @@ bool IO::ChemkinReader::checkChemFile()
         "REAC(?:|TION|TIONS)\\s+.*?\\s+END"
     );
 
-    //! \todo NEED TO ADD REGEXES FOR (SRI)|(REV)|(LT)|(RLT) IN REACTIONPARSER ASAP
+    //! \todo NEED TO ADD REGEXES FOR (LT)|(RLT) IN REACTIONPARSER ASAP
     const regex unsupported
     (
         "(TDEP)|(EXCI)|(JAN)|(FIT1)|"
-        "(HV)|(MOME)|(FORD)|(RORD)|(UNITS)|(HIGH)|(USER)"
-        "(SRI)|(LT)|(RLT)"
+        "(HV)|(MOME)|(FORD)|(RORD)|(UNITS)|(HIGH)|(USER)|"
+        "(LT)|(RLT)"
     );
 
     if(!regex_search(chemfilestring_, fileStructure))
@@ -75,9 +75,8 @@ bool IO::ChemkinReader::checkChemFile()
         if (result[9] == "UNITS") throw regex_error("UNITS not supported yet.");
         if (result[10] == "HIGH") throw regex_error("HIGH not supported yet.");
         if (result[11] == "USER") throw regex_error("USER not supported yet.");
-        if (result[12] == "SRI") throw regex_error("SRI not supported yet.");
-        if (result[13] == "LT") throw regex_error("LT not supported yet.");
-        if (result[14] == "RLT") throw regex_error("RLT not supported yet.");
+        if (result[12] == "LT") throw regex_error("LT not supported yet.");
+        if (result[13] == "RLT") throw regex_error("RLT not supported yet.");
     }
 
     cout << "chem.inp file format check PASSED." << endl;

@@ -25,6 +25,7 @@ namespace IO {
             static const boost::regex DUPLICATE;
             static const boost::regex LOW;
             static const boost::regex TROE;
+            static const boost::regex SRI;
             static const boost::regex REV;
             static const boost::regex pressureDependent;
 

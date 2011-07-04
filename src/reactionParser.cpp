@@ -37,7 +37,12 @@ const regex IO::ReactionParser::LOW
 
 const regex IO::ReactionParser::TROE
 (
-    "(TROE)\\s*\\/\\s*(.*?)\\s+(.*?)\\s+(.*?)\\s+(.*?)\\s*\\/"
+    "(TROE)\\s*\\/\\s*(.*?)\\s+(.*?)\\s+(.*?)(?:|\\s+(.*?))\\s*\\/"
+);
+
+const regex IO::ReactionParser::SRI
+(
+    "(SRI)\\s*\\/\\s*(.*?)\\s+(.*?)\\s+(.*?)(?:|\\s+(.*?)\\s+(.*?))\\s*\\/"
 );
 
 const regex IO::ReactionParser::REV
@@ -155,7 +160,10 @@ void IO::ReactionParser::parse(vector<IO::Reaction>& reactions)
                         {
                             reaction.setTROE(parseLOWTROEREV(reactionStringLines_[i+1], TROE));
                         }
-
+                        if (lineType == "SRI")
+                        {
+                            reaction.setSRI(parseLOWTROEREV(reactionStringLines_[i+1], SRI));
+                        }
                         // Skip one line when looking for the next reaction.
                         ++i;
                     }
@@ -277,6 +285,8 @@ IO::ReactionParser::findLineType(const string& line)
         return "LOW";
     if (regex_search(start, end, TROE))
         return "TROE";
+    if (regex_search(start, end, SRI))
+        return "SRI";
 
     return "THIRDBODY";
 
@@ -293,7 +303,7 @@ IO::ReactionParser::parseLOWTROEREV(const string& line, const regex& reg)
 
     for (size_t i=2; i<result.size(); ++i)
     {
-        vec.push_back(from_string<double>(result[i]));
+        if (result[i] != "") vec.push_back(from_string<double>(result[i]));
     }
 
     return vec;

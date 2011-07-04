@@ -7,6 +7,7 @@
 
 #include "reaction.h"
 #include <iomanip>
+#include <stdexcept>
 
 using namespace std;
 
@@ -86,7 +87,29 @@ void IO::Reaction::setLOW(const vector<double>& LOW)
 
 void IO::Reaction::setTROE(const vector<double>& TROE)
 {
+    if ((TROE.size() != 3) && (TROE.size() != 4))
+    {
+        throw runtime_error("TROE is not of size 3 or 4.");
+    }
+
     TROE_ = TROE;
+    if (TROE.size() == 3) TROE_.push_back(0);
+}
+
+void IO::Reaction::setSRI(const vector<double>& SRI)
+{
+
+    if ((SRI.size() != 3) && (SRI.size() != 5))
+    {
+        throw runtime_error("SRI is not of size 3 or 5.");
+    }
+
+    SRI_ = SRI;
+    if (SRI.size() == 3)
+    {
+        SRI_.push_back(1.0);
+        SRI_.push_back(0);
+    }
 }
 
 void IO::Reaction::setPressureDependent()
@@ -149,6 +172,10 @@ namespace IO
        for (iterVec = reaction.TROE_.begin(); iterVec != reaction.TROE_.end(); ++iterVec)
        {
         output << "            TROE : " << *iterVec << "\n";
+       }
+       for (iterVec = reaction.SRI_.begin(); iterVec != reaction.SRI_.end(); ++iterVec)
+       {
+        output << "            SRI : " << *iterVec << "\n";
        }
         output << "        )\n"
                << "    )";

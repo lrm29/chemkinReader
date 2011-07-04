@@ -49,7 +49,7 @@ namespace IO
             //! Reaction third bodies and their coefficients.
             std::multimap<std::string, double> thirdBodies_;
 
-            std::vector<double> LOW_, TROE_;
+            std::vector<double> LOW_, TROE_, SRI_;
 
         public:
 
@@ -74,6 +74,8 @@ namespace IO
             void setLOW(const std::vector<double>& LOW);
 
             void setTROE(const std::vector<double>& TROE);
+
+            void setSRI(const std::vector<double>& SRI);
 
             void setRevArrhenius(const std::vector<double>& REV);
 
