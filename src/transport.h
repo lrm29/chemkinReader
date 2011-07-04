@@ -22,16 +22,22 @@ namespace IO
             ~Transport(){}
 
             void setMoleculeIndex(const int moleculeIndex);
+            const int& getMoleculeIndex() const;
 
             void setCollisionDiameter(const double collisionDiameter_);
+            const double& getCollisionDiameter() const;
 
             void setDipoleMoment(const double dipoleMoment_);
+            const double& getDipoleMoment() const;
 
             void setPolarizability(const double polarizability_);
+            const double& getPolarizability() const;
 
             void setPotentialWellDepth(const double potentialWellDepth_);
+            const double& getPotentialWellDepth() const;
 
             void setRotRelaxationNumber(const double rotRelaxationNumber_);
+            const double& getRotRelaxationNumber() const;
 
             friend std::ostream& operator<<(std::ostream& output, const Transport& transport);
 
