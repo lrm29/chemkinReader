@@ -106,6 +106,7 @@ void IO::ReactionParser::parse(vector<IO::Reaction>& reactions)
             if (regex_search(start, end, DUPLICATE))
             {
                 reaction.setDuplicate();
+                // Skip one line when looking for the next reaction.
                 ++i;
                 break;
             }
@@ -117,14 +118,12 @@ void IO::ReactionParser::parse(vector<IO::Reaction>& reactions)
                 // bodies. Will need to check for extra things).
                 while(i<reactionStringLines_.size()-1)
                 {
-
-                    smatch what2;
                     start = reactionStringLines_[i+1].begin();
                     end = reactionStringLines_[i+1].end();
-                    if (!regex_search(start, end, what2, reactionSingleRegex))
+                    if (!regex_search(start, end, reactionSingleRegex))
                     {
                         string lineType = findLineType(reactionStringLines_[i+1]);
-                        if (lineType == "thirdBody")
+                        if (lineType == "THIRDBODY")
                         {
                             reaction.setThirdBodies(parseThirdBodySpecies(reactionStringLines_[i+1]));
                         }
@@ -266,7 +265,7 @@ IO::ReactionParser::findLineType(const string& line)
     if (regex_search(start, end, TROE))
         return "TROE";
 
-    return "thirdBody";
+    return "THIRDBODY";
 
 }
 
