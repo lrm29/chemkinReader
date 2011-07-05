@@ -37,7 +37,12 @@ const regex IO::ReactionParser::LOW
 
 const regex IO::ReactionParser::TROE
 (
-    "(TROE)\\s*\\/\\s*(.*?)\\s+(.*?)\\s+(.*?)\\s+(.*?)\\s*\\/"
+    "(TROE)\\s*\\/\\s*(.*?)\\s+(.*?)\\s+(.*?)(?:|\\s+(.*?))\\s*\\/"
+);
+
+const regex IO::ReactionParser::SRI
+(
+    "(SRI)\\s*\\/\\s*(.*?)\\s+(.*?)\\s+(.*?)(?:|\\s+(.*?)\\s+(.*?))\\s*\\/"
 );
 
 const regex IO::ReactionParser::REV
@@ -92,13 +97,18 @@ void IO::ReactionParser::parse(vector<IO::Reaction>& reactions)
 
         regex_search(start, end, what, reactionSingleRegex);
 
-        // Set the reactants.
         reaction.setReactants(parseReactionSpecies(what[1]));
-        // Set the products.
+
+        if (what[2] == "=>") reaction.setReversible(false);
+
         reaction.setProducts(parseReactionSpecies(what[3]));
 
-        // Set the reaction as irreversible.
-        if (what[2] == "=>") reaction.setIrreversible();
+        reaction.setArrhenius
+        (
+            from_string<double>(what[4]),
+            from_string<double>(what[5]),
+            from_string<double>(what[6])
+        );
 
         while(i<reactionStringLines_.size()-1)
         {
@@ -150,7 +160,10 @@ void IO::ReactionParser::parse(vector<IO::Reaction>& reactions)
                         {
                             reaction.setTROE(parseLOWTROEREV(reactionStringLines_[i+1], TROE));
                         }
-
+                        if (lineType == "SRI")
+                        {
+                            reaction.setSRI(parseLOWTROEREV(reactionStringLines_[i+1], SRI));
+                        }
                         // Skip one line when looking for the next reaction.
                         ++i;
                     }
@@ -161,13 +174,6 @@ void IO::ReactionParser::parse(vector<IO::Reaction>& reactions)
             //break;
 
         }
-
-        reaction.setArrhenius
-        (
-            from_string<double>(what[4]),
-            from_string<double>(what[5]),
-            from_string<double>(what[6])
-        );
 
         reactions.push_back(reaction);
 
@@ -279,6 +285,8 @@ IO::ReactionParser::findLineType(const string& line)
         return "LOW";
     if (regex_search(start, end, TROE))
         return "TROE";
+    if (regex_search(start, end, SRI))
+        return "SRI";
 
     return "THIRDBODY";
 
@@ -295,7 +303,7 @@ IO::ReactionParser::parseLOWTROEREV(const string& line, const regex& reg)
 
     for (size_t i=2; i<result.size(); ++i)
     {
-        vec.push_back(from_string<double>(result[i]));
+        if (result[i] != "") vec.push_back(from_string<double>(result[i]));
     }
 
     return vec;
