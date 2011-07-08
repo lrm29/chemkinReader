@@ -149,6 +149,7 @@ void IO::ChemkinReader::readSpecies() {
     sregex_token_iterator j;
     while (i != j) {
         species_.push_back(Species(*i++));
+        //species_.back().checkElementsInSpecies(elements_);
     }
 
 }

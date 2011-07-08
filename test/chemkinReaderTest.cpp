@@ -53,7 +53,7 @@ int main(int argc, char* argv[])
     const std::string thermfile(argv[2]);
     const std::string transfile(argv[3]);
 
-    IO::ChemkinReader chemkinReader(chemfile,thermfile,transfile);
+    IO::ChemkinReader chemkinReader(chemfile,thermfile);
     chemkinReader.read();
     chemkinReader.check();
 

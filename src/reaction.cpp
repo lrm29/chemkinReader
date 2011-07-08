@@ -117,6 +117,11 @@ void IO::Reaction::setPressureDependent()
     flagPressureDependent_ = true;
 }
 
+const bool& IO::Reaction::getPressureDependent() const
+{
+    return flagPressureDependent_;
+}
+
 void IO::Reaction::setDuplicate()
 {
     flagDuplicate_ = true;
