@@ -24,6 +24,7 @@ void IO::ThermoParser::parse(vector<Species>& species) {
     cout << "Parsing NASA thermo file: " << thermo_file_ << endl;
     parseAllThermoData();
 
+    ensureSpeciesNamesAreValid();
     ensureNoDuplicates();
 
     for (size_t i = 0; i != species.size(); ++i) {
@@ -43,6 +44,15 @@ void IO::ThermoParser::ensureNoDuplicates() {
             if ((i != j) && (aname.compare(bname) == 0)) {
                 throw runtime_error("Species name '" + aname + "' is found more than once in thermo file.");
             }
+        }
+    }
+}
+void IO::ThermoParser::ensureSpeciesNamesAreValid() {
+    const regex space("\\s");
+    for (size_t i = 0; i < thermos_.size(); ++i) {
+        string name = thermos_[i].getSpeciesName();
+        if (regex_search(name, space)) {
+            throw runtime_error("Invalid species name '" + name + "'. Species name must contain no spaces.");
         }
     }
 }

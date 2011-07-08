@@ -41,6 +41,7 @@ namespace IO {
          */
         void parseAllThermoData();
         void ensureNoDuplicates();
+        void ensureSpeciesNamesAreValid();
         std::map<std::string, int> parseElements(std::string elements_string);
         bool setThermoDataFor(IO::Species& species);
         /**
