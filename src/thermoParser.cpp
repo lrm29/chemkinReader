@@ -107,7 +107,7 @@ map<string, int> IO::ThermoParser::parseElements(string elements_string) {
         for (unsigned int i = 0; i < elements_str.length() / 5; i++) {
             string elem = trim(elements_str.substr(i * 5, 3));
             int count = from_string<int>(elements_str.substr(3 + i * 5, 2));
-            if (elem_count_map.find(elem)) {
+            if (elem_count_map.find(elem) == elem_count_map.end()) {
                 throw runtime_error("Are you tried to play trick with me? Duplicated element found: " + elem);
             }
             elem_count_map.insert(pair<string, int> (elem, count));
