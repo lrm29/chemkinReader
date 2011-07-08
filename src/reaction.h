@@ -80,6 +80,7 @@ namespace IO
             void setRevArrhenius(const std::vector<double>& REV);
 
             void setPressureDependent();
+            const bool& getPressureDependent() const;
 
             void setDuplicate();
 

@@ -17,7 +17,9 @@ using namespace boost;
 
 const regex IO::ReactionParser::reactionSingleRegex
 (
-    "(.*?)\\s*(<=>|=>|=)\\s*(.*?)([0-9]+\\.[0-9]*E(?:|\\+|\\-)[0-9]+)\\s+(.*?)\\s+(.*?)$|\\n"
+    "(.*?)\\s*"
+    "(<=>|=>|=)\\s*"
+    "(.*?)([0-9]+\\.[0-9]*E(?:|\\+|\\-)[0-9]+)\\s+(.*?)\\s+(.*?)$|\\n"
 );
 
 const regex IO::ReactionParser::blankLine
@@ -84,10 +86,10 @@ void IO::ReactionParser::parse(vector<IO::Reaction>& reactions)
 
         Reaction reaction;
 
-        // Check for pressure dependency.
+        // Check for pressure dependency now as it screws up reactionSingleRegex.
         if (checkForPressureDependentReaction(reactionStringLines_[i]))
         {
-            reactionStringLines_[i] = regex_replace(reactionStringLines_[i], pressureDependent, "+M");
+            reactionStringLines_[i] = regex_replace(reactionStringLines_[i], pressureDependent, "");
             reaction.setPressureDependent();
         }
 
@@ -110,7 +112,7 @@ void IO::ReactionParser::parse(vector<IO::Reaction>& reactions)
             from_string<double>(what[6])
         );
 
-        while(i<reactionStringLines_.size()-1)
+        while (i < reactionStringLines_.size()-1)
         {
 
             start = reactionStringLines_[i+1].begin();
@@ -136,7 +138,7 @@ void IO::ReactionParser::parse(vector<IO::Reaction>& reactions)
                 //break;
             }
 
-            if (reaction.hasThirdBody())
+            if (reaction.hasThirdBody() || reaction.getPressureDependent())
             {
                 // Parse the next line. If it is a reaction then continue,
                 // otherwise look at the next lines. (Currently just look for third
