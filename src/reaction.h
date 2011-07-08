@@ -72,7 +72,7 @@ namespace IO
             void setThirdBodies(const std::multimap<std::string, double>& thirdBodies);
             const std::multimap<std::string, double>& getThirdBodies() const;
 
-            void checkForThirdBody(const std::multimap<std::string, double>& species);
+            void checkForThirdBody(std::multimap<std::string, double>& species);
 
             bool hasThirdBody() const {return flagThirdBody_;}
 

@@ -207,28 +207,30 @@ IO::ReactionParser::parseReactionSpecies(string reactionSpecies)
 
         regex_search(start, end, splitStoic, splitStoichiometry);
 
+        string speciesName = splitStoic[2];
+
         if (splitStoic[1] == "")
         {
             reactionSpeciesMap.insert
             (
                 pair<string,double>
                 (
-                    splitStoic[2],
+                    speciesName,
                     1.0
                 )
             );
         }
         else
         {
-             reactionSpeciesMap.insert
-             (
-                 pair<string,double>
-                 (
-                     splitStoic[2],
-                     from_string<double>(splitStoic[1])
-                 )
-             );
-         }
+            reactionSpeciesMap.insert
+            (
+                pair<string,double>
+                (
+                speciesName,
+                from_string<double>(splitStoic[1])
+                )
+            );
+        }
     }
 
     return reactionSpeciesMap;

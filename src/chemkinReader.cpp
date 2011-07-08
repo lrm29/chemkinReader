@@ -43,9 +43,9 @@ bool IO::ChemkinReader::checkChemFile()
 
     const regex fileStructure
     (
-        "ELEM(?:|ENT|ENTS)\\s+.*?\\s+END.*?"
-        "SPEC(?:|IE|IES)\\s+.*?\\s+END.*?"
-        "REAC(?:|TION|TIONS)\\s+.*?\\s+END"
+        "ELEM(?:|ENT|ENTS).*?END.*?"
+        "SPEC(?:|IE|IES).*?END.*?"
+        "REAC(?:|TION|TIONS).*?END"
     );
 
     //! \todo NEED TO ADD REGEXES FOR (LT)|(RLT) IN REACTIONPARSER ASAP

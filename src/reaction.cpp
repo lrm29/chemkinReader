@@ -65,8 +65,8 @@ const IO::Arrhenius& IO::Reaction::getArrhenius(bool reverse) const
 
 void IO::Reaction::setReactants(multimap<string, double> reactants)
 {
-    reactants_ = reactants;
     checkForThirdBody(reactants);
+    reactants_ = reactants;
 }
 
 const multimap<string, double>& IO::Reaction::getReactants() const
@@ -76,8 +76,8 @@ const multimap<string, double>& IO::Reaction::getReactants() const
 
 void IO::Reaction::setProducts(multimap<string, double> products)
 {
-    products_ = products;
     checkForThirdBody(products);
+    products_ = products;
 }
 
 const multimap<string, double>& IO::Reaction::getProducts() const
@@ -85,14 +85,15 @@ const multimap<string, double>& IO::Reaction::getProducts() const
     return products_;
 }
 
-void IO::Reaction::checkForThirdBody(const multimap<string, double>& species)
+void IO::Reaction::checkForThirdBody(multimap<string, double>& species)
 {
-    multimap<string,double>::const_iterator iter;
+    multimap<string,double>::iterator iter;
     for (iter = species.begin(); iter != species.end(); ++iter)
     {
         if(iter->first == "M")
         {
             flagThirdBody_ = true;
+            species.erase(iter);
         }
     }
 }
