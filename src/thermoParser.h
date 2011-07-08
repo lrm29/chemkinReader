@@ -40,6 +40,7 @@ namespace IO {
          * Actual parsing method.
          */
         void parseAllThermoData();
+        void ensureNoDuplicates();
         std::map<std::string, int> parseElements(std::string elements_string);
         bool setThermoDataFor(IO::Species& species);
         /**

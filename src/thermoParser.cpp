@@ -24,6 +24,8 @@ void IO::ThermoParser::parse(vector<Species>& species) {
     cout << "Parsing NASA thermo file: " << thermo_file_ << endl;
     parseAllThermoData();
 
+    ensureNoDuplicates();
+
     for (size_t i = 0; i != species.size(); ++i) {
         if (!setThermoDataFor(species[i])) {
             throw runtime_error("Thermo data for Species " + species[i].name() + " not found in " + thermo_file_);
@@ -31,6 +33,18 @@ void IO::ThermoParser::parse(vector<Species>& species) {
     }
     cout << "End of Parsing NASA thermo file: " << thermo_file_ << endl;
 
+}
+
+void IO::ThermoParser::ensureNoDuplicates() {
+    for (size_t i = 0; i < thermos_.size(); ++i) {
+        string aname = thermos_[i].getSpeciesName();
+        for (size_t j = i; j < thermos_.size(); ++j) {
+            string bname = thermos_[j].getSpeciesName();
+            if ((i != j) && (aname.compare(bname) == 0)) {
+                throw runtime_error("Species name '" + aname + "' is found more than once in thermo file.");
+            }
+        }
+    }
 }
 
 bool IO::ThermoParser::setThermoDataFor(IO::Species& species) {
