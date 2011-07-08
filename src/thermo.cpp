@@ -117,7 +117,7 @@ namespace IO {
                 << "        Elements : {";
 
 
-        std::multimap<std::string, int>::const_iterator iter, final_iter;
+        std::map<std::string, int>::const_iterator iter, final_iter;
         final_iter = thermo.elements_map_.end();
         --final_iter;
         for (iter = thermo.elements_map_.begin(); iter != thermo.elements_map_.end(); ++iter) {
