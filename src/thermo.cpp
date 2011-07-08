@@ -100,11 +100,11 @@ void IO::Thermo::setLowerTemperatureCoefficients(
     al_.push_back(al7);
 }
 
-std::vector<double> IO::Thermo::getUpperTemperatureCoefficients() {
+const std::vector<double>& IO::Thermo::getUpperTemperatureCoefficients() const{
     return ah_;
 }
 
-std::vector<double> IO::Thermo::getLowerTemperatureCoefficients() {
+const std::vector<double>& IO::Thermo::getLowerTemperatureCoefficients() const{
     return al_;
 }
 
