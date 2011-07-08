@@ -19,9 +19,9 @@ namespace IO
     struct Arrhenius
     {
         //! Forward and reverse Arrhenius parameters.
-        double A_; // Pre-exponential factor.
-        double n_; // Temperature exponent.
-        double E_; // Activation energy.
+        double A; // Pre-exponential factor.
+        double n; // Temperature exponent.
+        double E; // Activation energy.
     };
 
     class Reaction
@@ -58,31 +58,38 @@ namespace IO
             ~Reaction(){}
 
             void setReversible(const bool flag);
+            const bool& isReversible() const;
 
             void setArrhenius(double A, double n, double E, bool reverse=false);
+            const Arrhenius& getArrhenius(bool reverse=false) const;
 
             void setReactants(std::multimap<std::string, double> reactants);
+            const std::multimap<std::string, double>& getReactants() const;
 
             void setProducts(std::multimap<std::string, double> products);
+            const std::multimap<std::string, double>& getProducts() const;
 
             void setThirdBodies(const std::multimap<std::string, double>& thirdBodies);
+            const std::multimap<std::string, double>& getThirdBodies() const;
 
             void checkForThirdBody(const std::multimap<std::string, double>& species);
 
             bool hasThirdBody() const {return flagThirdBody_;}
 
             void setLOW(const std::vector<double>& LOW);
+            const std::vector<double>& getLOW() const;
 
             void setTROE(const std::vector<double>& TROE);
+            const std::vector<double>& getTROE() const;
 
             void setSRI(const std::vector<double>& SRI);
-
-            void setRevArrhenius(const std::vector<double>& REV);
+            const std::vector<double>& getSRI() const;
 
             void setPressureDependent();
-            const bool& getPressureDependent() const;
+            const bool& isPressureDependent() const;
 
             void setDuplicate();
+            const bool& hasDuplicate() const;
 
             friend std::ostream& operator<<(std::ostream& output, const Reaction& reaction);
 

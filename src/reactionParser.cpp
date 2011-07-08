@@ -138,7 +138,7 @@ void IO::ReactionParser::parse(vector<IO::Reaction>& reactions)
                 //break;
             }
 
-            if (reaction.hasThirdBody() || reaction.getPressureDependent())
+            if (reaction.hasThirdBody() || reaction.isPressureDependent())
             {
                 // Parse the next line. If it is a reaction then continue,
                 // otherwise look at the next lines. (Currently just look for third
