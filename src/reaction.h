@@ -58,8 +58,10 @@ namespace IO
             ~Reaction(){}
 
             void setReversible(const bool flag);
+            const bool& getReversible() const;
 
             void setArrhenius(double A, double n, double E, bool reverse=false);
+            const Arrhenius& getArrhenius(bool reverse=false) const;
 
             void setReactants(std::multimap<std::string, double> reactants);
 
@@ -76,8 +78,6 @@ namespace IO
             void setTROE(const std::vector<double>& TROE);
 
             void setSRI(const std::vector<double>& SRI);
-
-            void setRevArrhenius(const std::vector<double>& REV);
 
             void setPressureDependent();
             const bool& getPressureDependent() const;

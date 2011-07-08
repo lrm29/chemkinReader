@@ -28,6 +28,10 @@ void IO::Reaction::setReversible(const bool flag)
 {
     flagReversible_ = flag;
 }
+const bool& IO::Reaction::getReversible() const
+{
+    return flagReversible_;
+}
 
 void IO::Reaction::setArrhenius
 (
@@ -49,6 +53,14 @@ void IO::Reaction::setArrhenius
         forwardArrhenius_.n_ = n;
         forwardArrhenius_.E_ = E;
     }
+}
+const IO::Arrhenius& IO::Reaction::getArrhenius(bool reverse) const
+{
+    if (reverse)
+    {
+        return reverseArrhenius_;
+    }
+    return forwardArrhenius_;
 }
 
 void IO::Reaction::setReactants(multimap<string, double> reactants)
