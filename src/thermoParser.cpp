@@ -99,13 +99,18 @@ bool IO::ThermoParser::parseNASASection(string l1, string l2, string l3, string 
     return false;
 }
 
-multimap<string, int> IO::ThermoParser::parseElements(string elements_string) {
+map<string, int> IO::ThermoParser::parseElements(string elements_string) {
 
-    std::multimap<std::string, int> elem_count_map;
+    std::map<std::string, int> elem_count_map;
     string elements_str = trim(elements_string);
     if (elements_str.length() % 5 == 0) {
         for (unsigned int i = 0; i < elements_str.length() / 5; i++) {
-            elem_count_map.insert(pair<string, int> (trim(elements_str.substr(i * 5, 3)), from_string<int>(elements_str.substr(3 + i * 5, 2))));
+            string elem = trim(elements_str.substr(i * 5, 3));
+            int count = from_string<int>(elements_str.substr(3 + i * 5, 2));
+            if (elem_count_map.find(elem)) {
+                throw runtime_error("Are you tried to play trick with me? Duplicated element found: " + elem);
+            }
+            elem_count_map.insert(pair<string, int> (elem, count));
         }
     } else {
         throw runtime_error("Invalid element string found for value: " + elements_str);

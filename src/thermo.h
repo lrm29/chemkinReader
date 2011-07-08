@@ -40,17 +40,20 @@ namespace IO {
         void setTHigh(double T_high);
         const double& getTHigh() const;
 
-        void setElements(std::multimap<std::string, int> elements_map);
-        const std::multimap<std::string, int>& getElements() const;
+        void setElements(std::map<std::string, int> elements_map);
+        const std::map<std::string, int>& getElements() const;
 
         void setUpperTemperatureCoefficients(
                 double ah1, double ah2, double ah3,
                 double ah4, double ah5, double ah6,
                 double ah7);
+        std::vector<double> getUpperTemperatureCoefficients();
+
         void setLowerTemperatureCoefficients(
                 double al1, double al2, double al3,
                 double al4, double al5, double al6,
                 double al7);
+        std::vector<double> getLowerTemperatureCoefficients();
 
         friend std::ostream& operator<<(std::ostream& output, const Thermo& thermo);
 
@@ -63,7 +66,7 @@ namespace IO {
         double T_high_;
         std::vector<double> al_;
         std::vector<double> ah_;
-        std::multimap<std::string, int> elements_map_;
+        std::map<std::string, int> elements_map_;
 
     };
 

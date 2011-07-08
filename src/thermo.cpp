@@ -64,11 +64,11 @@ const double& IO::Thermo::getTHigh() const {
     return T_high_;
 }
 
-void IO::Thermo::setElements(std::multimap<std::string, int> elements_map) {
+void IO::Thermo::setElements(std::map<std::string, int> elements_map) {
     elements_map_ = elements_map;
 }
 
-const std::multimap<std::string, int>& IO::Thermo::getElements() const {
+const std::map<std::string, int>& IO::Thermo::getElements() const {
     return elements_map_;
 }
 
