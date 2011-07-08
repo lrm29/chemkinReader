@@ -28,7 +28,7 @@ void IO::Reaction::setReversible(const bool flag)
 {
     flagReversible_ = flag;
 }
-const bool& IO::Reaction::getReversible() const
+const bool& IO::Reaction::isReversible() const
 {
     return flagReversible_;
 }
@@ -69,10 +69,20 @@ void IO::Reaction::setReactants(multimap<string, double> reactants)
     checkForThirdBody(reactants);
 }
 
+const multimap<string, double>& IO::Reaction::getReactants() const
+{
+    return reactants_;
+}
+
 void IO::Reaction::setProducts(multimap<string, double> products)
 {
     products_ = products;
     checkForThirdBody(products);
+}
+
+const multimap<string, double>& IO::Reaction::getProducts() const
+{
+    return products_;
 }
 
 void IO::Reaction::checkForThirdBody(const multimap<string, double>& species)
@@ -92,9 +102,19 @@ void IO::Reaction::setThirdBodies(const multimap<string, double>& thirdBodies)
     thirdBodies_ = thirdBodies;
 }
 
+const multimap<string, double>& IO::Reaction::getThirdBodies() const
+{
+    return thirdBodies_;
+}
+
 void IO::Reaction::setLOW(const vector<double>& LOW)
 {
     LOW_ = LOW;
+}
+
+const vector<double>& IO::Reaction::getLOW() const
+{
+    return LOW_;
 }
 
 void IO::Reaction::setTROE(const vector<double>& TROE)
@@ -106,6 +126,11 @@ void IO::Reaction::setTROE(const vector<double>& TROE)
 
     TROE_ = TROE;
     if (TROE.size() == 3) TROE_.push_back(0);
+}
+
+const vector<double>& IO::Reaction::getTROE() const
+{
+    return TROE_;
 }
 
 void IO::Reaction::setSRI(const vector<double>& SRI)
@@ -124,12 +149,17 @@ void IO::Reaction::setSRI(const vector<double>& SRI)
     }
 }
 
+const vector<double>& IO::Reaction::getSRI() const
+{
+    return SRI_;
+}
+
 void IO::Reaction::setPressureDependent()
 {
     flagPressureDependent_ = true;
 }
 
-const bool& IO::Reaction::getPressureDependent() const
+const bool& IO::Reaction::isPressureDependent() const
 {
     return flagPressureDependent_;
 }
@@ -137,6 +167,11 @@ const bool& IO::Reaction::getPressureDependent() const
 void IO::Reaction::setDuplicate()
 {
     flagDuplicate_ = true;
+}
+
+const bool& IO::Reaction::hasDuplicate() const
+{
+    return flagDuplicate_;
 }
 
 namespace IO
@@ -168,12 +203,12 @@ namespace IO
         output << "        )\n"
                << "        Arrhenius\n"
                << "        (\n"
-               << "            Forward A = " << reaction.forwardArrhenius_.A_ << "\n"
-               << "                    n = " << reaction.forwardArrhenius_.n_ << "\n"
-               << "                    E = " << reaction.forwardArrhenius_.E_ << "\n"
-               << "            Reverse A = " << reaction.reverseArrhenius_.A_ << "\n"
-               << "                    n = " << reaction.reverseArrhenius_.n_ << "\n"
-               << "                    E = " << reaction.reverseArrhenius_.E_ << "\n"
+               << "            Forward A = " << reaction.forwardArrhenius_.A << "\n"
+               << "                    n = " << reaction.forwardArrhenius_.n << "\n"
+               << "                    E = " << reaction.forwardArrhenius_.E << "\n"
+               << "            Reverse A = " << reaction.reverseArrhenius_.A << "\n"
+               << "                    n = " << reaction.reverseArrhenius_.n << "\n"
+               << "                    E = " << reaction.reverseArrhenius_.E << "\n"
                << "        )\n"
                << "        Third Bodies\n"
                << "        (\n"
