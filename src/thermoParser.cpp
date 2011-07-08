@@ -75,7 +75,7 @@ bool IO::ThermoParser::parseNASASection(string l1, string l2, string l3, string 
     thermo.setTLow(from_string<double>(trim(l1.substr(45, 10))));
     thermo.setTHigh(from_string<double>(trim(l1.substr(55, 10))));
     thermo.setTCommon(from_string<double>(trim(l1.substr(65, 8))));
-    string elements_string = trim(l1.substr(24, 20)) + trim(l1.substr(73, 5));
+    string elements_string = l1.substr(24, 20);
     thermo.setElements(parseElements(elements_string));
     // line 2, 3 4
     double al1, al2, al3, al4, al5, al6, al7;
@@ -103,18 +103,21 @@ bool IO::ThermoParser::parseNASASection(string l1, string l2, string l3, string 
 map<string, int> IO::ThermoParser::parseElements(string elements_string) {
 
     std::map<std::string, int> elem_count_map;
-    string elements_str = trim(elements_string);
-    if (elements_str.length() % 5 == 0) {
-        for (unsigned int i = 0; i < elements_str.length() / 5; i++) {
-            string elem = trim(elements_str.substr(i * 5, 3));
-            int count = from_string<int>(elements_str.substr(3 + i * 5, 2));
+    if (elements_string.length() % 5 == 0) {
+        for (unsigned int i = 0; i < elements_string.length() / 5; i++) {
+            string elem = trim(elements_string.substr(i * 5, 3));
+            string count_str = trim(elements_string.substr(3 + i * 5, 2));
+            if (count_str.length() == 0) continue;
+            // check if count string is a number
+            int count = from_string<int>(count_str);
+            if (count == 0) continue;
             if (elem_count_map.find(elem) != elem_count_map.end()) {
                 throw runtime_error("Are you tried to play trick with me? Duplicated element found: " + elem);
             }
             elem_count_map.insert(pair<string, int> (elem, count));
         }
     } else {
-        throw runtime_error("Invalid element string found for value: " + elements_str);
+        throw runtime_error("Invalid element string found for value: " + elements_string);
     }
     return elem_count_map;
 
