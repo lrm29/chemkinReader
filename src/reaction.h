@@ -19,9 +19,9 @@ namespace IO
     struct Arrhenius
     {
         //! Forward and reverse Arrhenius parameters.
-        double A_; // Pre-exponential factor.
-        double n_; // Temperature exponent.
-        double E_; // Activation energy.
+        double A; // Pre-exponential factor.
+        double n; // Temperature exponent.
+        double E; // Activation energy.
     };
 
     class Reaction

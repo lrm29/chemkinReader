@@ -43,15 +43,15 @@ void IO::Reaction::setArrhenius
 {
     if (reverse)
     {
-        reverseArrhenius_.A_ = A;
-        reverseArrhenius_.n_ = n;
-        reverseArrhenius_.E_ = E;
+        reverseArrhenius_.A = A;
+        reverseArrhenius_.n = n;
+        reverseArrhenius_.E = E;
     }
     else
     {
-        forwardArrhenius_.A_ = A;
-        forwardArrhenius_.n_ = n;
-        forwardArrhenius_.E_ = E;
+        forwardArrhenius_.A = A;
+        forwardArrhenius_.n = n;
+        forwardArrhenius_.E = E;
     }
 }
 const IO::Arrhenius& IO::Reaction::getArrhenius(bool reverse) const
