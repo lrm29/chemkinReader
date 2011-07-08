@@ -100,6 +100,14 @@ void IO::Thermo::setLowerTemperatureCoefficients(
     al_.push_back(al7);
 }
 
+std::vector<double> IO::Thermo::getUpperTemperatureCoefficients() {
+    return ah_;
+}
+
+std::vector<double> IO::Thermo::getLowerTemperatureCoefficients() {
+    return al_;
+}
+
 namespace IO {
 
     std::ostream& operator<<(std::ostream& output, const Thermo& thermo) {
@@ -113,7 +121,7 @@ namespace IO {
         final_iter = thermo.elements_map_.end();
         --final_iter;
         for (iter = thermo.elements_map_.begin(); iter != thermo.elements_map_.end(); ++iter) {
-            output << iter->first << ":" << iter->second ;
+            output << iter->first << ":" << iter->second;
             if (iter != final_iter) {
                 output << ", ";
             }

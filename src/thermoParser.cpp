@@ -67,6 +67,7 @@ void IO::ThermoParser::parseAllThermoData() {
 }
 
 bool IO::ThermoParser::parseNASASection(string l1, string l2, string l3, string l4) {
+    cout << l1 << endl;
     // line 1
     Thermo thermo(trim(l1.substr(0, 18)));
     thermo.setNote(trim(l1.substr(18, 6)));
