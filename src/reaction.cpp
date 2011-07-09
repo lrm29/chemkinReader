@@ -20,6 +20,9 @@ IO::Reaction::Reaction()
    forwardArrhenius_(),
    reverseArrhenius_(),
    flagThirdBody_(false),
+   flagLOW_(false),
+   flagTROE_(false),
+   flagSRI_(false),
    flagPressureDependent_(false),
    thirdBodies_()
 {}
@@ -110,6 +113,7 @@ const multimap<string, double>& IO::Reaction::getThirdBodies() const
 
 void IO::Reaction::setLOW(const vector<double>& LOW)
 {
+    flagLOW_ = true;
     LOW_ = LOW;
 }
 
@@ -127,6 +131,7 @@ void IO::Reaction::setTROE(const vector<double>& TROE)
 
     TROE_ = TROE;
     if (TROE.size() == 3) TROE_.push_back(0);
+    flagTROE_ = true;
 }
 
 const vector<double>& IO::Reaction::getTROE() const
@@ -148,6 +153,22 @@ void IO::Reaction::setSRI(const vector<double>& SRI)
         SRI_.push_back(1.0);
         SRI_.push_back(0);
     }
+    flagSRI_ = true;
+}
+
+const bool& IO::Reaction::hasSRI() const
+{
+    return flagSRI_;
+}
+
+const bool& IO::Reaction::hasTROE() const
+{
+    return flagTROE_;
+}
+
+const bool& IO::Reaction::hasLOW() const
+{
+    return flagLOW_;
 }
 
 const vector<double>& IO::Reaction::getSRI() const

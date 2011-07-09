@@ -190,7 +190,7 @@ IO::ReactionParser::parseReactionSpecies(string reactionSpecies)
     std::multimap<std::string, double> reactionSpeciesMap;
 
     regex splitSpecies("\\+");
-    regex splitStoichiometry("([0-9]*)(\\w+)");
+    regex splitStoichiometry("([0-9]*)([A-Z].*)");
 
     sregex_token_iterator i(reactionSpecies.begin(), reactionSpecies.end(), splitSpecies,-1);
     sregex_token_iterator j;
@@ -215,7 +215,7 @@ IO::ReactionParser::parseReactionSpecies(string reactionSpecies)
             (
                 pair<string,double>
                 (
-                    speciesName,
+                    trim(speciesName),
                     1.0
                 )
             );
@@ -226,7 +226,7 @@ IO::ReactionParser::parseReactionSpecies(string reactionSpecies)
             (
                 pair<string,double>
                 (
-                speciesName,
+                trim(speciesName),
                 from_string<double>(splitStoic[1])
                 )
             );

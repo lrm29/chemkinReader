@@ -44,6 +44,7 @@ namespace IO
             // Third bodies.
             //! Set to true if this reaction requires third bodies.
             bool flagThirdBody_;
+            bool flagLOW_, flagTROE_, flagSRI_;
             //! Set if (+M) or e.g. (+H2O) is found.
             bool flagPressureDependent_;
             //! Reaction third bodies and their coefficients.
@@ -71,19 +72,20 @@ namespace IO
 
             void setThirdBodies(const std::multimap<std::string, double>& thirdBodies);
             const std::multimap<std::string, double>& getThirdBodies() const;
-
             void checkForThirdBody(std::multimap<std::string, double>& species);
-
             bool hasThirdBody() const {return flagThirdBody_;}
 
             void setLOW(const std::vector<double>& LOW);
             const std::vector<double>& getLOW() const;
+            const bool& hasLOW() const;
 
             void setTROE(const std::vector<double>& TROE);
             const std::vector<double>& getTROE() const;
+            const bool& hasTROE() const;
 
             void setSRI(const std::vector<double>& SRI);
             const std::vector<double>& getSRI() const;
+            const bool& hasSRI() const;
 
             void setPressureDependent();
             const bool& isPressureDependent() const;
