@@ -24,20 +24,23 @@ namespace IO
             void setMoleculeIndex(const int moleculeIndex);
             const int& getMoleculeIndex() const;
 
-            void setCollisionDiameter(const double collisionDiameter_);
+            void setCollisionDiameter(const double collisionDiameter);
             const double& getCollisionDiameter() const;
 
-            void setDipoleMoment(const double dipoleMoment_);
+            void setDipoleMoment(const double dipoleMoment);
             const double& getDipoleMoment() const;
 
-            void setPolarizability(const double polarizability_);
+            void setPolarizability(const double polarizability);
             const double& getPolarizability() const;
 
-            void setPotentialWellDepth(const double potentialWellDepth_);
+            void setPotentialWellDepth(const double potentialWellDepth);
             const double& getPotentialWellDepth() const;
 
-            void setRotRelaxationNumber(const double rotRelaxationNumber_);
+            void setRotRelaxationNumber(const double rotRelaxationNumber);
             const double& getRotRelaxationNumber() const;
+
+            void setReducedDipoleMoment(const double reducedDipoleMoment);
+            const double& getReducedDipoleMoment() const;
 
             friend std::ostream& operator<<(std::ostream& output, const Transport& transport);
 
@@ -53,13 +56,13 @@ namespace IO
                      Polarizability, `, 2
                      Rotational relaxation number, Zrot at 298K
                      Comments*/
-
             int moleculeIndex_;
             double potentialWellDepth_;
             double collisionDiameter_;
             double dipoleMoment_;
             double polarizability_;
             double rotRelaxationNumber_;
+            double reducedDipoleMoment_;
 
     };
 

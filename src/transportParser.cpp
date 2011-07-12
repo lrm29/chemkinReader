@@ -15,7 +15,7 @@ using namespace boost;
 
 const string IO::TransportParser::transportRegex
 (
-    ".*?([0-2]+?)\\s+"
+    "\\b.*?([0-2]+?)\\s+"
     "([0-9]*\\.[0-9]*|[0-9]*)\\s+"
     "([0-9]*\\.[0-9]*|[0-9]*)\\s+"
     "([0-9]*\\.[0-9]*|[0-9]*)\\s+"
