@@ -30,7 +30,7 @@ IO::TransportParser::TransportParser
 )
 :
     tranfile_(tranfile),
-    transportfilestring_(fileToString(tranfile))
+    transportfilestring_(convertToCaps(fileToString(tranfile)))
 {}
 
 void IO::TransportParser::parse(vector<Species>& species)
