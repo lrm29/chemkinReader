@@ -42,7 +42,7 @@ void IO::ThermoParser::ensureNoDuplicates() {
         for (size_t j = i; j < thermos_.size(); ++j) {
             string bname = thermos_[j].getSpeciesName();
             if ((i != j) && (aname.compare(bname) == 0)) {
-                throw runtime_error("Species name '" + aname + "' is found more than once in thermo file.");
+                //throw runtime_error("Species name '" + aname + "' is found more than once in thermo file.");
             }
         }
     }
@@ -52,7 +52,7 @@ void IO::ThermoParser::ensureSpeciesNamesAreValid() {
     for (size_t i = 0; i < thermos_.size(); ++i) {
         string name = thermos_[i].getSpeciesName();
         if (regex_search(name, space)) {
-            throw runtime_error("Invalid species name '" + name + "'. Species name must contain no spaces.");
+            //throw runtime_error("Invalid species name '" + name + "'. Species name must contain no spaces.");
         }
     }
 }
@@ -93,8 +93,8 @@ void IO::ThermoParser::parseAllThermoData() {
 bool IO::ThermoParser::parseNASASection(string l1, string l2, string l3, string l4) {
     cout << l1 << endl;
     // line 1
-    Thermo thermo(trim(l1.substr(0, 18)));
-    thermo.setNote(trim(l1.substr(18, 6)));
+    Thermo thermo(trim(l1.substr(0, 16)));
+    thermo.setNote(trim(l1.substr(16, 8)));
     thermo.setPhase(l1.substr(44, 1));
     thermo.setTLow(from_string<double>(trim(l1.substr(45, 10))));
     thermo.setTHigh(from_string<double>(trim(l1.substr(55, 10))));
@@ -136,7 +136,7 @@ map<string, int> IO::ThermoParser::parseElements(string elements_string) {
             int count = from_string<int>(count_str);
             if (count == 0) continue;
             if (elem_count_map.find(elem) != elem_count_map.end()) {
-                throw runtime_error("Are you tried to play trick with me? Duplicated element found: " + elem);
+               // throw runtime_error("Are you tried to play trick with me? Duplicated element found: " + elem);
             }
             elem_count_map.insert(pair<string, int> (elem, count));
         }
