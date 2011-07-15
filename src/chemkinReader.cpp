@@ -102,6 +102,10 @@ void IO::ChemkinReader::check()
     cout << "Thermo file: " << thermfile_ << endl;
     cout << "Trans file: " << transfile_ << endl;
 
+    if (globalUnits_ != "NO GLOBAL UNITS" && globalUnits_ != "CAL/MOLE")
+    {
+        throw std::logic_error(globalUnits_+" are not supported yet.");
+    }
     cout << "Global Units are " << globalUnits_ << endl;
 
     ofstream outputSpecies("speciesParsed");

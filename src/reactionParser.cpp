@@ -97,87 +97,89 @@ void IO::ReactionParser::parse(vector<IO::Reaction>& reactions)
         string::const_iterator start = reactionStringLines_[i].begin();
         string::const_iterator end = reactionStringLines_[i].end();
 
-        regex_search(start, end, what, reactionSingleRegex);
-
-        reaction.setReactants(parseReactionSpecies(what[1]));
-
-        if (what[2] == "=>") reaction.setReversible(false);
-
-        reaction.setProducts(parseReactionSpecies(what[3]));
-
-        reaction.setArrhenius
-        (
-            from_string<double>(what[4]),
-            from_string<double>(what[5]),
-            from_string<double>(what[6])
-        );
-
-        while (i < reactionStringLines_.size()-1)
+        if (regex_search(start, end, what, reactionSingleRegex))
         {
+            reaction.setReactants(parseReactionSpecies(what[1]));
 
-            start = reactionStringLines_[i+1].begin();
-            end = reactionStringLines_[i+1].end();
+            if (what[2] == "=>") reaction.setReversible(false);
 
-            if (regex_search(start, end, reactionSingleRegex))
-                break;
+            reaction.setProducts(parseReactionSpecies(what[3]));
 
-            if (regex_search(start, end, DUPLICATE))
+            reaction.setArrhenius
+            (
+                from_string<double>(what[4]),
+                from_string<double>(what[5]),
+                from_string<double>(what[6])
+            );
+
+            while (i < reactionStringLines_.size()-1)
             {
-                reaction.setDuplicate();
-                // Skip one line when looking for the next reaction.
-                ++i;
-                //break;
-            }
 
-            if (regex_search(start, end, REV))
-            {
-                vector<double> reverseArrhenius = parseLOWTROEREV(reactionStringLines_[i+1], REV);
-                reaction.setArrhenius(reverseArrhenius[0],reverseArrhenius[1],reverseArrhenius[2],true);
-                // Skip one line when looking for the next reaction.
-                ++i;
-                //break;
-            }
+                start = reactionStringLines_[i+1].begin();
+                end = reactionStringLines_[i+1].end();
 
-            if (reaction.hasThirdBody() || reaction.isPressureDependent())
-            {
-                // Parse the next line. If it is a reaction then continue,
-                // otherwise look at the next lines. (Currently just look for third
-                // bodies. Will need to check for extra things).
-                while(i<reactionStringLines_.size()-1)
+                if (regex_search(start, end, reactionSingleRegex))
+                    break;
+
+                if (regex_search(start, end, DUPLICATE))
                 {
-                    start = reactionStringLines_[i+1].begin();
-                    end = reactionStringLines_[i+1].end();
-                    if (!regex_search(start, end, reactionSingleRegex))
-                    {
-                        string lineType = findLineType(reactionStringLines_[i+1]);
-                        if (lineType == "THIRDBODY")
-                        {
-                            reaction.setThirdBodies(parseThirdBodySpecies(reactionStringLines_[i+1]));
-                        }
-                        if (lineType == "LOW")
-                        {
-                            reaction.setLOW(parseLOWTROEREV(reactionStringLines_[i+1], LOW));
-                        }
-                        if (lineType == "TROE")
-                        {
-                            reaction.setTROE(parseLOWTROEREV(reactionStringLines_[i+1], TROE));
-                        }
-                        if (lineType == "SRI")
-                        {
-                            reaction.setSRI(parseLOWTROEREV(reactionStringLines_[i+1], SRI));
-                        }
-                        // Skip one line when looking for the next reaction.
-                        ++i;
-                    }
-                    else
-                    {break;}
+                    reaction.setDuplicate();
+                    // Skip one line when looking for the next reaction.
+                    ++i;
+                    //break;
                 }
+
+                if (regex_search(start, end, REV))
+                {
+                    vector<double> reverseArrhenius = parseLOWTROEREV(reactionStringLines_[i+1], REV);
+                    reaction.setArrhenius(reverseArrhenius[0],reverseArrhenius[1],reverseArrhenius[2],true);
+                    // Skip one line when looking for the next reaction.
+                    ++i;
+                    //break;
+                }
+
+                if (reaction.hasThirdBody() || reaction.isPressureDependent())
+                {
+                    // Parse the next line. If it is a reaction then continue,
+                    // otherwise look at the next lines. (Currently just look for third
+                    // bodies. Will need to check for extra things).
+                    while(i<reactionStringLines_.size()-1)
+                    {
+                        start = reactionStringLines_[i+1].begin();
+                        end = reactionStringLines_[i+1].end();
+                        if (!regex_search(start, end, reactionSingleRegex))
+                        {
+                            string lineType = findLineType(reactionStringLines_[i+1]);
+                            if (lineType == "THIRDBODY")
+                            {
+                                reaction.setThirdBodies(parseThirdBodySpecies(reactionStringLines_[i+1]));
+                            }
+                            if (lineType == "LOW")
+                            {
+                                reaction.setLOW(parseLOWTROEREV(reactionStringLines_[i+1], LOW));
+                            }
+                            if (lineType == "TROE")
+                            {
+                                reaction.setTROE(parseLOWTROEREV(reactionStringLines_[i+1], TROE));
+                            }
+                            if (lineType == "SRI")
+                            {
+                                reaction.setSRI(parseLOWTROEREV(reactionStringLines_[i+1], SRI));
+                            }
+                            // Skip one line when looking for the next reaction.
+                            ++i;
+                        }
+                        else
+                        {break;}
+                    }
+                }
+                //break;
+
             }
-            //break;
+
+            reactions.push_back(reaction);
 
         }
-
-        reactions.push_back(reaction);
 
     }
 
