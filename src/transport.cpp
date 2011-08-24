@@ -7,7 +7,6 @@
 
 #include "transport.h"
 #include "gpc_params.h"
-#include "fast_math_functions.hpp"
 
 using namespace std;
 
