@@ -15,12 +15,12 @@ using namespace boost;
 
 const string IO::TransportParser::transportRegex
 (
-    "\\s*?([0-2]+?)\\s+"
-    "([0-9]*\\.[0-9]*|[0-9]*)\\s+"
-    "([0-9]*\\.[0-9]*|[0-9]*)\\s+"
-    "([0-9]*\\.[0-9]*|[0-9]*)\\s+"
-    "([0-9]*\\.[0-9]*|[0-9]*)\\s+"
-    "([0-9]*\\.[0-9]*|[0-9]*)"
+    "\\s+([0-2]+?)\\s+"
+    "((?:[0-9]|\\.)+(?:\\.[0-9]*)?)\\s+"
+    "((?:[0-9]|\\.)+(?:\\.[0-9]*)?)\\s+"
+    "((?:[0-9]|\\.)+(?:\\.[0-9]*)?)\\s+"
+    "((?:[0-9]|\\.)+(?:\\.[0-9]*)?)\\s+"
+    "((?:[0-9]|\\.)+(?:\\.[0-9]*)?)"
 );
 
 // Empty default constructor, can be removed but leave it there just in case.
@@ -58,7 +58,11 @@ const smatch IO::TransportParser::findSpecies(const IO::Species& specie)
 
     if(!regex_search(start, end, what, reg))
     {
-        throw regex_error("Species " + specie.name() + " not found in tran.dat.");
+        throw regex_error
+        (
+            "Species " + specie.name() + " not found in tran.dat. using "
+            "\\b"+IO::regex_escape(specie.name())+transportRegex
+        );
     }
 
     return what;

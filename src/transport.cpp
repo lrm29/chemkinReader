@@ -6,6 +6,8 @@
  */
 
 #include "transport.h"
+#include "gpc_params.h"
+#include "fast_math_functions.hpp"
 
 using namespace std;
 
@@ -16,7 +18,8 @@ IO::Transport::Transport()
     collisionDiameter_(-1.0),
     dipoleMoment_(-1.0),
     polarizability_(-1.0),
-    rotRelaxationNumber_(-1.0)
+    rotRelaxationNumber_(-1.0),
+    reducedDipoleMoment_(-1.0)
 {}
 
 void IO::Transport::setMoleculeIndex(const int moleculeIndex)
@@ -29,9 +32,9 @@ const int& IO::Transport::getMoleculeIndex() const
     return this->moleculeIndex_;
 }
 
-void IO::Transport::setCollisionDiameter(const double collisionDiameter_)
+void IO::Transport::setCollisionDiameter(const double collisionDiameter)
 {
-   this->collisionDiameter_ = collisionDiameter_;
+   this->collisionDiameter_ = collisionDiameter*Sprog::Angstroem__;
 }
 
 const double& IO::Transport::getCollisionDiameter() const
@@ -39,9 +42,9 @@ const double& IO::Transport::getCollisionDiameter() const
     return this->collisionDiameter_;
 }
 
-void IO::Transport::setDipoleMoment(const double dipoleMoment_)
+void IO::Transport::setDipoleMoment(const double dipoleMoment)
 {
-   this->dipoleMoment_ = dipoleMoment_;
+   this->dipoleMoment_ = dipoleMoment*Sprog::Debye__;
 }
 
 const double& IO::Transport::getDipoleMoment() const
@@ -49,9 +52,9 @@ const double& IO::Transport::getDipoleMoment() const
     return this->dipoleMoment_;
 }
 
-void IO::Transport::setPolarizability(const double polarizability_)
+void IO::Transport::setPolarizability(const double polarizability)
 {
-   this->polarizability_ = polarizability_;
+   this->polarizability_ = polarizability*fastMath::pow3(Sprog::Angstroem__);
 }
 
 const double& IO::Transport::getPolarizability() const
@@ -59,9 +62,9 @@ const double& IO::Transport::getPolarizability() const
     return this->polarizability_;
 }
 
-void IO::Transport::setPotentialWellDepth(const double potentialWellDepth_)
+void IO::Transport::setPotentialWellDepth(const double potentialWellDepth)
 {
-   this->potentialWellDepth_ = potentialWellDepth_;
+   this->potentialWellDepth_ = potentialWellDepth*Sprog::kB;
 }
 
 const double& IO::Transport::getPotentialWellDepth() const
@@ -69,14 +72,39 @@ const double& IO::Transport::getPotentialWellDepth() const
     return this->potentialWellDepth_;
 }
 
-void IO::Transport::setRotRelaxationNumber(const double rotRelaxationNumber_)
+void IO::Transport::setRotRelaxationNumber(const double rotRelaxationNumber)
 {
-   this->rotRelaxationNumber_ = rotRelaxationNumber_;
+   this->rotRelaxationNumber_ = rotRelaxationNumber;
 }
 
 const double& IO::Transport::getRotRelaxationNumber() const
 {
     return this->rotRelaxationNumber_;
+}
+
+void IO::Transport::setReducedDipoleMoment()
+{
+   this->reducedDipoleMoment_
+   =
+   fastMath::pow2(this->dipoleMoment_)
+   /
+   (
+       8
+       *Sprog::PI
+       *Sprog::EPSILON0
+       *this->potentialWellDepth_
+       *fastMath::pow3(this->collisionDiameter_)
+   );
+}
+
+void IO::Transport::setReducedDipoleMoment(const double reducedDipoleMoment)
+{
+   this->reducedDipoleMoment_ = reducedDipoleMoment;
+}
+
+const double& IO::Transport::getReducedDipoleMoment()
+{
+    return this->reducedDipoleMoment_;
 }
 
 namespace IO {

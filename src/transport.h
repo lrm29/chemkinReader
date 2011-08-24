@@ -10,6 +10,9 @@
 
 #include <iostream>
 
+#include <boost/archive/text_iarchive.hpp>
+#include <boost/archive/text_oarchive.hpp>
+
 namespace IO
 {
 
@@ -39,28 +42,33 @@ namespace IO
             void setRotRelaxationNumber(const double rotRelaxationNumber);
             const double& getRotRelaxationNumber() const;
 
-            void setReducedDipoleMoment(const double reducedDipoleMoment);
-            const double& getReducedDipoleMoment() const;
+            void setReducedDipoleMoment();
+            void setReducedDipoleMoment(const double reducedDipoleMoment_);
+            const double& getReducedDipoleMoment();
 
             friend std::ostream& operator<<(std::ostream& output, const Transport& transport);
 
         private:
 
-            /*  1-15: Species name
-              16-80: Molecular parameters
-                     molecule index: 0 = atom, 1= linear molec.
-                                     2 = nonlinear molec.
-                     L-J potential well depth, e/kb (K)
-                     L-J collision diameter, s,
-                     Dipole moment, f, Debye
-                     Polarizability, `, 2
-                     Rotational relaxation number, Zrot at 298K
-                     Comments*/
+            template<class Archive>
+            void serialize(Archive & ar, const unsigned int /* file_version */)
+            {
+                ar & moleculeIndex_ & potentialWellDepth_ & collisionDiameter_
+                   & dipoleMoment_ & polarizability_ & rotRelaxationNumber_
+                   & reducedDipoleMoment_;
+            }
+
+            friend class boost::serialization::access;
+
             int moleculeIndex_;
+            //! L-J potential well depth, (e/kB) *kB
             double potentialWellDepth_;
+            //! L-J collision dia- convert to Angstroms.
             double collisionDiameter_;
+            //! Dipole converting to C-m.
             double dipoleMoment_;
             double polarizability_;
+            //! Rotational relaxation number, Zrot at 298K.
             double rotRelaxationNumber_;
             double reducedDipoleMoment_;
 

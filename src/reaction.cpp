@@ -12,19 +12,20 @@
 using namespace std;
 
 IO::Reaction::Reaction()
-:
-   flagReversible_(true),
-   flagDuplicate_(false),
-   reactants_(),
-   products_(),
-   forwardArrhenius_(),
-   reverseArrhenius_(),
-   flagThirdBody_(false),
-   flagLOW_(false),
-   flagTROE_(false),
-   flagSRI_(false),
-   flagPressureDependent_(false),
-   thirdBodies_()
+:flagReversible_(true)
+,flagDuplicate_(false)
+,reactants_()
+,products_()
+,forwardArrhenius_()
+,reverseArrhenius_()
+,flagHasREV_(false)
+,flagThirdBody_(false)
+,flagLOW_(false)
+,flagTROE_(false)
+,flagSRI_(false)
+,flagPressureDependent_(false)
+,thirdBodies_()
+,fallOffBody_()
 {}
 
 void IO::Reaction::setReversible(const bool flag)
@@ -34,6 +35,11 @@ void IO::Reaction::setReversible(const bool flag)
 const bool& IO::Reaction::isReversible() const
 {
     return flagReversible_;
+}
+
+const bool& IO::Reaction::hasREV() const
+{
+    return flagHasREV_;
 }
 
 void IO::Reaction::setArrhenius
@@ -46,6 +52,7 @@ void IO::Reaction::setArrhenius
 {
     if (reverse)
     {
+        flagHasREV_ = true;
         reverseArrhenius_.A = A;
         reverseArrhenius_.n = n;
         reverseArrhenius_.E = E;
@@ -97,6 +104,7 @@ void IO::Reaction::checkForThirdBody(multimap<string, double>& species)
         {
             flagThirdBody_ = true;
             species.erase(iter);
+            break;
         }
     }
 }
@@ -109,6 +117,16 @@ void IO::Reaction::setThirdBodies(const multimap<string, double>& thirdBodies)
 const multimap<string, double>& IO::Reaction::getThirdBodies() const
 {
     return thirdBodies_;
+}
+
+void IO::Reaction::setFallOffBody(const string& fallOffBody)
+{
+    fallOffBody_ = fallOffBody;
+}
+
+const string& IO::Reaction::getFallOffBody() const
+{
+    return fallOffBody_;
 }
 
 void IO::Reaction::setLOW(const vector<double>& LOW)

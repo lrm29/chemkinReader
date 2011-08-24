@@ -13,7 +13,7 @@
 using namespace std;
 using namespace boost;
 
-const string
+string
 IO::fileToString(const string& fileName)
 {
     ifstream fin(fileName.c_str(), ios::in);
@@ -21,17 +21,17 @@ IO::fileToString(const string& fileName)
     string fileInString((istreambuf_iterator<char>(fin)),
                          istreambuf_iterator<char>());
 
-    return fileInString;
+    return convertToCaps(fileInString);
 }
 
-const vector<string>
+vector<string>
 IO::fileToStrings(const string fileName)
 {
     vector<string> lines;
     ifstream fin(fileName.c_str(), ios::in);
     string line;
     while (getline(fin, line)) {
-        lines.push_back(line);
+        lines.push_back(convertToCaps(line));
     }
     return lines;
 }
@@ -47,12 +47,12 @@ IO::regex_escape(const string& string_to_escape)
 
 
 string
-IO::replaceComments(string stringToReplace)
+IO::replaceComments(const string& stringToReplace)
 {
     regex commentRegex("(!.*?)\\n|(!.*?)$");
     string format_string = " \n";
-    stringToReplace = regex_replace(stringToReplace, commentRegex, format_string, match_default | format_sed);
-    return stringToReplace;
+    string result = regex_replace(stringToReplace, commentRegex, format_string, match_default | format_sed);
+    return result;
 }
 
 string
@@ -61,13 +61,37 @@ IO::convertToCaps(const string& str)
     return boost::to_upper_copy(str);
 }
 
-string
-IO::trim(const string &str)
+vector<string>
+IO::convertToCaps(const vector<string>& str)
 {
-    int b = str.find_first_not_of(" \t");
-    if (b < 0)
-        return "";
-    int e = str.find_last_not_of(" \t");
+    for (size_t i=0; i<str.size(); ++i)
+    {
+        convertToCaps(str[i]);
+    }
+    return str;
+}
 
-    return str.substr(b, e - b + 1);
+//! Check the format of the number.
+void
+IO::checkNumberFormat(std::string& t)
+{
+    const boost::regex numberFormatRegex("[A-CI-Z]");
+    boost::smatch what;
+
+    std::string::const_iterator start = t.begin();
+    std::string::const_iterator end = t.end();
+
+    if (boost::regex_search(start, end, what, numberFormatRegex))
+    {
+        throw std::runtime_error("from_string<> is complaining about the format"
+                                 " of a string you've given it.");
+    } else
+    {
+         // This is a bastard: Some numbers have D or G in them instead of E which
+         // from_string can't deal with.
+         boost::replace_all(t,"D","E");
+         boost::replace_all(t,"F","E");
+         boost::replace_all(t,"G","E");
+         boost::replace_all(t,"H","E");
+    }
 }

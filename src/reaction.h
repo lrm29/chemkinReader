@@ -30,6 +30,9 @@ namespace IO
             //! Is the reaction reversible or not?
             bool flagReversible_;
 
+            //! Are the Arrhenius parameters for the revers reaction explicitally given.
+            bool flagHasREV_;
+
             //! Is this reaction a duplicate?
             bool flagDuplicate_;
 
@@ -50,6 +53,8 @@ namespace IO
             //! Reaction third bodies and their coefficients.
             std::multimap<std::string, double> thirdBodies_;
 
+            std::string fallOffBody_;
+
             std::vector<double> LOW_, TROE_, SRI_;
 
         public:
@@ -60,6 +65,7 @@ namespace IO
 
             void setReversible(const bool flag);
             const bool& isReversible() const;
+            const bool& hasREV() const;
 
             void setArrhenius(double A, double n, double E, bool reverse=false);
             const Arrhenius& getArrhenius(bool reverse=false) const;
@@ -74,6 +80,9 @@ namespace IO
             const std::multimap<std::string, double>& getThirdBodies() const;
             void checkForThirdBody(std::multimap<std::string, double>& species);
             bool hasThirdBody() const {return flagThirdBody_;}
+
+            void setFallOffBody(const std::string& fallOffBody);
+            const std::string& getFallOffBody() const;
 
             void setLOW(const std::vector<double>& LOW);
             const std::vector<double>& getLOW() const;

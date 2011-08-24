@@ -7,6 +7,7 @@
  */
 
 #include <boost/algorithm/string.hpp>
+#include "boost/algorithm/string/trim.hpp"
 
 #include "reactionParser.h"
 #include "stringFunctions.h"
@@ -19,7 +20,10 @@ const regex IO::ReactionParser::reactionSingleRegex
 (
     "(.*?)\\s*"
     "(<=>|=>|=)\\s*"
-    "(.*?)([0-9]+\\.[0-9]*E(?:|\\+|\\-)[0-9]+)\\s+(.*?)\\s+(.*?)$|\\n"
+    "(.*?)"
+    "\\s+((?:[0-9]+|\\.)\\.*[0-9]*(?:[eEgG][-+]?[0-9]*)*)"
+    "\\s+(.*?)"
+    "\\s+(.*?)$|\\n"
 );
 
 const regex IO::ReactionParser::blankLine
@@ -84,6 +88,8 @@ void IO::ReactionParser::parse(vector<IO::Reaction>& reactions)
     for (size_t i=0; i<reactionStringLines_.size(); ++i)
     {
 
+        cout << reactionStringLines_[i] << endl;
+
         Reaction reaction;
 
         // Check for pressure dependency now as it screws up reactionSingleRegex.
@@ -115,21 +121,23 @@ void IO::ReactionParser::parse(vector<IO::Reaction>& reactions)
             while (i < reactionStringLines_.size()-1)
             {
 
+                cout << "Next = " << reactionStringLines_[i+1] << endl;
+
                 start = reactionStringLines_[i+1].begin();
                 end = reactionStringLines_[i+1].end();
 
                 if (regex_search(start, end, reactionSingleRegex))
+                {
                     break;
-
-                if (regex_search(start, end, DUPLICATE))
+                }
+                else if (regex_search(start, end, DUPLICATE))
                 {
                     reaction.setDuplicate();
                     // Skip one line when looking for the next reaction.
                     ++i;
                     //break;
                 }
-
-                if (regex_search(start, end, REV))
+                else if (regex_search(start, end, REV))
                 {
                     vector<double> reverseArrhenius = parseLOWTROEREV(reactionStringLines_[i+1], REV);
                     reaction.setArrhenius(reverseArrhenius[0],reverseArrhenius[1],reverseArrhenius[2],true);
@@ -137,43 +145,34 @@ void IO::ReactionParser::parse(vector<IO::Reaction>& reactions)
                     ++i;
                     //break;
                 }
-
-                if (reaction.hasThirdBody() || reaction.isPressureDependent())
+                else if (reaction.hasThirdBody() || reaction.isPressureDependent())
                 {
-                    // Parse the next line. If it is a reaction then continue,
-                    // otherwise look at the next lines. (Currently just look for third
-                    // bodies. Will need to check for extra things).
-                    while(i<reactionStringLines_.size()-1)
+                    string lineType = findLineType(reactionStringLines_[i+1]);
+                    if (lineType == "THIRDBODY")
                     {
-                        start = reactionStringLines_[i+1].begin();
-                        end = reactionStringLines_[i+1].end();
-                        if (!regex_search(start, end, reactionSingleRegex))
-                        {
-                            string lineType = findLineType(reactionStringLines_[i+1]);
-                            if (lineType == "THIRDBODY")
-                            {
-                                reaction.setThirdBodies(parseThirdBodySpecies(reactionStringLines_[i+1]));
-                            }
-                            if (lineType == "LOW")
-                            {
-                                reaction.setLOW(parseLOWTROEREV(reactionStringLines_[i+1], LOW));
-                            }
-                            if (lineType == "TROE")
-                            {
-                                reaction.setTROE(parseLOWTROEREV(reactionStringLines_[i+1], TROE));
-                            }
-                            if (lineType == "SRI")
-                            {
-                                reaction.setSRI(parseLOWTROEREV(reactionStringLines_[i+1], SRI));
-                            }
-                            // Skip one line when looking for the next reaction.
-                            ++i;
-                        }
-                        else
-                        {break;}
+                        reaction.setThirdBodies(parseThirdBodySpecies(reactionStringLines_[i+1]));
+                        ++i;
+                    }
+                    if (lineType == "LOW")
+                    {
+                        reaction.setLOW(parseLOWTROEREV(reactionStringLines_[i+1], LOW));
+                        ++i;
+                    }
+                    if (lineType == "TROE")
+                    {
+                        reaction.setTROE(parseLOWTROEREV(reactionStringLines_[i+1], TROE));
+                        ++i;
+                    }
+                    if (lineType == "SRI")
+                    {
+                        reaction.setSRI(parseLOWTROEREV(reactionStringLines_[i+1], SRI));
+                        ++i;
                     }
                 }
-                //break;
+                else
+                {
+                    throw std::logic_error("Reaction "+reactionStringLines_[i+1]+" is not supported.");
+                }
 
             }
 
@@ -217,7 +216,7 @@ IO::ReactionParser::parseReactionSpecies(string reactionSpecies)
             (
                 pair<string,double>
                 (
-                    trim(speciesName),
+                    trim_copy(speciesName),
                     1.0
                 )
             );
@@ -228,8 +227,8 @@ IO::ReactionParser::parseReactionSpecies(string reactionSpecies)
             (
                 pair<string,double>
                 (
-                trim(speciesName),
-                from_string<double>(splitStoic[1])
+                    trim_copy(speciesName),
+                    from_string<double>(splitStoic[1])
                 )
             );
         }
@@ -243,15 +242,15 @@ multimap<string, double>
 IO::ReactionParser::parseThirdBodySpecies(const string& thirdBodies)
 {
 
-    string trimmed = trim(thirdBodies);
+    string trim_copymed = trim_copy(thirdBodies);
     multimap<string, double> thirdBodyMap;
     // Split the next line using / as delimiter.
     regex splitThirdBodies("\\/");
 
     sregex_token_iterator j
     (
-        trimmed.begin(),
-        trimmed.end(),
+        trim_copymed.begin(),
+        trim_copymed.end(),
         splitThirdBodies,
         -1
     );
@@ -260,9 +259,9 @@ IO::ReactionParser::parseThirdBodySpecies(const string& thirdBodies)
     while (j != k)
     {
         string name = *j++;
-        string trimName = trim(name);
+        string trim_copyName = trim_copy(name);
         double efficiencyFactor = from_string<double>(*j++);
-        thirdBodyMap.insert(pair<string,double>(trimName,efficiencyFactor));
+        thirdBodyMap.insert(pair<string,double>(trim_copyName,efficiencyFactor));
     }
 
     return thirdBodyMap;
