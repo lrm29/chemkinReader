@@ -4,10 +4,10 @@
 namespace Sprog
 {
     const double PI = 3.1415926535897932384626433832795;
-	const double kB	= 1.3806504e-23; // Boltzmann constant m^2 kg s^-2 K^-1
-	const double EPSILON0 = 8.854187816e-12;
-	const double Debye__ = 3.33564e-30;
-	const double Angstroem__ = 1.0e-10;
+    const double kB	= 1.3806504e-23; // Boltzmann constant m^2 kg s^-2 K^-1
+    const double EPSILON0 = 8.854187816e-12;
+    const double Debye__ = 3.33564e-30;
+    const double Angstroem__ = 1.0e-10;
 }
 
 namespace fastMath
